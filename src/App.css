@@ -1,0 +1,949 @@
+﻿:root {
+  --tarka-black: #070909;
+  --tarka-deep: #0b1011;
+  --tarka-white: #f4f7f7;
+  --tarka-muted: #879293;
+  --tarka-line: rgba(244, 247, 247, 0.12);
+  --tarka-line-strong: rgba(244, 247, 247, 0.22);
+  --tarka-blue: #007f8f;
+  --tarka-blue-light: #13b9c7;
+  --tarka-blue-soft: rgba(0, 127, 143, 0.22);
+  --tarka-gray: #1b2223;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: auto;
+}
+
+body {
+  margin: 0;
+  background: var(--tarka-black);
+  color: var(--tarka-white);
+  font-family:
+    Inter,
+    Helvetica Neue,
+    Helvetica,
+    Arial,
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  border: 0;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+/* =========================================================
+   HERO — KEEPING THE EXISTING HERO VISUAL LANGUAGE
+   ========================================================= */
+
+main {
+  width: 100%;
+  overflow: clip;
+}
+
+.hero {
+  position: relative;
+  min-height: 100svh;
+  width: 100%;
+  overflow: hidden;
+  background: var(--tarka-black);
+  color: var(--tarka-white);
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      circle at 72% 48%,
+      rgba(0, 127, 143, 0.1),
+      transparent 30%
+    ),
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.025) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.02) 1px,
+      transparent 1px
+    );
+  background-size:
+    auto,
+    80px 80px,
+    80px 80px;
+  mask-image: linear-gradient(
+    to bottom,
+    black 0%,
+    rgba(0, 0, 0, 0.5) 70%,
+    transparent 100%
+  );
+}
+
+.hero__content,
+.hero-content {
+  position: relative;
+  z-index: 5;
+}
+
+/* =========================================================
+   DOMAINS MOTION FILM
+   ========================================================= */
+
+.domains-film {
+  position: relative;
+  width: 100%;
+  height: 460vh;
+  background: var(--tarka-black);
+  color: var(--tarka-white);
+  overflow: clip;
+}
+
+/*
+ * This is NOT a pinned ScrollTrigger scene.
+ * The section itself contains the scroll distance.
+ * The visual system occupies the section naturally.
+ */
+
+.domains-film-stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  overflow: hidden;
+  background:
+    radial-gradient(
+      circle at 70% 48%,
+      rgba(0, 127, 143, 0.09),
+      transparent 28%
+    ),
+    var(--tarka-black);
+}
+
+/* =========================================================
+   TECHNICAL GRID
+   ========================================================= */
+
+.domains-film-grid {
+  position: absolute;
+  inset: -10%;
+  z-index: 0;
+  pointer-events: none;
+
+  background-image:
+    linear-gradient(
+      to right,
+      rgba(244, 247, 247, 0.055) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      rgba(244, 247, 247, 0.045) 1px,
+      transparent 1px
+    );
+
+  background-size:
+    72px 72px,
+    72px 72px;
+
+  transform-origin: center;
+  opacity: 0.35;
+}
+
+.domains-film-grid::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(0, 127, 143, 0.15) 50%,
+      transparent 100%
+    );
+
+  transform: skewX(-18deg);
+  opacity: 0.4;
+}
+
+.domains-film-noise {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  pointer-events: none;
+  opacity: 0.06;
+
+  background-image:
+    radial-gradient(
+      rgba(255, 255, 255, 0.8) 0.6px,
+      transparent 0.7px
+    );
+
+  background-size: 5px 5px;
+  mix-blend-mode: soft-light;
+}
+
+/* =========================================================
+   TOP INFORMATION BAR
+   ========================================================= */
+
+.domains-film-header {
+  position: absolute;
+  top: clamp(24px, 4vw, 58px);
+  left: clamp(22px, 5vw, 80px);
+  right: clamp(22px, 5vw, 80px);
+
+  z-index: 30;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  font-size: 10px;
+  line-height: 1;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--tarka-muted);
+}
+
+.domains-film-header span:first-child {
+  color: var(--tarka-blue-light);
+}
+
+/* =========================================================
+   MAIN COPY
+   ========================================================= */
+
+.domains-film-copy {
+  position: absolute;
+
+  top: 18%;
+  left: clamp(22px, 8vw, 140px);
+
+  z-index: 12;
+
+  width: min(470px, 42vw);
+
+  pointer-events: none;
+}
+
+.domains-film-kicker {
+  margin: 0 0 22px;
+
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  line-height: 1.4;
+  text-transform: uppercase;
+
+  color: var(--tarka-blue-light);
+}
+
+.domains-film-copy h2 {
+  margin: 0;
+
+  font-size: clamp(48px, 7vw, 108px);
+  font-weight: 500;
+  line-height: 0.88;
+  letter-spacing: -0.065em;
+
+  color: var(--tarka-white);
+}
+
+.domains-film-copy h2 span {
+  color: var(--tarka-blue-light);
+}
+
+.domains-film-copy > p:last-child {
+  margin: 30px 0 0;
+
+  max-width: 300px;
+
+  font-size: 11px;
+  line-height: 1.7;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+
+  color: var(--tarka-muted);
+}
+
+/* =========================================================
+   CENTRAL TARKA MONOGRAM / SYSTEM CORE
+   ========================================================= */
+
+.domains-film-monogram {
+  position: absolute;
+
+  left: 51%;
+  top: 47%;
+
+  z-index: 5;
+
+  width: clamp(210px, 25vw, 390px);
+  aspect-ratio: 1;
+
+  transform: translate(-50%, -50%);
+
+  pointer-events: none;
+}
+
+.domains-film-monogram-ring {
+  position: absolute;
+  inset: 0;
+
+  border: 1px solid rgba(0, 127, 143, 0.42);
+  border-radius: 50%;
+
+  box-shadow:
+    0 0 0 1px rgba(244, 247, 247, 0.025),
+    0 0 70px rgba(0, 127, 143, 0.1);
+
+  opacity: 0.8;
+}
+
+.domains-film-monogram-ring::before,
+.domains-film-monogram-ring::after {
+  content: "";
+  position: absolute;
+
+  left: 50%;
+  top: 50%;
+
+  width: 135%;
+  height: 1px;
+
+  background: rgba(0, 127, 143, 0.25);
+
+  transform: translate(-50%, -50%);
+}
+
+.domains-film-monogram-ring::after {
+  transform: translate(-50%, -50%) rotate(90deg);
+}
+
+.domains-film-monogram-core {
+  position: absolute;
+  inset: 18%;
+
+  display: grid;
+  place-items: center;
+
+  border: 1px solid rgba(244, 247, 247, 0.18);
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(0, 127, 143, 0.2),
+      rgba(7, 9, 9, 0.1) 65%
+    );
+
+  box-shadow:
+    inset 0 0 50px rgba(0, 127, 143, 0.08),
+    0 0 80px rgba(0, 127, 143, 0.08);
+
+  transform-origin: center;
+}
+
+.domains-film-monogram-core img {
+  width: 46%;
+  height: 46%;
+
+  object-fit: contain;
+
+  filter:
+    brightness(0)
+    invert(1);
+
+  opacity: 0.92;
+}
+
+/* =========================================================
+   DOMAIN VISUALS
+   ========================================================= */
+
+.domains-film-visual {
+  position: absolute;
+  inset: 0;
+
+  z-index: 8;
+
+  pointer-events: none;
+}
+
+.domains-film-image {
+  position: absolute;
+
+  top: 50%;
+  left: 50%;
+
+  width: min(42vw, 580px);
+  aspect-ratio: 1.08 / 0.78;
+
+  padding: 0;
+  border: 1px solid rgba(244, 247, 247, 0.2);
+
+  overflow: hidden;
+
+  background: var(--tarka-deep);
+
+  transform: translate(-50%, -50%);
+
+  opacity: 0;
+
+  pointer-events: auto;
+  cursor: pointer;
+
+  box-shadow:
+    0 35px 100px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(0, 127, 143, 0.06);
+
+  will-change:
+    transform,
+    opacity;
+}
+
+.domains-film-image::before {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  z-index: 2;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(0, 127, 143, 0.24),
+      transparent 35%
+    ),
+    linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.48),
+      transparent 45%
+    );
+
+  pointer-events: none;
+}
+
+.domains-film-image::after {
+  content: "";
+
+  position: absolute;
+
+  top: 16px;
+  left: 16px;
+
+  width: 28px;
+  height: 28px;
+
+  border-top: 1px solid rgba(244, 247, 247, 0.65);
+  border-left: 1px solid rgba(244, 247, 247, 0.65);
+
+  z-index: 4;
+
+  pointer-events: none;
+}
+
+.domains-film-image img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  filter:
+    saturate(0.72)
+    contrast(1.06);
+
+  transform: scale(1.08);
+
+  will-change: transform;
+}
+
+.domains-film-image-number {
+  position: absolute;
+
+  right: 16px;
+  bottom: 14px;
+
+  z-index: 5;
+
+  font-size: 9px;
+  letter-spacing: 0.18em;
+
+  color: rgba(244, 247, 247, 0.75);
+}
+
+.domains-film-image:hover {
+  border-color: rgba(19, 185, 199, 0.65);
+}
+
+.domains-film-image:hover img {
+  filter:
+    saturate(0.9)
+    contrast(1.08);
+}
+
+/* =========================================================
+   DOMAIN TYPOGRAPHY
+   ========================================================= */
+
+.domains-film-domain-info {
+  position: absolute;
+
+  right: clamp(22px, 7vw, 110px);
+  top: 50%;
+
+  z-index: 18;
+
+  width: min(370px, 28vw);
+
+  transform: translateY(-50%);
+}
+
+.domains-film-domain {
+  position: absolute;
+
+  top: 0;
+  left: 0;
+
+  width: 100%;
+
+  display: grid;
+
+  pointer-events: none;
+}
+
+.domains-film-domain-number {
+  display: block;
+
+  margin-bottom: 16px;
+
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+
+  color: var(--tarka-blue-light);
+}
+
+.domains-film-domain-title {
+  padding: 0;
+
+  background: transparent;
+
+  text-align: left;
+
+  font-size: clamp(30px, 4vw, 64px);
+  font-weight: 500;
+  line-height: 0.95;
+  letter-spacing: -0.045em;
+
+  color: var(--tarka-white);
+
+  cursor: pointer;
+
+  pointer-events: auto;
+}
+
+.domains-film-domain-title:hover {
+  color: var(--tarka-blue-light);
+}
+
+.domains-film-domain-category {
+  display: block;
+
+  margin-top: 22px;
+
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+
+  color: var(--tarka-muted);
+}
+
+/* =========================================================
+   CINEMATIC CONSTRUCTION FRAMES
+   ========================================================= */
+
+.domains-film-frames {
+  position: absolute;
+  inset: 0;
+
+  z-index: 6;
+
+  pointer-events: none;
+}
+
+.domains-film-frame {
+  position: absolute;
+
+  width: clamp(40px, 6vw, 92px);
+  height: clamp(40px, 6vw, 92px);
+
+  border: 1px solid rgba(0, 127, 143, 0.38);
+
+  opacity: 0;
+}
+
+.domains-film-frame::before,
+.domains-film-frame::after {
+  content: "";
+
+  position: absolute;
+
+  background: var(--tarka-blue);
+}
+
+.domains-film-frame::before {
+  width: 100%;
+  height: 1px;
+
+  left: 0;
+  top: 50%;
+}
+
+.domains-film-frame::after {
+  width: 1px;
+  height: 100%;
+
+  left: 50%;
+  top: 0;
+}
+
+.domains-film-frame-1 {
+  top: 28%;
+  left: 47%;
+}
+
+.domains-film-frame-2 {
+  bottom: 26%;
+  left: 44%;
+}
+
+.domains-film-frame-3 {
+  top: 23%;
+  right: 35%;
+}
+
+.domains-film-frame-4 {
+  bottom: 24%;
+  right: 31%;
+}
+
+.domains-film-frame-5 {
+  top: 35%;
+  left: 37%;
+}
+
+.domains-film-frame-6 {
+  bottom: 31%;
+  left: 53%;
+}
+
+.domains-film-frame-7 {
+  top: 25%;
+  right: 24%;
+}
+
+.domains-film-frame-8 {
+  bottom: 28%;
+  right: 20%;
+}
+
+.domains-film-frame-9 {
+  top: 41%;
+  left: 31%;
+}
+
+.domains-film-frame-10 {
+  bottom: 36%;
+  right: 35%;
+}
+
+.domains-film-frame-11 {
+  top: 31%;
+  left: 58%;
+}
+
+.domains-film-frame-12 {
+  bottom: 21%;
+  left: 63%;
+}
+
+/* =========================================================
+   PROGRESS SYSTEM
+   ========================================================= */
+
+.domains-film-progress {
+  position: absolute;
+
+  left: clamp(22px, 5vw, 80px);
+  bottom: clamp(28px, 5vw, 64px);
+
+  z-index: 35;
+
+  width: min(330px, 32vw);
+
+  pointer-events: none;
+}
+
+.domains-film-progress-track {
+  width: 100%;
+  height: 1px;
+
+  overflow: hidden;
+
+  background: rgba(244, 247, 247, 0.16);
+}
+
+.domains-film-progress-fill {
+  width: 100%;
+  height: 100%;
+
+  background: var(--tarka-blue-light);
+
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+.domains-film-progress-labels {
+  display: flex;
+  justify-content: space-between;
+
+  margin-top: 11px;
+
+  font-size: 8px;
+  letter-spacing: 0.15em;
+
+  color: var(--tarka-muted);
+}
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+.domains-film-footer {
+  position: absolute;
+
+  left: clamp(22px, 5vw, 80px);
+  right: clamp(22px, 5vw, 80px);
+  bottom: clamp(28px, 5vw, 64px);
+
+  z-index: 30;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+
+  color: var(--tarka-muted);
+
+  pointer-events: none;
+}
+
+.domains-film-footer span:last-child {
+  color: var(--tarka-white);
+}
+
+/* =========================================================
+   HOME CTA
+   ========================================================= */
+
+.home-cta {
+  position: relative;
+  min-height: 70vh;
+
+  display: grid;
+  place-items: center;
+
+  padding: 100px 24px;
+
+  background: var(--tarka-black);
+}
+
+/* =========================================================
+   RESPONSIVE — TABLET
+   ========================================================= */
+
+@media (max-width: 900px) {
+  .domains-film {
+    height: 420vh;
+  }
+
+  .domains-film-copy {
+    top: 15%;
+    left: 28px;
+
+    width: min(390px, 50vw);
+  }
+
+  .domains-film-copy h2 {
+    font-size: clamp(44px, 9vw, 78px);
+  }
+
+  .domains-film-monogram {
+    left: 50%;
+    top: 48%;
+
+    width: 280px;
+  }
+
+  .domains-film-image {
+    width: min(48vw, 500px);
+  }
+
+  .domains-film-domain-info {
+    right: 28px;
+    width: 31vw;
+  }
+
+  .domains-film-domain-title {
+    font-size: clamp(27px, 4.5vw, 48px);
+  }
+
+  .domains-film-progress {
+    width: 240px;
+  }
+}
+
+/* =========================================================
+   RESPONSIVE — MOBILE
+   ========================================================= */
+
+@media (max-width: 640px) {
+  .domains-film {
+    height: 400vh;
+  }
+
+  .domains-film-header {
+    top: 22px;
+    left: 18px;
+    right: 18px;
+
+    font-size: 8px;
+    letter-spacing: 0.15em;
+  }
+
+  .domains-film-copy {
+    top: 13%;
+    left: 20px;
+
+    width: calc(100% - 40px);
+  }
+
+  .domains-film-kicker {
+    margin-bottom: 15px;
+
+    font-size: 8px;
+  }
+
+  .domains-film-copy h2 {
+    font-size: clamp(42px, 13vw, 68px);
+  }
+
+  .domains-film-copy > p:last-child {
+    margin-top: 20px;
+
+    font-size: 8px;
+    max-width: 230px;
+  }
+
+  .domains-film-monogram {
+    left: 50%;
+    top: 44%;
+
+    width: 205px;
+  }
+
+  .domains-film-image {
+    top: 45%;
+
+    width: calc(100vw - 44px);
+    max-width: none;
+
+    aspect-ratio: 1.12 / 0.78;
+  }
+
+  .domains-film-domain-info {
+    left: 20px;
+    right: 20px;
+    top: auto;
+    bottom: 17%;
+
+    width: calc(100% - 40px);
+
+    transform: none;
+  }
+
+  .domains-film-domain-title {
+    font-size: clamp(31px, 9vw, 48px);
+  }
+
+  .domains-film-domain-category {
+    margin-top: 12px;
+
+    font-size: 8px;
+  }
+
+  .domains-film-frame {
+    width: 42px;
+    height: 42px;
+  }
+
+  .domains-film-progress {
+    left: 20px;
+    bottom: 54px;
+
+    width: calc(100% - 40px);
+  }
+
+  .domains-film-footer {
+    left: 20px;
+    right: 20px;
+    bottom: 20px;
+
+    font-size: 7px;
+  }
+}
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

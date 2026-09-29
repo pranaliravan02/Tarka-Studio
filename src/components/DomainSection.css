@@ -1,0 +1,218 @@
+.dfilm {
+  position: relative;
+  height: 800vh;
+  background: var(--tarka-black);
+}
+
+.dfilm-stage {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+  contain: strict;
+  display: grid;
+  grid-template-rows: 1fr auto;
+}
+
+.dfilm-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.dfilm-image {
+  filter: grayscale(1) contrast(1.08) brightness(0.62);
+  mix-blend-mode: luminosity;
+}
+
+.dfilm-product-path {
+  fill: none;
+  stroke: var(--tarka-white);
+  stroke-width: 1.4;
+  vector-effect: non-scaling-stroke;
+}
+
+.dfilm-guide {
+  stroke: var(--tarka-line-strong);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.dfilm-frame {
+  fill: rgba(15, 46, 51, 0.22);
+  stroke: var(--tarka-blue-light);
+  stroke-width: 1.2;
+  vector-effect: non-scaling-stroke;
+  cursor: pointer;
+}
+
+.dfilm-frames {
+  cursor: pointer;
+}
+
+.dfilm-reticle {
+  fill: none;
+  stroke: var(--tarka-blue-light);
+  stroke-width: 1.6;
+  vector-effect: non-scaling-stroke;
+}
+
+.dfilm-copy {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: clamp(24px, 4vw, 56px);
+  pointer-events: none;
+}
+
+.dfilm-kicker {
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: 12px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--tarka-blue-light);
+}
+
+.dfilm-domain-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  pointer-events: auto;
+}
+
+.dfilm-domain-title {
+  display: grid;
+  grid-template-columns: 2.4em auto 1fr;
+  align-items: baseline;
+  gap: 14px;
+  background: none;
+  border: none;
+  padding: 6px 0;
+  text-align: left;
+  cursor: pointer;
+  color: var(--tarka-muted);
+  transition: color 0.25s ease;
+}
+
+.dfilm-domain-title:hover,
+.dfilm-domain-title:focus-visible {
+  color: var(--tarka-white);
+}
+
+.dfilm-domain-title[aria-current="true"] {
+  color: var(--tarka-white);
+}
+
+.dfilm-domain-number {
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: 13px;
+  color: var(--tarka-blue-light);
+}
+
+.dfilm-domain-name {
+  font-size: clamp(20px, 2.6vw, 34px);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.dfilm-domain-title[aria-current="true"] .dfilm-domain-name {
+  color: var(--tarka-blue-light);
+}
+
+.dfilm-domain-category {
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--tarka-muted);
+  justify-self: end;
+}
+
+.dfilm-annotation {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: 12px;
+  color: var(--tarka-muted);
+}
+
+.dfilm-annotation-unit {
+  color: var(--tarka-blue-light);
+  text-transform: uppercase;
+}
+
+.dfilm-progress {
+  position: absolute;
+  left: clamp(24px, 4vw, 56px);
+  right: clamp(24px, 4vw, 56px);
+  bottom: 64px;
+  pointer-events: none;
+}
+
+.dfilm-progress-track {
+  height: 1px;
+  background: var(--tarka-line);
+  overflow: hidden;
+}
+
+.dfilm-progress-fill {
+  height: 100%;
+  width: 100%;
+  background: var(--tarka-blue-light);
+  transform-origin: 0 50%;
+  transform: scaleX(0);
+}
+
+.dfilm-footer {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  padding: 16px clamp(24px, 4vw, 56px) 24px;
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--tarka-muted);
+  pointer-events: none;
+}
+
+@media (max-width: 780px) {
+  .dfilm {
+    height: 620vh;
+  }
+
+  .dfilm-copy {
+    padding: 20px;
+  }
+
+  .dfilm-domain-name {
+    font-size: clamp(18px, 6vw, 24px);
+  }
+
+  .dfilm-domain-category {
+    display: none;
+  }
+
+  .dfilm-progress {
+    left: 20px;
+    right: 20px;
+    bottom: 52px;
+  }
+
+  .dfilm-footer {
+    padding: 12px 20px 18px;
+    font-size: 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dfilm-domain-title,
+  .dfilm-progress-fill {
+    transition: none;
+  }
+}
