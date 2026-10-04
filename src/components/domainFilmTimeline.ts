@@ -55,7 +55,10 @@ gsap.registerPlugin(ScrollTrigger, MorphSVGPlugin);
 /** Which domain image (by index into `domains`) each frame displays in
  * each hold state. `null` means the frame carries no photographic content
  * in that state (it reads as a pure geometric/typographic panel). */
-const IMAGE_DOMAIN_BY_STATE: Record<StateKey, Record<FrameId, number | null>> = {
+const IMAGE_DOMAIN_BY_STATE: Record<
+  StateKey,
+  Record<FrameId, number | null>
+> = {
   product: { a: 0, b: null, c: null, d: null },
   graphic: { a: 1, b: null, c: null, d: null },
   digital: { a: 2, b: null, c: null, d: null },
@@ -65,7 +68,6 @@ const IMAGE_DOMAIN_BY_STATE: Record<StateKey, Record<FrameId, number | null>> = 
 };
 
 const FRAME_WASH_COLOR = "#0f2e33";
-const LABEL_FADE_WIDTH = 3;
 
 export interface DomainFilmHandle {
   revert: () => void;
@@ -102,24 +104,18 @@ export function buildDomainFilmTimeline(
   stage: HTMLElement,
   domains: Domain[],
   reducedMotion: boolean,
-  onActiveDomainChange?: (index: number | null) => void
+  onActiveDomainChange?: (index: number | null) => void,
 ): DomainFilmHandle {
   const ctx = gsap.context(() => {
-    const q = gsap.utils.selector(stage);
+    const pick = <T extends Element>(selector: string) =>
+      stage.querySelector<T>(selector);
 
-    const frameEls: Record<FrameId, SVGRectElement> = {} as Record
-      FrameId,
-      SVGRectElement
-    >;
-    const frameImageEls: Record<FrameId, SVGImageElement> = {} as Record
-      FrameId,
-      SVGImageElement
-    >;
+    const frameEls = {} as Record<FrameId, SVGRectElement>;
+    const frameImageEls = {} as Record<FrameId, SVGImageElement>;
+
     for (const id of FRAME_IDS) {
-      const rect = q(`[data-frame="${id}"]`)[0] as SVGRectElement | undefined;
-      const image = q(`[data-frame-image="${id}"]`)[0] as
-        | SVGImageElement
-        | undefined;
+      const rect = pick<SVGRectElement>(`[data-frame="${id}"]`);
+      const image = pick<SVGImageElement>(`[data-frame-image="${id}"]`);
       if (!rect || !image) return;
       frameEls[id] = rect;
       frameImageEls[id] = image;
@@ -127,23 +123,18 @@ export function buildDomainFilmTimeline(
 
     const guideEls: Record<string, SVGLineElement> = {};
     for (const id of GUIDE_IDS) {
-      const line = q(`[data-guide="${id}"]`)[0] as SVGLineElement | undefined;
+      const line = pick<SVGLineElement>(`[data-guide="${id}"]`);
       if (!line) return;
       guideEls[id] = line;
     }
 
-    const reticleEl = q("[data-reticle]")[0] as SVGCircleElement | undefined;
-    const productEl = q("[data-product]")[0] as SVGGElement | undefined;
-    const gridEl = q("[data-grid]")[0] as SVGRectElement | undefined;
-    const labelUnitEl = q("[data-label-unit]")[0] as HTMLElement | undefined;
-    const labelCoordEl = q("[data-label-coord]")[0] as HTMLElement | undefined;
-    const labelKickerEl = q("[data-label-kicker]")[0] as
-      | HTMLElement
-      | undefined;
-    const progressFillEl = q("[data-progress-fill]")[0] as
-      | HTMLElement
-      | SVGElement
-      | undefined;
+    const reticleEl = pick<SVGCircleElement>("[data-reticle]");
+    const productEl = pick<SVGGElement>("[data-product]");
+    const gridEl = pick<SVGRectElement>("[data-grid]");
+    const labelUnitEl = pick<HTMLElement>("[data-label-unit]");
+    const labelCoordEl = pick<HTMLElement>("[data-label-coord]");
+    const labelKickerEl = pick<HTMLElement>("[data-label-kicker]");
+    const progressFillEl = pick<HTMLElement>("[data-progress-fill]");
 
     if (!reticleEl || !productEl) return;
 
@@ -235,7 +226,7 @@ export function buildDomainFilmTimeline(
       fromVars: gsap.TweenVars,
       toVars: gsap.TweenVars,
       position: number,
-      duration: number
+      duration: number,
     ) => {
       if (reducedMotion) {
         tl.set(targets, toVars, position + duration);
@@ -281,7 +272,7 @@ export function buildDomainFilmTimeline(
             opacity: toState.opacity,
           },
           start,
-          geometryDuration
+          geometryDuration,
         );
       }
 
@@ -300,7 +291,7 @@ export function buildDomainFilmTimeline(
             opacity: toG.opacity,
           },
           start,
-          fullDuration
+          fullDuration,
         );
       }
 
@@ -309,10 +300,13 @@ export function buildDomainFilmTimeline(
       const toR = RETICLE_LAYOUTS[to];
       place(
         reticleEl,
-        { attr: { cx: fromR.cx, cy: fromR.cy, r: fromR.r }, opacity: fromR.opacity },
+        {
+          attr: { cx: fromR.cx, cy: fromR.cy, r: fromR.r },
+          opacity: fromR.opacity,
+        },
         { attr: { cx: toR.cx, cy: toR.cy, r: toR.r }, opacity: toR.opacity },
         start,
-        geometryDuration
+        geometryDuration,
       );
 
       // Product transform
@@ -337,7 +331,7 @@ export function buildDomainFilmTimeline(
           opacity: toP.opacity,
         },
         start,
-        fullDuration
+        fullDuration,
       );
 
       // Ambient grid opacity
@@ -347,7 +341,7 @@ export function buildDomainFilmTimeline(
           { opacity: GRID_OPACITY_BY_STATE[from] },
           { opacity: GRID_OPACITY_BY_STATE[to] },
           start,
-          fullDuration
+          fullDuration,
         );
       }
 
@@ -361,7 +355,7 @@ export function buildDomainFilmTimeline(
             { opacity: 1 },
             { opacity: 0 },
             start,
-            fadeEnd - start
+            fadeEnd - start,
           );
         }
 
@@ -380,7 +374,7 @@ export function buildDomainFilmTimeline(
                 fillOpacity: 1,
                 strokeOpacity: 0,
               },
-              swapEnd
+              swapEnd,
             );
           } else {
             tl.to(
@@ -393,14 +387,18 @@ export function buildDomainFilmTimeline(
                 duration: swapDuration,
                 ease: "none",
               },
-              swapStart
+              swapStart,
             );
           }
         }
 
         const arcPart = logoPart("arc");
         if (reducedMotion) {
-          tl.set(reticleEl, { morphSVG: arcPart.d, fill: arcPart.fill, opacity: 1 }, swapEnd);
+          tl.set(
+            reticleEl,
+            { morphSVG: arcPart.d, fill: arcPart.fill, opacity: 1 },
+            swapEnd,
+          );
         } else {
           tl.to(
             reticleEl,
@@ -411,7 +409,7 @@ export function buildDomainFilmTimeline(
               duration: swapDuration,
               ease: "none",
             },
-            swapStart
+            swapStart,
           );
         }
       }
@@ -459,7 +457,7 @@ export function buildDomainFilmTimeline(
       stage.dataset.activePhase = phase.id;
 
       if (progressFillEl) {
-        (progressFillEl as HTMLElement).style.transform = `scaleX(${self.progress})`;
+        progressFillEl.style.transform = `scaleX(${self.progress})`;
       }
     };
 

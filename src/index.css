@@ -1,0 +1,20 @@
+:root {
+  --black: #070909;
+  --black-soft: #0b1011;
+  --white: #f4f7f7;
+  --white-soft: #b9c3c4;
+  --duck-blue: #13b9c7;
+  --font-sans: Inter, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+button {
+  background: none;
+  cursor: pointer;
+  color: inherit;
+  padding: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}

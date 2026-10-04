@@ -382,13 +382,14 @@ function Hero({ domains, reducedMotion, onSelectDomain }: HeroProps) {
     onSelectDomain(index);
   };
 
-  const routes: Record<string, string> = {
-    HOME: "/",
-    WORK: "/product",
-    DOMAINS: "/",
-    ABOUT: "/",
-    CONTACT: "/quote",
-  };
+    const routes: Record<string, string> = {
+      HOME: "/",
+      WORK: "/product",
+      DOMAINS: "/",
+      TEAM: "/team",
+      ABOUT: "/",
+      CONTACT: "/quote",
+    };
 
   const handleNavigation = (label: string) => {
     const route = routes[label];
@@ -483,8 +484,7 @@ function Hero({ domains, reducedMotion, onSelectDomain }: HeroProps) {
             )
           `,
           backgroundSize: "72px 72px",
-          maskImage:
-            "linear-gradient(to bottom, black 0%, transparent 92%)",
+          maskImage: "linear-gradient(to bottom, black 0%, transparent 92%)",
           WebkitMaskImage:
             "linear-gradient(to bottom, black 0%, transparent 92%)",
         }}
@@ -638,31 +638,27 @@ function Hero({ domains, reducedMotion, onSelectDomain }: HeroProps) {
             gap: "clamp(16px, 3vw, 42px)",
           }}
         >
-          {[
-            "HOME",
-            "WORK",
-            "DOMAINS",
-            "ABOUT",
-            "CONTACT",
-          ].map((label) => (
-            <button
-              key={label}
-              type="button"
-              onClick={() => handleNavigation(label)}
-              style={{
-                color:
-                  label === "DOMAINS"
-                    ? "var(--duck-blue)"
-                    : "var(--white-soft)",
-                fontSize: "0.68rem",
-                fontWeight: 600,
-                letterSpacing: "0.15em",
-                transition: "color 250ms ease",
-              }}
-            >
-              {label}
-            </button>
-          ))}
+          {["HOME", "WORK", "DOMAINS", "TEAM", "ABOUT", "CONTACT"].map(
+            (label) => (
+              <button
+                key={label}
+                type="button"
+                onClick={() => handleNavigation(label)}
+                style={{
+                  color:
+                    label === "DOMAINS"
+                      ? "var(--duck-blue)"
+                      : "var(--white-soft)",
+                  fontSize: "0.68rem",
+                  fontWeight: 600,
+                  letterSpacing: "0.15em",
+                  transition: "color 250ms ease",
+                }}
+              >
+                {label}
+              </button>
+            ),
+          )}
         </nav>
 
         <button
@@ -704,8 +700,7 @@ function Hero({ domains, reducedMotion, onSelectDomain }: HeroProps) {
           alignItems: "flex-start",
           justifyContent: "center",
           pointerEvents: "none",
-          padding:
-            "90px 0 110px clamp(32px, 7vw, 110px)",
+          padding: "90px 0 110px clamp(32px, 7vw, 110px)",
         }}
       >
         <p
@@ -738,10 +733,7 @@ function Hero({ domains, reducedMotion, onSelectDomain }: HeroProps) {
             whiteSpace: "nowrap",
           }}
         >
-          D
-          <span style={{ color: "var(--duck-blue)" }}>
-            O
-          </span>
+          D<span style={{ color: "var(--duck-blue)" }}>O</span>
           MAINS
         </h1>
       </div>
@@ -774,8 +766,7 @@ function Hero({ domains, reducedMotion, onSelectDomain }: HeroProps) {
           ============================================================ */}
 
       {domains.slice(0, 5).map((domain, index) => {
-        const position =
-          positions[index] ?? positions[0];
+        const position = positions[index] ?? positions[0];
 
         return (
           <button
@@ -783,12 +774,8 @@ function Hero({ domains, reducedMotion, onSelectDomain }: HeroProps) {
             ref={setCardRef(index)}
             type="button"
             onClick={() => handleCardClick(index)}
-            onMouseEnter={() =>
-              handleCardEnter(index)
-            }
-            onMouseLeave={() =>
-              handleCardLeave(index)
-            }
+            onMouseEnter={() => handleCardEnter(index)}
+            onMouseLeave={() => handleCardLeave(index)}
             aria-label={`Explore ${domain.title}`}
             style={{
               position: "absolute",
@@ -818,8 +805,7 @@ function Hero({ domains, reducedMotion, onSelectDomain }: HeroProps) {
                 height: "100%",
                 objectFit: "cover",
                 objectPosition: "center",
-                filter:
-                  "grayscale(12%) contrast(1.06)",
+                filter: "grayscale(12%) contrast(1.06)",
               }}
             />
 
@@ -838,10 +824,8 @@ function Hero({ domains, reducedMotion, onSelectDomain }: HeroProps) {
                 top: "12px",
                 left: "12px",
                 padding: "5px 8px",
-                borderLeft:
-                  "2px solid var(--duck-blue)",
-                background:
-                  "color-mix(in srgb, var(--black) 82%, transparent)",
+                borderLeft: "2px solid var(--duck-blue)",
+                background: "color-mix(in srgb, var(--black) 82%, transparent)",
                 color: "var(--white)",
                 fontSize: "0.58rem",
                 fontWeight: 600,
@@ -867,8 +851,7 @@ function Hero({ domains, reducedMotion, onSelectDomain }: HeroProps) {
               <span
                 style={{
                   maxWidth: "78%",
-                  fontSize:
-                    "clamp(0.82rem, 1.15vw, 1rem)",
+                  fontSize: "clamp(0.82rem, 1.15vw, 1rem)",
                   fontWeight: 700,
                   lineHeight: 1.05,
                   letterSpacing: "-0.02em",
@@ -909,8 +892,7 @@ function Hero({ domains, reducedMotion, onSelectDomain }: HeroProps) {
           alignItems: "center",
           justifyContent: "space-between",
           gap: "20px",
-          padding:
-            "18px clamp(24px, 5vw, 72px)",
+          padding: "18px clamp(24px, 5vw, 72px)",
           borderTop:
             "1px solid color-mix(in srgb, var(--white) 14%, transparent)",
           color: "var(--white-soft)",
@@ -936,7 +918,6 @@ function Hero({ domains, reducedMotion, onSelectDomain }: HeroProps) {
               background: "var(--duck-blue)",
             }}
           />
-
           05 DOMAINS
         </span>
 

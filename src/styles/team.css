@@ -1,0 +1,136 @@
+.tn,
+.team-section,
+.pf-page {
+  --t-bg: var(--black, #070909);
+  --t-card: var(--black-soft, #0b1011);
+  --t-text: var(--white, #f4f7f7);
+  --t-soft: var(--white-soft, #b9c3c4);
+  --t-accent: var(--duck-blue, #13b9c7);
+  --t-muted: #879293;
+  --t-line: rgba(244, 247, 247, 0.14);
+}
+
+/* ---------- Team navbar ---------- */
+.tn {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+  display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 28px;
+  padding: 22px clamp(24px, 5vw, 72px);
+  background: rgba(7, 9, 9, 0.75); backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--t-line);
+}
+.tn-logo { color: var(--t-text); font-size: 1rem; font-weight: 700; letter-spacing: 0.18em; }
+.tn-links { display: flex; justify-content: center; gap: clamp(16px, 3vw, 42px); }
+.tn-btn { color: var(--t-soft); font-size: 0.68rem; font-weight: 600; letter-spacing: 0.15em; transition: color 250ms ease; }
+.tn-btn:hover, .tn-active { color: var(--t-accent); }
+.tn-cta {
+  display: inline-flex; align-items: center; gap: 10px; padding: 11px 16px;
+  border: 1px solid color-mix(in srgb, var(--t-accent) 70%, transparent);
+  color: var(--t-text); font-size: 0.67rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+}
+
+/* ---------- Team page (horizontal scroll gallery) ---------- */
+.team-section {
+  position: relative; background: var(--t-bg); color: var(--t-text);
+  --card-h: min(400px, 72vh);
+  --card-h-main: min(470px, 80vh);
+  --card-gap: 11px;
+}
+.team-sticky {
+  position: sticky; top: 0; height: 100vh; height: 100svh;
+  overflow: hidden; display: flex; flex-direction: column; justify-content: center;
+  padding-top: 70px;
+}
+.team-head { padding: 0 6vw; margin-bottom: 24px; }
+.team-head h1 { font-size: clamp(40px, 6vw, 84px); line-height: 1; margin: 8px 0; letter-spacing: -0.04em; font-weight: 700; }
+.team-head p { color: var(--t-muted); margin: 0; }
+.team-label { font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--t-accent); }
+
+.team-track {
+  display: flex; align-items: center; gap: var(--card-gap);
+  padding: 0 6vw; width: max-content; will-change: transform;
+}
+.team-card-link { display: block; flex-shrink: 0; text-decoration: none; color: inherit; }
+.team-card {
+  position: relative; height: var(--card-h); aspect-ratio: 4 / 5;
+  overflow: hidden; background: var(--t-card); border: 1px solid var(--t-line);
+}
+/* Larger first card: remove the comment markers to enable
+.team-card-link:first-of-type .team-card {
+  height: var(--card-h-main);
+}
+*/
+
+.team-initials {
+  position: absolute; inset: 0; display: grid; place-items: center;
+  font-size: 64px; font-weight: 700; letter-spacing: 0.05em;
+  color: color-mix(in srgb, var(--t-accent) 40%, transparent);
+}
+.team-card img {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+  filter: grayscale(1) contrast(1.05); transition: filter 0.4s, transform 0.6s;
+}
+.team-card:hover img { filter: grayscale(0); transform: scale(1.06); }
+.team-card::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(transparent 50%, rgba(7, 9, 9, 0.9));
+}
+.team-num { position: absolute; top: 14px; left: 16px; z-index: 2; font-size: 12px; letter-spacing: 0.2em; color: var(--t-accent); }
+.team-info { position: absolute; left: 18px; bottom: 44px; z-index: 2; }
+.team-info h3 { margin: 0; font-size: 22px; font-weight: 600; }
+.team-info p { margin: 4px 0 0; color: var(--t-accent); font-size: 13px; }
+.team-arrow {
+  position: absolute; left: 18px; bottom: 16px; z-index: 2; font-size: 11px;
+  letter-spacing: 0.14em; text-transform: uppercase; opacity: 0; transition: opacity 0.3s;
+}
+.team-card:hover .team-arrow { opacity: 1; }
+
+.team-progress { position: absolute; left: 6vw; right: 6vw; bottom: 28px; height: 2px; background: var(--t-line); }
+.team-progress-bar { height: 100%; background: var(--t-accent); transform-origin: left; }
+
+/* ---------- Personal portfolio page ---------- */
+.pf-page { min-height: 100vh; background: var(--t-bg); color: var(--t-text); padding: 130px 6vw 80px; }
+.pf-back { color: var(--t-accent); font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; }
+.pf-hero { display: grid; grid-template-columns: minmax(0, 380px) 1fr; gap: 56px; margin: 40px 0 80px; align-items: start; }
+.pf-photo-wrap { position: relative; width: 100%; aspect-ratio: 4 / 5; overflow: hidden; background: var(--t-card); border: 1px solid var(--t-line); }
+.pf-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.pf-hero h1 { font-size: clamp(40px, 6vw, 80px); margin: 8px 0 16px; line-height: 1; letter-spacing: -0.04em; font-weight: 700; }
+.pf-bio { color: var(--t-muted); max-width: 520px; line-height: 1.7; }
+.pf-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0; }
+.pf-chips span {
+  border: 1px solid color-mix(in srgb, var(--t-accent) 50%, transparent);
+  color: var(--t-accent); font-size: 12px; padding: 6px 12px; border-radius: 20px;
+}
+.pf-links { display: flex; gap: 20px; }
+.pf-links a { color: var(--t-text); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; border-bottom: 1px solid var(--t-accent); }
+.pf-title { font-size: 14px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--t-accent); margin-bottom: 24px; }
+.pf-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+.pf-project {
+  display: block; padding: 28px; background: var(--t-card); border: 1px solid var(--t-line);
+  color: inherit; transition: border-color 0.3s;
+}
+.pf-project:hover { border-color: var(--t-accent); }
+.pf-project h3 { margin: 0 0 8px; font-weight: 600; }
+.pf-project p { color: var(--t-muted); margin: 0; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+  .tn { grid-template-columns: auto auto; }
+  .tn-links { display: none; }
+}
+@media (max-width: 760px) {
+  .pf-hero { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  .team-section {
+    --card-h: 280px;
+    --card-h-main: 340px;
+    --card-gap: 12px;
+  }
+  .team-sticky { padding-top: 64px; }
+  .team-head { margin-bottom: 16px; }
+  .team-head p { font-size: 13px; }
+  .team-info h3 { font-size: 18px; }
+  .team-initials { font-size: 48px; }
+  .team-progress { bottom: 20px; }
+  .tn { padding: 18px 20px; }
+}

@@ -1,4 +1,10 @@
-﻿import { forwardRef, useCallback, useLayoutEffect, useRef, useState } from "react";
+﻿import {
+  forwardRef,
+  useCallback,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 
 import type { Domain } from "../data/domains";
 import {
@@ -19,13 +25,20 @@ interface DomainSectionProps {
   onSelectDomain: (index: number) => void;
 }
 
-/** Static "home" placement for each domain's atmospheric background photo.
+/**
+ * Static "home" placement for each domain's atmospheric background photo.
  * These never animate — only their opacity is driven by the timeline —
  * so photographic content stays a quiet, duotoned supporting layer while
- * the foreground SVG geometry carries the primary transformation. */
-const FRAME_IMAGE_HOME: Record
+ * the foreground SVG geometry carries the primary transformation.
+ */
+const FRAME_IMAGE_HOME: Record<
   string,
-  { x: number; y: number; width: number; height: number }
+  {
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+  }
 > = {
   a: { x: -60, y: -200, width: 560, height: 500 },
   b: { x: 550, y: -200, width: 360, height: 460 },
@@ -38,6 +51,7 @@ const DomainSection = forwardRef<HTMLElement, DomainSectionProps>(
     const sectionRef = useRef<HTMLElement | null>(null);
     const stageRef = useRef<HTMLDivElement | null>(null);
     const activeDomainRef = useRef<number | null>(0);
+
     const [activeDomain, setActiveDomain] = useState<number | null>(0);
 
     useLayoutEffect(() => {
@@ -56,7 +70,7 @@ const DomainSection = forwardRef<HTMLElement, DomainSectionProps>(
         (index) => {
           activeDomainRef.current = index;
           setActiveDomain(index);
-        }
+        },
       );
 
       return () => handle.revert();
@@ -115,54 +129,60 @@ const DomainSection = forwardRef<HTMLElement, DomainSectionProps>(
               fill="url(#dfilm-grid-pattern)"
             />
 
-            {FRAME_IDS.map((id) => (
-              <image
-                key={`image-${id}`}
-                data-frame-image={id}
-                href={domains[0]?.imageLarge}
-                x={FRAME_IMAGE_HOME[id].x}
-                y={FRAME_IMAGE_HOME[id].y}
-                width={FRAME_IMAGE_HOME[id].width}
-                height={FRAME_IMAGE_HOME[id].height}
-                preserveAspectRatio="xMidYMid slice"
-                className="dfilm-image"
-                opacity={0}
-              />
-            ))}
+            {FRAME_IDS.map((id) => {
+              const imageLayout = FRAME_IMAGE_HOME[id];
+
+              return (
+                <image
+                  key={`image-${id}`}
+                  data-frame-image={id}
+                  href={domains[0]?.imageLarge}
+                  x={imageLayout.x}
+                  y={imageLayout.y}
+                  width={imageLayout.width}
+                  height={imageLayout.height}
+                  preserveAspectRatio="xMidYMid slice"
+                  className="dfilm-image"
+                  opacity={0}
+                />
+              );
+            })}
 
             <g data-product="">
               <path d={PRODUCT_WIREFRAME_D} className="dfilm-product-path" />
             </g>
 
             {GUIDE_IDS.map((id) => {
-              const g = GUIDE_LAYOUTS.product[id];
+              const guide = GUIDE_LAYOUTS.product[id];
+
               return (
                 <line
                   key={id}
                   data-guide={id}
                   className="dfilm-guide"
-                  x1={g.x1}
-                  y1={g.y1}
-                  x2={g.x2}
-                  y2={g.y2}
-                  opacity={g.opacity}
+                  x1={guide.x1}
+                  y1={guide.y1}
+                  x2={guide.x2}
+                  y2={guide.y2}
+                  opacity={guide.opacity}
                 />
               );
             })}
 
             <g className="dfilm-frames" onClick={handleVisualActivate}>
               {FRAME_IDS.map((id) => {
-                const f = FRAME_LAYOUTS.product[id];
+                const frame = FRAME_LAYOUTS.product[id];
+
                 return (
                   <rect
                     key={id}
                     data-frame={id}
                     className="dfilm-frame"
-                    x={f.x}
-                    y={f.y}
-                    width={f.width}
-                    height={f.height}
-                    opacity={f.opacity}
+                    x={frame.x}
+                    y={frame.y}
+                    width={frame.width}
+                    height={frame.height}
+                    opacity={frame.opacity}
                   />
                 );
               })}
@@ -191,7 +211,9 @@ const DomainSection = forwardRef<HTMLElement, DomainSectionProps>(
                   onClick={() => onSelectDomain(index)}
                 >
                   <span className="dfilm-domain-number">{domain.number}</span>
+
                   <span className="dfilm-domain-name">{domain.title}</span>
+
                   <span className="dfilm-domain-category">
                     {domain.category}
                   </span>
@@ -201,6 +223,7 @@ const DomainSection = forwardRef<HTMLElement, DomainSectionProps>(
 
             <div className="dfilm-annotation">
               <span data-label-coord="" className="dfilm-annotation-coord" />
+
               <span data-label-unit="" className="dfilm-annotation-unit" />
             </div>
           </div>
@@ -213,6 +236,7 @@ const DomainSection = forwardRef<HTMLElement, DomainSectionProps>(
 
           <div className="dfilm-footer">
             <span>SCROLL TO EXPLORE</span>
+
             <span>
               {activeDomain !== null
                 ? String(activeDomain + 1).padStart(2, "0")
@@ -223,7 +247,7 @@ const DomainSection = forwardRef<HTMLElement, DomainSectionProps>(
         </div>
       </section>
     );
-  }
+  },
 );
 
 DomainSection.displayName = "DomainSection";
