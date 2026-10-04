@@ -19,8 +19,8 @@
 // authored phase table — not animated as GSAP tweens — because text
 // content and href swaps are not meaningfully "tweenable" and must be
 // perfectly symmetric on scroll-reverse. Continuous geometry (position,
-// size, rotation, opacity, and the final MorphSVG conversions) lives in
-// the single scrubbed timeline itself.
+// size, rotation, opacity, and the final MorphSVG conversions) lives in the
+// single scrubbed timeline itself.
 
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -52,10 +52,15 @@ import {
 
 gsap.registerPlugin(ScrollTrigger, MorphSVGPlugin);
 
-/** Which domain image (by index into `domains`) each frame displays in
+/**
+ * Which domain image (by index into `domains`) each frame displays in
  * each hold state. `null` means the frame carries no photographic content
- * in that state (it reads as a pure geometric/typographic panel). */
-const IMAGE_DOMAIN_BY_STATE: Record<StateKey, Record<FrameId, number | null>> = {
+ * in that state (it reads as a pure geometric/typographic panel).
+ */
+const IMAGE_DOMAIN_BY_STATE: Record<
+  StateKey,
+  Record<FrameId, number | null>
+> = {
   product: { a: 0, b: null, c: null, d: null },
   graphic: { a: 1, b: null, c: null, d: null },
   digital: { a: 2, b: null, c: null, d: null },
@@ -73,28 +78,42 @@ export interface DomainFilmHandle {
 
 function logoPart(id: string) {
   const part = LOGO_PARTS.find((p) => p.id === id);
-  if (!part) throw new Error(`Unknown logo part: ${id}`);
+
+  if (!part) {
+    throw new Error(`Unknown logo part: ${id}`);
+  }
+
   return part;
 }
 
-/** Which authored phase (and, for transitions, which side of it) a given
+/**
+ * Which authored phase (and, for transitions, which side of it) a given
  * scroll percentage falls into. Used both to resolve the current "label
- * state" and to drive the active-domain indicator. */
+ * state" and to drive the active-domain indicator.
+ */
 function resolvePhaseState(percent: number): {
   phase: Phase;
   state: StateKey;
 } {
   const clamped = Math.max(0, Math.min(TOTAL_TIMELINE_DURATION, percent));
+
   const phase =
     PHASES.find((p) => clamped >= p.start && clamped < p.end) ??
     PHASES[PHASES.length - 1];
 
   if (phase.kind === "hold") {
-    return { phase, state: phase.state };
+    return {
+      phase,
+      state: phase.state,
+    };
   }
 
   const local = (clamped - phase.start) / (phase.end - phase.start || 1);
-  return { phase, state: local < 0.5 ? phase.from : phase.to };
+
+  return {
+    phase,
+    state: local < 0.5 ? phase.from : phase.to,
+  };
 }
 
 export function buildDomainFilmTimeline(
@@ -102,84 +121,121 @@ export function buildDomainFilmTimeline(
   stage: HTMLElement,
   domains: Domain[],
   reducedMotion: boolean,
-  onActiveDomainChange?: (index: number | null) => void
+  onActiveDomainChange?: (index: number | null) => void,
 ): DomainFilmHandle {
   const ctx = gsap.context(() => {
     const q = gsap.utils.selector(stage);
 
-    const frameEls: Record<FrameId, SVGRectElement> = {} as Record
+    const frameEls: Record<FrameId, SVGRectElement> = {} as Record<
       FrameId,
       SVGRectElement
     >;
-    const frameImageEls: Record<FrameId, SVGImageElement> = {} as Record
+
+    const frameImageEls: Record<FrameId, SVGImageElement> = {} as Record<
       FrameId,
       SVGImageElement
     >;
+
     for (const id of FRAME_IDS) {
       const rect = q(`[data-frame="${id}"]`)[0] as SVGRectElement | undefined;
+
       const image = q(`[data-frame-image="${id}"]`)[0] as
         | SVGImageElement
         | undefined;
-      if (!rect || !image) return;
+
+      if (!rect || !image) {
+        return;
+      }
+
       frameEls[id] = rect;
       frameImageEls[id] = image;
     }
 
     const guideEls: Record<string, SVGLineElement> = {};
+
     for (const id of GUIDE_IDS) {
       const line = q(`[data-guide="${id}"]`)[0] as SVGLineElement | undefined;
-      if (!line) return;
+
+      if (!line) {
+        return;
+      }
+
       guideEls[id] = line;
     }
 
     const reticleEl = q("[data-reticle]")[0] as SVGCircleElement | undefined;
+
     const productEl = q("[data-product]")[0] as SVGGElement | undefined;
+
     const gridEl = q("[data-grid]")[0] as SVGRectElement | undefined;
+
     const labelUnitEl = q("[data-label-unit]")[0] as HTMLElement | undefined;
+
     const labelCoordEl = q("[data-label-coord]")[0] as HTMLElement | undefined;
+
     const labelKickerEl = q("[data-label-kicker]")[0] as
       | HTMLElement
       | undefined;
+
     const progressFillEl = q("[data-progress-fill]")[0] as
       | HTMLElement
       | SVGElement
       | undefined;
 
-    if (!reticleEl || !productEl) return;
+    if (!reticleEl || !productEl) {
+      return;
+    }
 
     gsap.set([...Object.values(frameEls), reticleEl], {
       transformOrigin: "50% 50%",
     });
-    gsap.set(productEl, { transformOrigin: "50% 50%" });
+
+    gsap.set(productEl, {
+      transformOrigin: "50% 50%",
+    });
 
     // Frame "d" is the only actor whose final path (ka-body) has an
     // internal counter-space. evenodd is a no-op on a plain rectangle, so
     // setting it once up front is safe in both scroll directions and
     // avoids needing a reverse-set later.
-    gsap.set(frameEls.d, { attr: { "fill-rule": "evenodd" } });
+    gsap.set(frameEls.d, {
+      attr: {
+        "fill-rule": "evenodd",
+      },
+    });
 
     /* ---------------------------------------------------------------- */
-    /* Baseline: establish the Product state before any scroll happens.  */
+    /* Baseline: establish the Product state before any scroll happens. */
     /* ---------------------------------------------------------------- */
 
     const applyFrameSnapshot = (state: StateKey) => {
       for (const id of FRAME_IDS) {
         const f = FRAME_LAYOUTS[state][id];
+
         gsap.set(frameEls[id], {
-          attr: { x: f.x, y: f.y, width: f.width, height: f.height },
+          attr: {
+            x: f.x,
+            y: f.y,
+            width: f.width,
+            height: f.height,
+          },
           rotation: f.rotation,
           opacity: f.opacity,
           fill: FRAME_WASH_COLOR,
           fillOpacity: 0.22,
           strokeOpacity: 1,
         });
+
         const domainIndex = IMAGE_DOMAIN_BY_STATE[state][id];
+
         gsap.set(frameImageEls[id], {
           opacity: domainIndex === null ? 0 : 1,
           attr:
             domainIndex === null
               ? {}
-              : { href: domains[domainIndex]?.imageLarge ?? "" },
+              : {
+                  href: domains[domainIndex]?.imageLarge ?? "",
+                },
         });
       }
     };
@@ -187,8 +243,14 @@ export function buildDomainFilmTimeline(
     const applyGuideSnapshot = (state: StateKey) => {
       for (const id of GUIDE_IDS) {
         const g = GUIDE_LAYOUTS[state][id];
+
         gsap.set(guideEls[id], {
-          attr: { x1: g.x1, y1: g.y1, x2: g.x2, y2: g.y2 },
+          attr: {
+            x1: g.x1,
+            y1: g.y1,
+            x2: g.x2,
+            y2: g.y2,
+          },
           opacity: g.opacity,
         });
       }
@@ -196,14 +258,20 @@ export function buildDomainFilmTimeline(
 
     const applyReticleSnapshot = (state: StateKey) => {
       const r = RETICLE_LAYOUTS[state];
+
       gsap.set(reticleEl, {
-        attr: { cx: r.cx, cy: r.cy, r: r.r },
+        attr: {
+          cx: r.cx,
+          cy: r.cy,
+          r: r.r,
+        },
         opacity: r.opacity,
       });
     };
 
     const applyProductSnapshot = (state: StateKey) => {
       const p = PRODUCT_TRANSFORM_BY_STATE[state];
+
       gsap.set(productEl, {
         x: p.x,
         y: p.y,
@@ -218,38 +286,62 @@ export function buildDomainFilmTimeline(
     applyGuideSnapshot("product");
     applyReticleSnapshot("product");
     applyProductSnapshot("product");
-    if (gridEl) gsap.set(gridEl, { opacity: GRID_OPACITY_BY_STATE.product });
+
+    if (gridEl) {
+      gsap.set(gridEl, {
+        opacity: GRID_OPACITY_BY_STATE.product,
+      });
+    }
+
     if (productEl.querySelector("path")) {
       const wireframe = productEl.querySelector("path") as SVGPathElement;
+
       wireframe.setAttribute("d", PRODUCT_WIREFRAME_D);
     }
 
     /* ---------------------------------------------------------------- */
-    /* Master timeline: geometric tweens only.                           */
+    /* Master timeline: geometric tweens only.                          */
     /* ---------------------------------------------------------------- */
 
-    const tl = gsap.timeline({ paused: true, defaults: { ease: "none" } });
+    const tl = gsap.timeline({
+      paused: true,
+      defaults: {
+        ease: "none",
+      },
+    });
 
     const place = (
       targets: gsap.TweenTarget,
       fromVars: gsap.TweenVars,
       toVars: gsap.TweenVars,
       position: number,
-      duration: number
+      duration: number,
     ) => {
       if (reducedMotion) {
         tl.set(targets, toVars, position + duration);
       } else {
-        tl.fromTo(targets, fromVars, { ...toVars, duration }, position);
+        tl.fromTo(
+          targets,
+          fromVars,
+          {
+            ...toVars,
+            duration,
+          },
+          position,
+        );
       }
     };
 
     for (const phase of PHASES) {
-      if (phase.kind !== "transition") continue;
+      if (phase.kind !== "transition") {
+        continue;
+      }
 
       const { from, to, start } = phase;
       const fullDuration = phase.end - phase.start;
+
       const isFinal = phase.id === "video-tarka";
+
       const geometryDuration = isFinal
         ? fullDuration * LOGO_SWAP_WINDOW[0]
         : fullDuration;
@@ -257,7 +349,9 @@ export function buildDomainFilmTimeline(
       // Frames
       for (const id of FRAME_IDS) {
         const fromState = FRAME_LAYOUTS[from][id];
+
         const toState = FRAME_LAYOUTS[to][id];
+
         place(
           frameEls[id],
           {
@@ -281,43 +375,73 @@ export function buildDomainFilmTimeline(
             opacity: toState.opacity,
           },
           start,
-          geometryDuration
+          geometryDuration,
         );
       }
 
       // Guides
       for (const id of GUIDE_IDS) {
         const fromG = GUIDE_LAYOUTS[from][id];
+
         const toG = GUIDE_LAYOUTS[to][id];
+
         place(
           guideEls[id],
           {
-            attr: { x1: fromG.x1, y1: fromG.y1, x2: fromG.x2, y2: fromG.y2 },
+            attr: {
+              x1: fromG.x1,
+              y1: fromG.y1,
+              x2: fromG.x2,
+              y2: fromG.y2,
+            },
             opacity: fromG.opacity,
           },
           {
-            attr: { x1: toG.x1, y1: toG.y1, x2: toG.x2, y2: toG.y2 },
+            attr: {
+              x1: toG.x1,
+              y1: toG.y1,
+              x2: toG.x2,
+              y2: toG.y2,
+            },
             opacity: toG.opacity,
           },
           start,
-          fullDuration
+          fullDuration,
         );
       }
 
-      // Reticle (geometric portion only; morph handled separately below)
+      // Reticle
       const fromR = RETICLE_LAYOUTS[from];
+
       const toR = RETICLE_LAYOUTS[to];
+
       place(
         reticleEl,
-        { attr: { cx: fromR.cx, cy: fromR.cy, r: fromR.r }, opacity: fromR.opacity },
-        { attr: { cx: toR.cx, cy: toR.cy, r: toR.r }, opacity: toR.opacity },
+        {
+          attr: {
+            cx: fromR.cx,
+            cy: fromR.cy,
+            r: fromR.r,
+          },
+          opacity: fromR.opacity,
+        },
+        {
+          attr: {
+            cx: toR.cx,
+            cy: toR.cy,
+            r: toR.r,
+          },
+          opacity: toR.opacity,
+        },
         start,
-        geometryDuration
+        geometryDuration,
       );
 
       // Product transform
       const fromP = PRODUCT_TRANSFORM_BY_STATE[from];
+
       const toP = PRODUCT_TRANSFORM_BY_STATE[to];
+
       place(
         productEl,
         {
@@ -337,40 +461,52 @@ export function buildDomainFilmTimeline(
           opacity: toP.opacity,
         },
         start,
-        fullDuration
+        fullDuration,
       );
 
       // Ambient grid opacity
       if (gridEl) {
         place(
           gridEl,
-          { opacity: GRID_OPACITY_BY_STATE[from] },
-          { opacity: GRID_OPACITY_BY_STATE[to] },
+          {
+            opacity: GRID_OPACITY_BY_STATE[from],
+          },
+          {
+            opacity: GRID_OPACITY_BY_STATE[to],
+          },
           start,
-          fullDuration
+          fullDuration,
         );
       }
 
-      // Final convergence: footage fade, colour resolve, and the real
-      // MorphSVG conversion into the exact traced logo paths.
+      // Final convergence: footage fade, colour resolve,
+      // and MorphSVG conversion into the exact traced logo paths.
       if (isFinal) {
         const fadeEnd = start + fullDuration * VIDEO_FOOTAGE_FADE_END;
+
         for (const id of FRAME_IDS) {
           place(
             frameImageEls[id],
-            { opacity: 1 },
-            { opacity: 0 },
+            {
+              opacity: 1,
+            },
+            {
+              opacity: 0,
+            },
             start,
-            fadeEnd - start
+            fadeEnd - start,
           );
         }
 
         const swapStart = start + fullDuration * LOGO_SWAP_WINDOW[0];
+
         const swapEnd = start + fullDuration * LOGO_SWAP_WINDOW[1];
+
         const swapDuration = swapEnd - swapStart;
 
         for (const id of FRAME_IDS) {
           const part = logoPart(FRAME_TO_LOGO_PART[id]);
+
           if (reducedMotion) {
             tl.set(
               frameEls[id],
@@ -380,7 +516,7 @@ export function buildDomainFilmTimeline(
                 fillOpacity: 1,
                 strokeOpacity: 0,
               },
-              swapEnd
+              swapEnd,
             );
           } else {
             tl.to(
@@ -393,14 +529,23 @@ export function buildDomainFilmTimeline(
                 duration: swapDuration,
                 ease: "none",
               },
-              swapStart
+              swapStart,
             );
           }
         }
 
         const arcPart = logoPart("arc");
+
         if (reducedMotion) {
-          tl.set(reticleEl, { morphSVG: arcPart.d, fill: arcPart.fill, opacity: 1 }, swapEnd);
+          tl.set(
+            reticleEl,
+            {
+              morphSVG: arcPart.d,
+              fill: arcPart.fill,
+              opacity: 1,
+            },
+            swapEnd,
+          );
         } else {
           tl.to(
             reticleEl,
@@ -411,7 +556,7 @@ export function buildDomainFilmTimeline(
               duration: swapDuration,
               ease: "none",
             },
-            swapStart
+            swapStart,
           );
         }
       }
@@ -429,37 +574,58 @@ export function buildDomainFilmTimeline(
     let lastState: StateKey | null = null;
 
     const applyDiscreteState = (state: StateKey) => {
-      if (state === lastState) return;
+      if (state === lastState) {
+        return;
+      }
+
       lastState = state;
 
       const labels = LABELS_BY_STATE[state];
-      if (labelUnitEl) labelUnitEl.textContent = labels.unit;
-      if (labelCoordEl) labelCoordEl.textContent = labels.coord;
-      if (labelKickerEl) labelKickerEl.textContent = labels.kicker;
+
+      if (labelUnitEl) {
+        labelUnitEl.textContent = labels.unit;
+      }
+
+      if (labelCoordEl) {
+        labelCoordEl.textContent = labels.coord;
+      }
+
+      if (labelKickerEl) {
+        labelKickerEl.textContent = labels.kicker;
+      }
 
       for (const id of FRAME_IDS) {
         const domainIndex = IMAGE_DOMAIN_BY_STATE[state][id];
+
         if (domainIndex !== null) {
           const url = domains[domainIndex]?.imageLarge;
-          if (url) frameImageEls[id].setAttribute("href", url);
+
+          if (url) {
+            frameImageEls[id].setAttribute("href", url);
+          }
         }
       }
 
       const domainIndex = DOMAIN_INDEX_BY_STATE[state];
+
       stage.dataset.activeDomain =
         domainIndex === null ? "none" : String(domainIndex);
+
       onActiveDomainChange?.(domainIndex);
     };
 
     const update = (self: ScrollTrigger) => {
       const percent = self.progress * TOTAL_TIMELINE_DURATION;
+
       const { phase, state } = resolvePhaseState(percent);
 
       applyDiscreteState(state);
+
       stage.dataset.activePhase = phase.id;
 
       if (progressFillEl) {
-        (progressFillEl as HTMLElement).style.transform = `scaleX(${self.progress})`;
+        (progressFillEl as HTMLElement).style.transform =
+          `scaleX(${self.progress})`;
       }
     };
 
@@ -473,11 +639,12 @@ export function buildDomainFilmTimeline(
       onRefresh: update,
     });
 
-    // Establish correct discrete state immediately, before first scroll.
+    // Establish correct discrete state immediately,
+    // before first scroll.
     update(trigger);
 
     /* ---------------------------------------------------------------- */
-    /* Ambient idle motion — independent of scroll, so a stopped scroll  */
+    /* Ambient idle motion — independent of scroll, so a stopped scroll */
     /* still reads as a living composition rather than a frozen frame.   */
     /* ---------------------------------------------------------------- */
 
@@ -492,6 +659,7 @@ export function buildDomainFilmTimeline(
       });
 
       const wireframe = productEl.querySelector("path");
+
       if (wireframe) {
         gsap.to(productEl, {
           rotation: "+=3",
@@ -504,7 +672,7 @@ export function buildDomainFilmTimeline(
     }
 
     STATE_ORDER.forEach(() => {
-      /* keep STATE_ORDER import used for potential future ordering needs */
+      // Keep STATE_ORDER import used for potential future ordering needs.
     });
   }, section);
 
