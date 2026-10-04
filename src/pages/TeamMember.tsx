@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import TeamNav from "../components/TeamNav";
+import TeamNav from "../components/teamNav";
 import team from "../data/team";
 import "../styles/team.css";
 

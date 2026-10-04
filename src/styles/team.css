@@ -29,7 +29,8 @@
 }
 
 /* ---------- Team page (horizontal scroll gallery) ---------- */
-.team-section { 
+.team-section {
+  position: relative; background: var(--t-bg); color: var(--t-text);
   --card-h: min(400px, 72vh);
   --card-h-main: min(470px, 80vh);
   --card-gap: 11px;
@@ -53,9 +54,11 @@
   position: relative; height: var(--card-h); aspect-ratio: 4 / 5;
   overflow: hidden; background: var(--t-card); border: 1px solid var(--t-line);
 }
-/* .team-card-link:first-of-type .team-card {
+/* Larger first card: remove the comment markers to enable
+.team-card-link:first-of-type .team-card {
   height: var(--card-h-main);
-} */
+}
+*/
 
 .team-initials {
   position: absolute; inset: 0; display: grid; place-items: center;
@@ -117,13 +120,12 @@
 @media (max-width: 760px) {
   .pf-hero { grid-template-columns: 1fr; }
 }
-@media (max-width: 640px) { 
-  .team-section { 
+@media (max-width: 640px) {
+  .team-section {
     --card-h: 280px;
     --card-h-main: 340px;
     --card-gap: 12px;
   }
-}
   .team-sticky { padding-top: 64px; }
   .team-head { margin-bottom: 16px; }
   .team-head p { font-size: 13px; }

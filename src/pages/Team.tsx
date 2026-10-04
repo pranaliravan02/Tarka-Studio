@@ -7,7 +7,7 @@ import {
   useReducedMotion,
 } from "framer-motion";
 import { Link } from "react-router-dom";
-import TeamNav from "../components/TeamNav";
+import TeamNav from "../components/teamNav";
 import team from "../data/team";
 import "../styles/team.css";
 
