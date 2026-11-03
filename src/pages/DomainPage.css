@@ -1563,3 +1563,827 @@
     justify-content: flex-start;
   }
 }
+
+/* ============================================================
+   DIGITAL DOMAIN — UI/UX & WEB DEVELOPMENT
+   Visual direction: Interactive digital studio
+   Scoped to /digital; does not affect other domain pages.
+   ============================================================ */
+
+.domain-page--uiux-web .domain-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+
+  min-height: min(860px, 100vh);
+  padding: 140px 5vw 42px;
+
+  background:
+    radial-gradient(
+      circle at 78% 42%,
+      rgba(0, 127, 143, 0.10),
+      transparent 36%
+    ),
+    linear-gradient(135deg, #fbfefe 0%, #f0f8f8 100%);
+}
+
+/* Fine interface grid */
+.domain-page--uiux-web .domain-hero::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+
+  background-image:
+    linear-gradient(
+      rgba(0, 127, 143, 0.065) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(0, 127, 143, 0.065) 1px,
+      transparent 1px
+    );
+
+  background-size: 48px 48px;
+
+  mask-image: radial-gradient(
+    ellipse at 70% 45%,
+    #000 0%,
+    transparent 76%
+  );
+
+  animation: digital-grid-drift 24s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes digital-grid-drift {
+  from {
+    background-position: 0 0;
+  }
+
+  to {
+    background-position: 48px 48px;
+  }
+}
+
+/* Header metadata */
+.domain-page--uiux-web .domain-hero__top {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 24px;
+}
+
+.domain-page--uiux-web .domain-hero__rule {
+  width: clamp(55px, 8vw, 110px);
+  background: var(--domain-blue);
+}
+
+/* Main two-column composition */
+.domain-page--uiux-web .domain-hero__main {
+  position: relative;
+  z-index: 1;
+
+  min-height: 61vh;
+
+  grid-template-columns:
+    minmax(0, 1.05fr)
+    minmax(300px, 0.95fr);
+
+  gap: clamp(36px, 5vw, 82px);
+}
+
+/* Typography */
+.domain-page--uiux-web .domain-hero__heading {
+  max-width: 760px;
+}
+
+.domain-page--uiux-web .domain-hero__kicker {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  margin-bottom: 26px;
+}
+
+.domain-page--uiux-web .domain-hero__kicker::before {
+  content: "";
+  display: block;
+
+  width: 30px;
+  height: 2px;
+
+  background: var(--domain-blue);
+}
+
+.domain-page--uiux-web .domain-hero__title {
+  max-width: 9ch;
+
+  font-size: clamp(3.8rem, 7.5vw, 8rem);
+  line-height: 0.86;
+  letter-spacing: -0.085em;
+
+  text-wrap: balance;
+}
+
+.domain-page--uiux-web .domain-hero__description {
+  max-width: 440px;
+  margin-top: 30px;
+
+  color: #536b70;
+  line-height: 1.7;
+}
+
+/* Depth behind the main visual */
+.domain-page--uiux-web .domain-hero__visual {
+  width: min(100%, 610px);
+  justify-self: end;
+
+  transform: translateY(8px);
+  transition: transform 700ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.domain-page--uiux-web .domain-hero__visual::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+
+  inset: 18px -16px -16px 18px;
+
+  border: 1px solid rgba(0, 127, 143, 0.38);
+  background: rgba(255, 255, 255, 0.35);
+
+  transition:
+    inset 700ms cubic-bezier(0.2, 0.7, 0.2, 1),
+    border-color 400ms ease;
+}
+
+.domain-page--uiux-web .domain-hero__visual-frame {
+  aspect-ratio: 0.96;
+
+  border: 1px solid rgba(0, 127, 143, 0.18);
+  background: #dceff0;
+
+  box-shadow: 0 24px 70px rgba(10, 55, 62, 0.12);
+}
+
+/* Interface-style crosshair overlay */
+.domain-page--uiux-web .domain-hero__visual-frame::after {
+  background:
+    linear-gradient(
+      0deg,
+      rgba(0, 25, 30, 0.24),
+      transparent 42%
+    ),
+    linear-gradient(
+      90deg,
+      transparent calc(50% - 0.5px),
+      rgba(255, 255, 255, 0.30) 50%,
+      transparent calc(50% + 0.5px)
+    ),
+    linear-gradient(
+      0deg,
+      transparent calc(50% - 0.5px),
+      rgba(255, 255, 255, 0.30) 50%,
+      transparent calc(50% + 0.5px)
+    );
+}
+
+.domain-page--uiux-web .domain-hero__visual img {
+  filter: saturate(0.86) contrast(1.03);
+  transition:
+    transform 900ms cubic-bezier(0.2, 0.7, 0.2, 1),
+    filter 700ms ease;
+}
+
+/* Technical image caption */
+.domain-page--uiux-web .domain-hero__visual-label {
+  padding: 13px 17px;
+
+  background: var(--domain-blue);
+  color: #fff;
+
+  font-size: 0.66rem;
+  letter-spacing: 0.13em;
+}
+
+.domain-page--uiux-web .domain-hero__visual-label::before {
+  content: "";
+  display: inline-block;
+
+  width: 6px;
+  height: 6px;
+  margin-right: 10px;
+
+  border-radius: 50%;
+  background: #8ff5dc;
+  vertical-align: middle;
+}
+
+/* Existing quote interaction */
+.domain-page--uiux-web .domain-hero__quote {
+  margin-top: 5px;
+  border-bottom-color: var(--domain-blue);
+}
+
+/* Hover depth only on devices with a real hover pointer */
+@media (hover: hover) and (pointer: fine) {
+  .domain-page--uiux-web .domain-hero__visual:hover {
+    transform: translateY(0);
+  }
+
+  .domain-page--uiux-web .domain-hero__visual:hover::before {
+    inset: 12px -22px -22px 12px;
+    border-color: var(--domain-blue);
+  }
+
+  .domain-page--uiux-web .domain-hero__visual:hover img {
+    transform: scale(1.035);
+    filter: saturate(1.04) contrast(1.03);
+  }
+}
+
+/* Tablet */
+@media (max-width: 900px) {
+  .domain-page--uiux-web .domain-hero {
+    min-height: auto;
+    padding: 120px 5vw 48px;
+  }
+
+  .domain-page--uiux-web .domain-hero__main {
+    min-height: auto;
+    gap: 54px;
+  }
+
+  .domain-page--uiux-web .domain-hero__title {
+    max-width: 10ch;
+    font-size: clamp(4rem, 10vw, 7rem);
+  }
+
+  .domain-page--uiux-web .domain-hero__visual {
+    width: min(100%, 650px);
+    justify-self: center;
+  }
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+  .domain-page--uiux-web .domain-hero {
+    padding: 105px 6vw 38px;
+  }
+
+  .domain-page--uiux-web .domain-hero__main {
+    gap: 38px;
+  }
+
+  .domain-page--uiux-web .domain-hero__title {
+    max-width: 10ch;
+    font-size: clamp(3.5rem, 16vw, 5.5rem);
+    line-height: 0.9;
+  }
+
+  .domain-page--uiux-web .domain-hero__description {
+    margin-top: 24px;
+    font-size: 0.98rem;
+  }
+
+  .domain-page--uiux-web .domain-hero__visual {
+    width: calc(100% - 10px);
+    margin-right: 10px;
+  }
+
+  .domain-page--uiux-web .domain-hero__visual::before {
+    inset: 12px -10px -10px 12px;
+  }
+
+  .domain-page--uiux-web .domain-hero__visual-frame {
+    aspect-ratio: 0.92;
+  }
+
+  .domain-page--uiux-web .domain-hero__bottom {
+    flex-wrap: wrap;
+    gap: 12px;
+    font-size: 0.58rem;
+  }
+
+  .domain-page--uiux-web .domain-hero__scroll-line {
+    width: 44px;
+  }
+}
+
+/* ============================================================
+   DIGITAL INTRO — INTERACTIVE DESIGN STUDIO
+   ============================================================ */
+
+.domain-page--uiux-web .domain-intro--digital {
+  display: block;
+  isolation: isolate;
+  overflow: hidden;
+  padding: clamp(80px, 10vw, 145px) 5vw;
+  color: #102e33;
+  background: #f7fbfa;
+}
+
+.domain-page--uiux-web .domain-intro--digital::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: radial-gradient(
+    rgba(0, 127, 143, 0.2) 1px,
+    transparent 1px
+  );
+  background-size: 22px 22px;
+  mask-image: linear-gradient(90deg, transparent, #000);
+}
+
+.domain-page--uiux-web .domain-intro__label {
+  flex-direction: row;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: clamp(50px, 8vw, 100px);
+  color: #587176;
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+}
+
+.domain-page--uiux-web .domain-intro__digital-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 0.9fr);
+  align-items: center;
+  gap: clamp(40px, 7vw, 110px);
+  max-width: 1500px;
+  margin: 0 auto;
+}
+
+.domain-page--uiux-web .domain-intro__digital-copy {
+  min-width: 0;
+}
+
+.domain-page--uiux-web .domain-intro__accent {
+  width: 100px;
+  height: 3px;
+  margin-bottom: 28px;
+  background: #007f8f;
+  transform-origin: left center;
+}
+
+.domain-page--uiux-web .domain-intro__eyebrow {
+  margin: 0 0 24px;
+  color: #007f8f;
+  font-size: 0.68rem;
+  letter-spacing: 0.13em;
+}
+
+.domain-page--uiux-web .domain-intro__digital-copy h2 {
+  margin: 0;
+  font-size: clamp(3.5rem, 6.4vw, 7rem);
+  line-height: 0.9;
+  letter-spacing: -0.075em;
+}
+
+.domain-page--uiux-web .domain-intro__digital-copy h2 em {
+  color: #007f8f;
+}
+
+.domain-page--uiux-web .domain-intro__title-outline {
+  color: transparent;
+  -webkit-text-stroke: 1px #47777c;
+}
+
+.domain-page--uiux-web .domain-intro__description {
+  max-width: 470px;
+  margin: 30px 0 0;
+  color: #294a50;
+  font-size: clamp(1rem, 1.4vw, 1.2rem);
+  line-height: 1.8;
+}
+
+.domain-page--uiux-web .domain-intro__supporting {
+  max-width: 470px !important;
+  margin: 16px 0 0 !important;
+  color: #72878a;
+  font-size: 0.9rem !important;
+  line-height: 1.9 !important;
+}
+
+.domain-page--uiux-web .domain-intro__principles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 18px;
+  margin-top: 30px;
+}
+
+.domain-page--uiux-web .domain-intro__principles > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #456267;
+  font-size: 0.72rem;
+}
+
+.domain-page--uiux-web .domain-intro__principle-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #007f8f;
+}
+
+/* Blueprint panel */
+.domain-page--uiux-web .domain-intro__blueprint {
+  min-width: 0;
+  padding: 16px;
+  border: 1px solid #d3e5e4;
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: 14px 18px 0 rgba(0, 127, 143, 0.06);
+  transition: transform 400ms ease, box-shadow 400ms ease;
+}
+
+.domain-page--uiux-web .domain-intro__blueprint-top,
+.domain-page--uiux-web .domain-intro__blueprint-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  color: #678084;
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
+}
+
+.domain-page--uiux-web .domain-intro__blueprint-top {
+  padding: 5px 3px 16px;
+}
+
+.domain-page--uiux-web .domain-intro__blueprint-live {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.domain-page--uiux-web .domain-intro__blueprint-live > span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #00a88f;
+}
+
+.domain-page--uiux-web .domain-intro__blueprint-canvas {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 340px;
+  overflow: hidden;
+  border: 1px solid #d9e8e7;
+  background-color: #edf6f5;
+  background-image:
+    linear-gradient(rgba(0,127,143,.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,127,143,.08) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.domain-page--uiux-web .domain-intro__blueprint-coordinate {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  color: #789194;
+  font-family: monospace;
+  font-size: 0.63rem;
+  line-height: 1.8;
+}
+
+.domain-page--uiux-web .domain-intro__blueprint-orbit {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: min(66%, 260px);
+  aspect-ratio: 1;
+  border: 1px solid rgba(0,127,143,.45);
+  border-radius: 50%;
+  animation: tarka-blueprint-spin 35s linear infinite;
+}
+
+.domain-page--uiux-web .domain-intro__blueprint-orbit::before,
+.domain-page--uiux-web .domain-intro__blueprint-orbit::after {
+  content: "";
+  position: absolute;
+  inset: 12%;
+  border: 1px dashed rgba(0,127,143,.42);
+  border-radius: 50%;
+}
+
+.domain-page--uiux-web .domain-intro__blueprint-orbit::after {
+  inset: 25%;
+  border-style: solid;
+  border-color: rgba(0,127,143,.25);
+}
+
+.domain-page--uiux-web .domain-intro__blueprint-orbit-inner {
+  display: grid;
+  place-items: center;
+  width: 57%;
+  aspect-ratio: 1;
+  border: 1px solid rgba(0,127,143,.55);
+  border-radius: 50%;
+  background: rgba(255,255,255,.55);
+}
+
+.domain-page--uiux-web .domain-intro__blueprint-core {
+  display: grid;
+  place-items: center;
+  width: 58%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #007f8f;
+  color: white;
+  font-size: clamp(2rem, 4vw, 3.7rem);
+  font-weight: 600;
+  letter-spacing: -0.08em;
+  box-shadow: 0 12px 35px rgba(0,127,143,.25);
+  animation: tarka-blueprint-counter-spin 35s linear infinite;
+}
+
+.domain-page--uiux-web .domain-intro__blueprint-node {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border: 2px solid #edf6f5;
+  border-radius: 50%;
+  background: #007f8f;
+}
+
+.domain-page--uiux-web .domain-intro__blueprint-node--one {
+  top: 8%;
+  left: 24%;
+}
+
+.domain-page--uiux-web .domain-intro__blueprint-node--two {
+  top: 44%;
+  right: 1%;
+}
+
+.domain-page--uiux-web .domain-intro__blueprint-node--three {
+  bottom: 10%;
+  left: 27%;
+}
+
+.domain-page--uiux-web .domain-intro__blueprint-annotation {
+  position: absolute;
+  bottom: 17px;
+  left: 17px;
+  display: grid;
+  gap: 7px;
+}
+
+.domain-page--uiux-web .domain-intro__blueprint-annotation span:first-child {
+  color: #007f8f;
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+}
+
+.domain-page--uiux-web .domain-intro__blueprint-annotation span:last-child {
+  color: #456267;
+  font-size: 0.76rem;
+}
+
+.domain-page--uiux-web .domain-intro__blueprint-corner {
+  position: absolute;
+  right: 17px;
+  bottom: 14px;
+  color: #007f8f;
+  font-size: 1.4rem;
+}
+
+.domain-page--uiux-web .domain-intro__blueprint-bottom {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  padding: 21px 2px;
+}
+
+.domain-page--uiux-web .domain-intro__blueprint-bottom > div {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 8px;
+  color: #617a7e;
+  font-size: 0.61rem;
+}
+
+.domain-page--uiux-web .domain-intro__blueprint-bottom > div > span:first-child {
+  color: #007f8f;
+  font-family: monospace;
+}
+
+.domain-page--uiux-web .domain-intro__blueprint-track {
+  grid-column: 1 / -1;
+  height: 3px;
+  overflow: hidden;
+  background: #dce9e8;
+}
+
+.domain-page--uiux-web .domain-intro__blueprint-bar {
+  display: block;
+  height: 100%;
+  background: #007f8f;
+  transform-origin: left center;
+}
+
+.domain-page--uiux-web .domain-intro__blueprint-footer {
+  padding: 15px 2px 2px;
+  border-top: 1px solid #dce9e8;
+}
+
+@keyframes tarka-blueprint-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes tarka-blueprint-counter-spin {
+  to { transform: rotate(-360deg); }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .domain-page--uiux-web .domain-intro__blueprint:hover {
+    transform: translateY(-5px);
+    box-shadow: 22px 27px 0 rgba(0,127,143,.09);
+  }
+}
+
+@media (max-width: 900px) {
+  .domain-page--uiux-web .domain-intro__digital-layout {
+    grid-template-columns: 1fr;
+    gap: 48px;
+  }
+
+  .domain-page--uiux-web .domain-intro__digital-copy h2 {
+    font-size: clamp(4rem, 10vw, 6.5rem);
+  }
+
+  .domain-page--uiux-web .domain-intro__blueprint {
+    width: min(100%, 620px);
+    justify-self: center;
+  }
+}
+
+@media (max-width: 600px) {
+  .domain-page--uiux-web .domain-intro--digital {
+    padding: 80px 6vw;
+  }
+
+  .domain-page--uiux-web .domain-intro__label {
+    margin-bottom: 52px;
+    font-size: 0.61rem;
+  }
+
+  .domain-page--uiux-web .domain-intro__digital-layout {
+    gap: 38px;
+  }
+
+  .domain-page--uiux-web .domain-intro__digital-copy h2 {
+    font-size: clamp(3.4rem, 15vw, 5rem);
+  }
+
+  .domain-page--uiux-web .domain-intro__blueprint {
+    padding: 10px;
+  }
+
+  .domain-page--uiux-web .domain-intro__blueprint-canvas {
+    min-height: 285px;
+  }
+
+  .domain-page--uiux-web .domain-intro__blueprint-bottom {
+    gap: 7px;
+  }
+
+  .domain-page--uiux-web .domain-intro__blueprint-bottom > div {
+    gap: 6px;
+    font-size: 0.53rem;
+  }
+
+  .domain-page--uiux-web .domain-intro__blueprint-footer {
+    font-size: 0.49rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .domain-page--uiux-web .domain-intro__blueprint-orbit,
+  .domain-page--uiux-web .domain-intro__blueprint-core {
+    animation: none;
+  }
+
+  .domain-page--uiux-web .domain-intro__blueprint {
+    transition: none;
+  }
+}
+/* ============================================================
+   UI/UX — CINEMATIC INTRO MOTION LAYER
+   Scoped exclusively to the UI/UX & Web Development page
+   ============================================================ */
+
+.domain-page--uiux-web .domain-intro--digital {
+  position: relative;
+  isolation: isolate;
+  perspective: 1400px;
+}
+
+.domain-page--uiux-web .domain-intro__digital-copy {
+  position: relative;
+  z-index: 2;
+}
+
+.domain-page--uiux-web .domain-intro__blueprint {
+  position: relative;
+  z-index: 1;
+  transform-style: preserve-3d;
+  will-change: transform;
+  transition:
+    box-shadow 0.55s ease,
+    border-color 0.55s ease;
+}
+
+/* Depth around the blueprint */
+.domain-page--uiux-web .domain-intro__blueprint::before {
+  content: "";
+  position: absolute;
+  inset: 12px -12px -12px 12px;
+  z-index: -1;
+  border: 1px solid rgba(0, 127, 143, 0.2);
+  background: rgba(0, 127, 143, 0.035);
+  pointer-events: none;
+  transition:
+    transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1),
+    opacity 0.6s ease;
+}
+
+.domain-page--uiux-web .domain-intro__blueprint-canvas {
+  position: relative;
+  isolation: isolate;
+}
+
+/* Soft animated light behind the design system */
+.domain-page--uiux-web .domain-intro__blueprint-canvas::after {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(
+    circle,
+    rgba(0, 127, 143, 0.13) 0%,
+    rgba(0, 127, 143, 0.04) 35%,
+    transparent 68%
+  );
+  animation: tarka-digital-light-drift 12s ease-in-out infinite alternate;
+}
+
+/* Keep the orbit and center mark visually crisp */
+.domain-page--uiux-web .domain-intro__blueprint-orbit {
+  transform-origin: center;
+  will-change: transform;
+}
+
+.domain-page--uiux-web .domain-intro__blueprint-core {
+  box-shadow:
+    0 0 0 8px rgba(0, 127, 143, 0.055),
+    0 12px 35px rgba(0, 127, 143, 0.25);
+}
+
+/* Interactive depth on desktop */
+@media (hover: hover) and (pointer: fine) {
+  .domain-page--uiux-web .domain-intro__blueprint:hover::before {
+    transform: translate(8px, 8px);
+  }
+
+  .domain-page--uiux-web .domain-intro__blueprint:hover {
+    box-shadow: 24px 28px 0 rgba(0, 127, 143, 0.075);
+  }
+
+  .domain-page--uiux-web .domain-intro__blueprint:hover
+    .domain-intro__blueprint-node {
+    box-shadow: 0 0 18px rgba(0, 127, 143, 0.35);
+  }
+}
+
+@keyframes tarka-digital-light-drift {
+  from {
+    transform: translate3d(-3%, -2%, 0) scale(0.96);
+  }
+
+  to {
+    transform: translate3d(3%, 2%, 0) scale(1.06);
+  }
+}
+
+/* Accessibility: preserve the layout without continuous motion */
+@media (prefers-reduced-motion: reduce) {
+  .domain-page--uiux-web .domain-intro__blueprint,
+  .domain-page--uiux-web .domain-intro__blueprint::before,
+  .domain-page--uiux-web .domain-intro__blueprint-canvas::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .domain-page--uiux-web .domain-intro__blueprint {
+    transform: none !important;
+  }
+}

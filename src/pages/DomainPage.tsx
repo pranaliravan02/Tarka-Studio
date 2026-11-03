@@ -6,7 +6,11 @@ import { domains } from "../data/domains";
 import { useReducedMotion } from "../hooks/useReducedMotion";
 
 import "./DomainPage.css";
+
 import DomainHero from "../components/domain/DomainHero";
+import VideoGenerationHero from "../components/domain/VideoGenerationHero";
+import DigitalHero from "../components/domain/DigitalHero";
+import GraphicDesignPage from "../components/domain/GraphicDesignPage";
 import DomainIntro from "../components/domain/DomainIntro";
 import DomainCapabilities from "../components/domain/DomainCapabilities";
 import DomainWork from "../components/domain/DomainWork";
@@ -54,6 +58,11 @@ function DomainPage({ domainId }: DomainPageProps) {
     );
   }
 
+  // Graphic Design has its own independent visual experience.
+  if (domain.id === "graphic-design") {
+    return <GraphicDesignPage />;
+  }
+
   const currentIndex = domains.findIndex(
     (item) => item.id === domain.id
   );
@@ -75,10 +84,14 @@ function DomainPage({ domainId }: DomainPageProps) {
       "graphic-design": "/identity",
       "uiux-web": "/digital",
       marketing: "/reach",
+      "video-generation": "/video",
     };
 
     return routes[id] ?? "/";
   };
+
+  const isVideoGeneration =
+    domain.id === "video-generation";
 
   return (
     <main
@@ -115,7 +128,16 @@ function DomainPage({ domainId }: DomainPageProps) {
         </Link>
       </header>
 
-      <DomainHero domain={domain} />
+      {isVideoGeneration ? (
+        <VideoGenerationHero
+          title={domain.title}
+          description={domain.description}
+        />
+      ) : domain.id === "uiux-web" ? (
+        <DigitalHero domain={domain} />
+      ) : (
+        <DomainHero domain={domain} />
+      )}
 
       <DomainIntro domain={domain} />
 
@@ -143,4 +165,3 @@ function DomainPage({ domainId }: DomainPageProps) {
 }
 
 export default DomainPage;
-

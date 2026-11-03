@@ -23,7 +23,7 @@ interface DomainSectionProps {
  * These never animate — only their opacity is driven by the timeline —
  * so photographic content stays a quiet, duotoned supporting layer while
  * the foreground SVG geometry carries the primary transformation. */
-const FRAME_IMAGE_HOME: Record
+const FRAME_IMAGE_HOME: Record<
   string,
   { x: number; y: number; width: number; height: number }
 > = {

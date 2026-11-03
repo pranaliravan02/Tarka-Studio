@@ -1,0 +1,230 @@
+
+import { useEffect } from "react";
+import "./GraphicDesignPage.css";
+
+const services = [
+  "Brand Identity",
+  "Typography & Lettering",
+  "Poster Design",
+  "Packaging Design",
+  "Social Media Graphics",
+  "Art Direction",
+];
+
+const projects = [
+  {
+    title: "Visual Identity",
+    category: "Branding",
+    number: "01",
+    color: "blue",
+  },
+  {
+    title: "Type Experiments",
+    category: "Typography",
+    number: "02",
+    color: "white",
+  },
+  {
+    title: "Beyond The Frame",
+    category: "Poster Design",
+    number: "03",
+    color: "dark",
+  },
+];
+
+export default function GraphicDesignPage() {
+  useEffect(() => {
+    const elements = document.querySelectorAll(".gd-reveal");
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("gd-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+
+    elements.forEach((element) => observer.observe(element));
+
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <main className="gd-page">
+
+      {/* HERO */}
+      <section className="gd-hero">
+        <div className="gd-label">
+          TARKA® — GRAPHIC DESIGN STUDIO
+        </div>
+
+        <div className="gd-hero-content">
+          <p>WE TURN IDEAS INTO VISUAL EXPERIENCES</p>
+
+          <h1>
+            THINK.
+            <br />
+            <span>CREATE.</span>
+            <br />
+            COMMUNICATE.
+          </h1>
+
+          <div className="gd-hero-bottom">
+            <p>
+              We create bold visual identities, expressive graphics
+              and meaningful design experiences.
+            </p>
+
+            <a href="#gd-work">EXPLORE OUR WORK ↘</a>
+          </div>
+        </div>
+
+        <div className="gd-floating-shape gd-shape-one" />
+        <div className="gd-floating-shape gd-shape-two" />
+      </section>
+
+      {/* INTRO */}
+      <section className="gd-intro gd-section">
+        <div className="gd-label gd-reveal">
+          01 / OUR CREATIVE APPROACH
+        </div>
+
+        <h2 className="gd-reveal">
+          Design is not just how it looks.
+          <span> It's how it makes you feel.</span>
+        </h2>
+
+        <p className="gd-intro-text gd-reveal">
+          We combine creativity, strategy and visual storytelling
+          to build distinctive design experiences that make brands
+          memorable.
+        </p>
+      </section>
+
+      {/* SERVICES */}
+      <section className="gd-services gd-section">
+        <div className="gd-label gd-reveal">
+          02 / WHAT WE CREATE
+        </div>
+
+        <h2 className="gd-reveal">
+          OUR CREATIVE
+          <br />
+          CAPABILITIES.
+        </h2>
+
+        <div className="gd-service-list">
+          {services.map((service, index) => (
+            <div className="gd-service gd-reveal" key={service}>
+              <span>0{index + 1}</span>
+              <h3>{service}</h3>
+              <span className="gd-arrow">↗</span>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* WORK */}
+      <section className="gd-work gd-section" id="gd-work">
+        <div className="gd-label gd-reveal">
+          03 / SELECTED WORK
+        </div>
+
+        <h2 className="gd-reveal">
+          IDEAS MADE
+          <span> VISIBLE.</span>
+        </h2>
+
+        <div className="gd-project-grid">
+          {projects.map((project) => (
+            <article
+              className={`gd-project gd-project-${project.color} gd-reveal`}
+              key={project.number}
+            >
+              <div className="gd-project-art">
+                <span>{project.number}</span>
+                <div className="gd-art-circle" />
+                <strong>{project.title}</strong>
+              </div>
+
+              <div className="gd-project-info">
+                <div>
+                  <h3>{project.title}</h3>
+                  <p>{project.category}</p>
+                </div>
+                <span>↗</span>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      {/* MOTION STATEMENT */}
+      <section className="gd-statement">
+        <p>OUR DESIGN PHILOSOPHY</p>
+
+        <h2>
+          MAKE IT
+          <br />
+          <span>MATTER.</span>
+        </h2>
+
+        <div className="gd-statement-circle">TARKA®</div>
+      </section>
+
+      {/* PROCESS */}
+      <section className="gd-process gd-section">
+        <div className="gd-label gd-reveal">
+          04 / OUR PROCESS
+        </div>
+
+        <h2 className="gd-reveal">
+          FROM IDEA
+          <br />
+          TO IMPACT.
+        </h2>
+
+        <div className="gd-process-grid">
+          {[
+            ["01", "Discover", "Understanding your vision and goals."],
+            ["02", "Explore", "Researching ideas and creative directions."],
+            ["03", "Design", "Building the visual experience."],
+            ["04", "Deliver", "Refining and bringing everything to life."],
+          ].map(([number, title, description]) => (
+            <div className="gd-process-card gd-reveal" key={number}>
+              <span>{number}</span>
+              <h3>{title}</h3>
+              <p>{description}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* CTA */}
+      <footer className="gd-footer">
+        <p>TARKA® — GRAPHIC DESIGN</p>
+
+        <h2>
+          LET'S CREATE
+          <br />
+          <span>SOMETHING.</span>
+        </h2>
+
+        <a href="/quote?domain=graphic-design">
+          START A PROJECT ↗
+        </a>
+
+        <div className="gd-footer-bottom">
+          <span>TARKA®</span>
+          <span>DESIGN WITH PURPOSE.</span>
+          <span>© 2026</span>
+        </div>
+      </footer>
+
+    </main>
+  );
+}
