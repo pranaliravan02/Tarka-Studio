@@ -8,7 +8,6 @@ import {
   type ServiceItem,
 } from "../data/services";
 
-import { generateQuotationPdf } from "../utils/generateQuotationPdf";
 
 import "./QuotePage.css";
 
@@ -172,7 +171,7 @@ function QuotePage() {
     }));
   };
 
-  const handleGenerateQuote = () => {
+  const handleGenerateQuote = async () => {
     if (cart.length === 0) {
       return;
     }
@@ -216,6 +215,9 @@ function QuotePage() {
     /*
      * Generate and download the actual PDF.
      */
+    const { generateQuotationPdf } = await import(
+          "../utils/generateQuotationPdf"
+   );
     generateQuotationPdf(quoteData);
 
     setGeneratedQuoteNumber(

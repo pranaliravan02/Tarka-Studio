@@ -1,230 +1,1420 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap");
 
-import { useEffect } from "react";
-import "./GraphicDesignPage.css";
+.gd-page {
+  --gd-bg: #f5f3ed;
+  --gd-paper: #fffefa;
+  --gd-ink: #171918;
+  --gd-muted: #777b76;
+  --gd-line: rgba(23, 25, 24, 0.17);
+  --gd-accent: #087f88;
+  --gd-font: "Space Grotesk", sans-serif;
 
-const services = [
-  "Brand Identity",
-  "Typography & Lettering",
-  "Poster Design",
-  "Packaging Design",
-  "Social Media Graphics",
-  "Art Direction",
-];
+  width: 100%;
+  overflow: clip;
+  background: var(--gd-bg);
+  color: var(--gd-ink);
+  font-family: var(--gd-font);
+}
 
-const projects = [
-  {
-    title: "Visual Identity",
-    category: "Branding",
-    number: "01",
-    color: "blue",
-  },
-  {
-    title: "Type Experiments",
-    category: "Typography",
-    number: "02",
-    color: "white",
-  },
-  {
-    title: "Beyond The Frame",
-    category: "Poster Design",
-    number: "03",
-    color: "dark",
-  },
-];
+.gd-page *,
+.gd-page *::before,
+.gd-page *::after {
+  box-sizing: border-box;
+}
 
-export default function GraphicDesignPage() {
-  useEffect(() => {
-    const elements = document.querySelectorAll(".gd-reveal");
+.gd-page a {
+  color: inherit;
+  text-decoration: none;
+}
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("gd-visible");
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.15 }
-    );
+.gd-page button {
+  font: inherit;
+}
 
-    elements.forEach((element) => observer.observe(element));
+/* REUSABLE */
 
-    return () => observer.disconnect();
-  }, []);
+.gd-section {
+  padding: 115px 8%;
+}
 
-  return (
-    <main className="gd-page">
+.gd-section-label {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding-bottom: 19px;
+  border-bottom: 1px solid var(--gd-line);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  color: #555b56;
+}
 
-      {/* HERO */}
-      <section className="gd-hero">
-        <div className="gd-label">
-          TARKA® — GRAPHIC DESIGN STUDIO
-        </div>
+.gd-reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.8s ease,
+    transform 0.8s cubic-bezier(.2, .7, .2, 1);
+}
 
-        <div className="gd-hero-content">
-          <p>WE TURN IDEAS INTO VISUAL EXPERIENCES</p>
+.gd-reveal.gd-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
 
-          <h1>
-            THINK.
-            <br />
-            <span>CREATE.</span>
-            <br />
-            COMMUNICATE.
-          </h1>
+/* NAVIGATION */
 
-          <div className="gd-hero-bottom">
-            <p>
-              We create bold visual identities, expressive graphics
-              and meaningful design experiences.
-            </p>
+.gd-nav {
+  height: 78px;
+  padding: 0 7%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--gd-line);
+  position: relative;
+  z-index: 10;
+  background: var(--gd-bg);
+}
 
-            <a href="#gd-work">EXPLORE OUR WORK ↘</a>
-          </div>
-        </div>
+.gd-logo,
+.gd-footer-logo {
+  font-size: 27px;
+  font-weight: 800;
+  letter-spacing: -2px;
+}
 
-        <div className="gd-floating-shape gd-shape-one" />
-        <div className="gd-floating-shape gd-shape-two" />
-      </section>
+.gd-logo span {
+  font-size: 10px;
+  vertical-align: top;
+  margin-left: 3px;
+}
 
-      {/* INTRO */}
-      <section className="gd-intro gd-section">
-        <div className="gd-label gd-reveal">
-          01 / OUR CREATIVE APPROACH
-        </div>
+.gd-nav-label {
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: #6c716d;
+}
 
-        <h2 className="gd-reveal">
-          Design is not just how it looks.
-          <span> It's how it makes you feel.</span>
-        </h2>
+.gd-nav-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 22px;
+  padding: 12px 17px;
+  border: 1px solid var(--gd-ink);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  transition:
+    color .3s ease,
+    background .3s ease;
+}
 
-        <p className="gd-intro-text gd-reveal">
-          We combine creativity, strategy and visual storytelling
-          to build distinctive design experiences that make brands
-          memorable.
-        </p>
-      </section>
+.gd-nav-cta:hover {
+  background: var(--gd-ink);
+  color: white;
+}
 
-      {/* SERVICES */}
-      <section className="gd-services gd-section">
-        <div className="gd-label gd-reveal">
-          02 / WHAT WE CREATE
-        </div>
+/* HERO */
 
-        <h2 className="gd-reveal">
-          OUR CREATIVE
-          <br />
-          CAPABILITIES.
-        </h2>
+.gd-hero {
+  min-height: 790px;
+  padding: 24px 7% 28px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background:
+    radial-gradient(
+      circle at 78% 40%,
+      rgba(8, 127, 136, .055),
+      transparent 33%
+    ),
+    var(--gd-bg);
+}
 
-        <div className="gd-service-list">
-          {services.map((service, index) => (
-            <div className="gd-service gd-reveal" key={service}>
-              <span>0{index + 1}</span>
-              <h3>{service}</h3>
-              <span className="gd-arrow">↗</span>
-            </div>
-          ))}
-        </div>
-      </section>
+.gd-hero-topline,
+.gd-hero-bottomline {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  color: #777c76;
+}
 
-      {/* WORK */}
-      <section className="gd-work gd-section" id="gd-work">
-        <div className="gd-label gd-reveal">
-          03 / SELECTED WORK
-        </div>
+.gd-hero-layout {
+  flex: 1;
+  display: grid;
+  grid-template-columns: .78fr 1.22fr;
+  align-items: center;
+  gap: 20px;
+  min-height: 680px;
+}
 
-        <h2 className="gd-reveal">
-          IDEAS MADE
-          <span> VISIBLE.</span>
-        </h2>
+.gd-hero-copy {
+  position: relative;
+  z-index: 2;
+  padding: 30px 0;
+}
 
-        <div className="gd-project-grid">
-          {projects.map((project) => (
-            <article
-              className={`gd-project gd-project-${project.color} gd-reveal`}
-              key={project.number}
-            >
-              <div className="gd-project-art">
-                <span>{project.number}</span>
-                <div className="gd-art-circle" />
-                <strong>{project.title}</strong>
-              </div>
+.gd-eyebrow {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--gd-accent);
+  margin: 0 0 27px;
+}
 
-              <div className="gd-project-info">
-                <div>
-                  <h3>{project.title}</h3>
-                  <p>{project.category}</p>
-                </div>
-                <span>↗</span>
-              </div>
-            </article>
-          ))}
-        </div>
-      </section>
+.gd-hero-copy h1 {
+  font-size: clamp(64px, 8.2vw, 124px);
+  line-height: .84;
+  letter-spacing: -.095em;
+  font-weight: 700;
+  margin: 0;
+}
 
-      {/* MOTION STATEMENT */}
-      <section className="gd-statement">
-        <p>OUR DESIGN PHILOSOPHY</p>
+.gd-hero-copy h1 span {
+  color: var(--gd-accent);
+}
 
-        <h2>
-          MAKE IT
-          <br />
-          <span>MATTER.</span>
-        </h2>
+.gd-hero-description {
+  max-width: 360px;
+  margin: 32px 0 27px;
+  font-size: 14px;
+  line-height: 1.85;
+  color: #626862;
+}
 
-        <div className="gd-statement-circle">TARKA®</div>
-      </section>
+.gd-explore-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 35px;
+  padding-bottom: 9px;
+  border-bottom: 1px solid var(--gd-ink);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.3px;
+  transition: gap .3s ease;
+}
 
-      {/* PROCESS */}
-      <section className="gd-process gd-section">
-        <div className="gd-label gd-reveal">
-          04 / OUR PROCESS
-        </div>
+.gd-explore-link:hover {
+  gap: 48px;
+}
 
-        <h2 className="gd-reveal">
-          FROM IDEA
-          <br />
-          TO IMPACT.
-        </h2>
+.gd-explore-link span {
+  color: var(--gd-accent);
+  font-size: 17px;
+}
 
-        <div className="gd-process-grid">
-          {[
-            ["01", "Discover", "Understanding your vision and goals."],
-            ["02", "Explore", "Researching ideas and creative directions."],
-            ["03", "Design", "Building the visual experience."],
-            ["04", "Deliver", "Refining and bringing everything to life."],
-          ].map(([number, title, description]) => (
-            <div className="gd-process-card gd-reveal" key={number}>
-              <span>{number}</span>
-              <h3>{title}</h3>
-              <p>{description}</p>
-            </div>
-          ))}
-        </div>
-      </section>
+/* POSTER EXHIBITION */
 
-      {/* CTA */}
-      <footer className="gd-footer">
-        <p>TARKA® — GRAPHIC DESIGN</p>
+.gd-poster-exhibition {
+  position: relative;
+  min-width: 0;
+  height: 600px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
 
-        <h2>
-          LET'S CREATE
-          <br />
-          <span>SOMETHING.</span>
-        </h2>
+.gd-exhibition-heading,
+.gd-exhibition-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.4px;
+  color: #656a64;
+}
 
-        <a href="/quote?domain=graphic-design">
-          START A PROJECT ↗
-        </a>
+.gd-exhibition-heading {
+  padding: 0 5px 14px;
+  border-bottom: 1px solid var(--gd-line);
+}
 
-        <div className="gd-footer-bottom">
-          <span>TARKA®</span>
-          <span>DESIGN WITH PURPOSE.</span>
-          <span>© 2026</span>
-        </div>
-      </footer>
+.gd-exhibition-footer {
+  padding: 12px 5px 0;
+  border-top: 1px solid var(--gd-line);
+  font-size: 8px;
+  font-weight: 500;
+}
 
-    </main>
-  );
+.gd-poster-arc {
+  position: relative;
+  height: 500px;
+  width: 100%;
+  perspective: 1000px;
+}
+
+.gd-arc-guide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  color: var(--gd-accent);
+}
+
+.gd-arc-poster {
+  width: 126px;
+  height: 180px;
+  padding: 10px;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+  box-shadow: 0 14px 30px rgba(24, 30, 26, .16);
+  transform-origin: center center;
+  transition:
+    transform .55s cubic-bezier(.2, .7, .2, 1),
+    box-shadow .55s ease;
+  animation: gd-poster-enter .9s both;
+}
+
+.gd-arc-poster:hover {
+  z-index: 8;
+  transform: translateY(-15px) rotate(0deg) scale(1.12) !important;
+  box-shadow: 0 25px 50px rgba(24, 30, 26, .25);
+}
+
+.gd-poster-top,
+.gd-poster-bottom {
+  display: flex;
+  justify-content: space-between;
+  gap: 5px;
+  position: relative;
+  z-index: 2;
+  font-family: "DM Sans", sans-serif;
+  font-size: 7px;
+  font-weight: 700;
+  letter-spacing: .8px;
+}
+
+.gd-poster-bottom {
+  font-size: 6px;
+  letter-spacing: .5px;
+}
+
+.gd-poster-artwork {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.gd-poster-artwork strong {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  font-size: 24px;
+  line-height: .84;
+  letter-spacing: -1.7px;
+  font-weight: 800;
+}
+
+.gd-poster-grain {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  opacity: .12;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
+}
+
+.gd-art-shape {
+  position: absolute;
+  pointer-events: none;
+}
+
+.gd-art-shape-one {
+  width: 110px;
+  height: 110px;
+  right: -35px;
+  top: 5px;
+  border-radius: 50%;
+  background: #f8a52d;
+  mix-blend-mode: screen;
+}
+
+.gd-art-shape-two {
+  width: 90px;
+  height: 90px;
+  border: 13px solid #f5e7d0;
+  border-radius: 50%;
+  transform: translate(28px, -15px);
+}
+
+.gd-art-shape-three {
+  width: 80px;
+  height: 80px;
+  background: #e75d36;
+  transform: rotate(45deg);
+  right: -25px;
+  bottom: -20px;
+}
+
+.gd-art-shape-four {
+  width: 100px;
+  height: 100px;
+  border-radius: 50% 50% 0 50%;
+  background: #f7c7d1;
+  left: -35px;
+  top: 10px;
+}
+
+.gd-art-shape-five {
+  width: 100px;
+  height: 100px;
+  border: 12px solid #e9e9a2;
+  border-radius: 50%;
+  right: -40px;
+  bottom: -30px;
+}
+
+.gd-art-shape-six {
+  width: 130px;
+  height: 30px;
+  background: #f6db56;
+  transform: rotate(-45deg);
+}
+
+.gd-art-shape-seven {
+  width: 95px;
+  height: 95px;
+  border-radius: 50%;
+  background: #f2d3a5;
+  left: -30px;
+  bottom: -25px;
+}
+
+/* Poster colour systems */
+
+.poster-red {
+  background: #ed5148;
+  color: #fff7e8;
+}
+
+.poster-blue {
+  background: #174f9b;
+  color: #fff7e8;
+}
+
+.poster-yellow {
+  background: #f1d44d;
+  color: #191a18;
+}
+
+.poster-pink {
+  background: #e7a5b4;
+  color: #34202b;
+}
+
+.poster-green {
+  background: #16775f;
+  color: #f5f0d8;
+}
+
+.poster-orange {
+  background: #ed8a38;
+  color: #20211e;
+}
+
+.poster-purple {
+  background: #6048a3;
+  color: #fff5dc;
+}
+
+/* Curved poster arrangement */
+
+.gd-arc-poster-1 {
+  left: 2%;
+  bottom: 0;
+  transform: rotate(-13deg);
+  z-index: 1;
+  animation-delay: .05s;
+}
+
+.gd-arc-poster-2 {
+  left: 15%;
+  bottom: 52px;
+  transform: rotate(-9deg);
+  z-index: 2;
+  animation-delay: .12s;
+}
+
+.gd-arc-poster-3 {
+  left: 29%;
+  bottom: 125px;
+  transform: rotate(-5deg);
+  z-index: 3;
+  animation-delay: .19s;
+}
+
+.gd-arc-poster-4 {
+  left: 43%;
+  bottom: 205px;
+  transform: rotate(2deg);
+  z-index: 4;
+  animation-delay: .26s;
+}
+
+.gd-arc-poster-5 {
+  left: 57%;
+  bottom: 275px;
+  transform: rotate(8deg);
+  z-index: 5;
+  animation-delay: .33s;
+}
+
+.gd-arc-poster-6 {
+  left: 70%;
+  bottom: 335px;
+  transform: rotate(13deg);
+  z-index: 6;
+  animation-delay: .4s;
+}
+
+.gd-arc-poster-7 {
+  left: 82%;
+  bottom: 380px;
+  transform: rotate(18deg);
+  z-index: 7;
+  animation-delay: .47s;
+}
+
+@keyframes gd-poster-enter {
+  from {
+    opacity: 0;
+    translate: 0 35px;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+.gd-hero-bottomline {
+  padding-top: 18px;
+  border-top: 1px solid var(--gd-line);
+}
+
+/* INTRODUCTION */
+
+.gd-intro {
+  background: var(--gd-paper);
+}
+
+.gd-intro-content {
+  display: grid;
+  grid-template-columns: 1.35fr .65fr;
+  gap: 75px;
+  align-items: end;
+  padding: 85px 0 65px;
+}
+
+.gd-intro-content h2 {
+  max-width: 820px;
+  font-size: clamp(42px, 6.1vw, 88px);
+  line-height: .98;
+  letter-spacing: -.075em;
+  margin: 0;
+}
+
+.gd-intro-content h2 span {
+  color: var(--gd-accent);
+}
+
+.gd-intro-description {
+  max-width: 370px;
+}
+
+.gd-plus {
+  font-size: 35px;
+  color: var(--gd-accent);
+}
+
+.gd-intro-description p {
+  font-size: 13px;
+  line-height: 1.9;
+  color: #626762;
+}
+
+.gd-intro-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid var(--gd-line);
+  padding-top: 25px;
+  gap: 20px;
+}
+
+.gd-intro-stats div {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.gd-intro-stats strong {
+  font-size: 32px;
+  color: var(--gd-accent);
+}
+
+.gd-intro-stats span {
+  font-size: 9px;
+  letter-spacing: 1.3px;
+  color: #6e736e;
+}
+
+/* SERVICES */
+
+.gd-services {
+  background: #eae9e2;
+}
+
+.gd-services-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 35px;
+  margin: 75px 0 65px;
+}
+
+.gd-services-heading h2,
+.gd-process-heading h2 {
+  font-size: clamp(45px, 7vw, 92px);
+  line-height: .93;
+  letter-spacing: -.075em;
+  margin: 0;
+}
+
+.gd-services-heading h2 span,
+.gd-process-heading h2 span {
+  color: var(--gd-accent);
+}
+
+.gd-services-heading p {
+  max-width: 300px;
+  font-size: 13px;
+  line-height: 1.8;
+  color: #656a65;
+}
+
+.gd-service {
+  display: grid;
+  grid-template-columns: 70px minmax(0, 1.5fr) .6fr 35px;
+  align-items: center;
+  gap: 25px;
+  padding: 28px 0;
+  border-top: 1px solid var(--gd-line);
+  transition: padding .35s ease;
+}
+
+.gd-service:last-child {
+  border-bottom: 1px solid var(--gd-line);
+}
+
+.gd-service:hover {
+  padding-left: 15px;
+}
+
+.gd-service-number,
+.gd-service-tag {
+  font-size: 10px;
+  letter-spacing: 1.4px;
+  color: var(--gd-accent);
+}
+
+.gd-service-main h3 {
+  font-size: clamp(22px, 2.6vw, 34px);
+  margin: 0 0 7px;
+  letter-spacing: -.045em;
+}
+
+.gd-service-main p {
+  max-width: 510px;
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.75;
+  color: #6b706b;
+}
+
+.gd-service-arrow {
+  font-size: 23px;
+  transition: transform .3s ease;
+}
+
+.gd-service:hover .gd-service-arrow {
+  transform: translate(5px, -5px);
+  color: var(--gd-accent);
+}
+
+/* SELECTED WORK */
+
+.gd-work {
+  background: var(--gd-paper);
+}
+
+.gd-work-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 35px;
+  margin: 75px 0 60px;
+}
+
+.gd-work-heading h2 {
+  font-size: clamp(45px, 7vw, 94px);
+  line-height: .92;
+  letter-spacing: -.08em;
+  margin: 0;
+}
+
+.gd-work-heading h2 span {
+  color: var(--gd-accent);
+}
+
+.gd-work-heading p {
+  max-width: 280px;
+  font-size: 13px;
+  line-height: 1.8;
+  color: #6a6e69;
+}
+
+.gd-project-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 35px;
+  row-gap: 55px;
+}
+
+.gd-project {
+  min-width: 0;
+}
+
+.gd-project:nth-child(even) {
+  margin-top: 65px;
+}
+
+.gd-project-art {
+  min-height: 420px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  isolation: isolate;
+  transition: transform .5s ease;
+}
+
+.gd-project:hover .gd-project-art {
+  transform: translateY(-7px);
+}
+
+.gd-project-index,
+.gd-project-art-caption {
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  z-index: 3;
+  font-size: 9px;
+  letter-spacing: 1.3px;
+  font-weight: 700;
+}
+
+.gd-project-index {
+  top: 20px;
+}
+
+.gd-project-art-caption {
+  bottom: 20px;
+}
+
+.gd-project-art > strong {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 2;
+  font-size: clamp(55px, 8vw, 105px);
+  line-height: .8;
+  letter-spacing: -.095em;
+  font-weight: 800;
+  transition: transform .5s ease;
+}
+
+.gd-project:hover .gd-project-art > strong {
+  transform: scale(1.07) rotate(-3deg);
+}
+
+.gd-project-art-shape {
+  position: absolute;
+  right: -30px;
+  bottom: -75px;
+  font-size: 260px;
+  opacity: .2;
+  line-height: 1;
+  transition: transform .7s ease;
+}
+
+.gd-project:hover .gd-project-art-shape {
+  transform: rotate(35deg) scale(1.1);
+}
+
+.gd-project-2 .gd-project-art > strong {
+  font-size: clamp(65px, 9vw, 120px);
+  transform: rotate(-8deg);
+}
+
+.gd-project-3 .gd-project-art > strong {
+  font-size: clamp(55px, 7vw, 95px);
+}
+
+.gd-project-4 .gd-project-art > strong {
+  font-size: clamp(45px, 6vw, 85px);
+  text-align: center;
+}
+
+.gd-project-5 .gd-project-art > strong {
+  font-size: clamp(55px, 7vw, 95px);
+  transform: rotate(-90deg);
+}
+
+.gd-project-6 .gd-project-art > strong {
+  font-size: clamp(50px, 7vw, 90px);
+}
+
+.gd-project-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 19px 0;
+  border-bottom: 1px solid var(--gd-line);
+}
+
+.gd-project-info h3 {
+  font-size: 19px;
+  margin: 0 0 6px;
+}
+
+.gd-project-info p {
+  font-size: 11px;
+  color: #777b75;
+  margin: 0;
+}
+
+.gd-project-info > span {
+  font-size: 22px;
+  transition: transform .3s ease;
+}
+
+.gd-project:hover .gd-project-info > span {
+  transform: translate(4px, -4px);
+  color: var(--gd-accent);
+}
+
+/* STATEMENT */
+
+.gd-statement {
+  position: relative;
+  overflow: hidden;
+  padding: 125px 8%;
+  background: #d8e6df;
+  color: var(--gd-ink);
+  isolation: isolate;
+}
+
+.gd-statement-inner {
+  position: relative;
+  z-index: 2;
+}
+
+.gd-statement-inner > span {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.gd-statement h2 {
+  font-size: clamp(55px, 10vw, 138px);
+  line-height: .88;
+  letter-spacing: -.09em;
+  margin: 55px 0 25px;
+}
+
+.gd-statement h2 span {
+  color: var(--gd-accent);
+}
+
+.gd-statement-inner > p {
+  font-size: 13px;
+  color: #59645e;
+}
+
+.gd-statement-symbol {
+  position: absolute;
+  right: 5%;
+  bottom: -125px;
+  font-size: clamp(250px, 35vw, 480px);
+  line-height: 1;
+  color: rgba(8, 127, 136, .12);
+  animation: gd-symbol-rotate 35s linear infinite;
+  z-index: 1;
+  pointer-events: none;
+}
+
+@keyframes gd-symbol-rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* PROCESS */
+
+.gd-process {
+  background: var(--gd-bg);
+}
+
+.gd-process-heading {
+  margin: 75px 0 65px;
+}
+
+.gd-process-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 22px;
+}
+
+.gd-process-card {
+  min-width: 0;
+  padding-top: 18px;
+  border-top: 1px solid var(--gd-line);
+}
+
+.gd-process-card-top {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--gd-accent);
+}
+
+.gd-process-card-top span:last-child {
+  color: var(--gd-ink);
+}
+
+.gd-process-line {
+  width: 0;
+  height: 2px;
+  margin-top: 25px;
+  background: var(--gd-accent);
+  transition: width .6s ease;
+}
+
+.gd-process-card:hover .gd-process-line {
+  width: 100%;
+}
+
+.gd-process-card h3 {
+  font-size: 27px;
+  letter-spacing: -.05em;
+  margin: 30px 0 12px;
+}
+
+.gd-process-card p {
+  max-width: 240px;
+  font-size: 12px;
+  line-height: 1.85;
+  color: #727771;
+}
+
+/* CTA */
+
+.gd-cta {
+  min-height: 540px;
+  padding: 110px 8%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 40px;
+  position: relative;
+  overflow: hidden;
+  background: #f0e9dc;
+}
+
+.gd-cta-content {
+  position: relative;
+  z-index: 2;
+}
+
+.gd-cta-content > span {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--gd-accent);
+}
+
+.gd-cta h2 {
+  font-size: clamp(55px, 9vw, 125px);
+  line-height: .9;
+  letter-spacing: -.09em;
+  margin: 35px 0 25px;
+}
+
+.gd-cta h2 span {
+  color: var(--gd-accent);
+}
+
+.gd-cta-content > p {
+  max-width: 430px;
+  font-size: 13px;
+  line-height: 1.8;
+  color: #666b64;
+  margin-bottom: 30px;
+}
+
+.gd-cta-content > a {
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 45px;
+  min-width: 220px;
+  padding: 17px 20px;
+  background: var(--gd-accent);
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  transition: background .3s ease;
+}
+
+.gd-cta-content > a:hover {
+  background: var(--gd-ink);
+}
+
+.gd-cta-content > a span {
+  font-size: 18px;
+}
+
+.gd-cta-decoration {
+  display: flex;
+  align-items: center;
+  font-size: clamp(130px, 22vw, 300px);
+  line-height: .7;
+  font-weight: 800;
+  letter-spacing: -.15em;
+  color: rgba(8, 127, 136, .13);
+  transform: rotate(-12deg);
+  user-select: none;
+}
+
+.gd-cta-decoration span:last-child {
+  transform: translate(-25px, 65px);
+}
+
+/* FOOTER */
+
+.gd-footer {
+  min-height: 105px;
+  padding: 25px 7%;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 20px 35px;
+  background: var(--gd-bg);
+  border-top: 1px solid var(--gd-line);
+}
+
+.gd-footer-logo {
+  font-size: 24px;
+}
+
+.gd-footer > span,
+.gd-footer > a:not(.gd-footer-logo) {
+  font-size: 9px;
+  letter-spacing: 1.2px;
+  color: #666b65;
+}
+
+.gd-footer > a:not(.gd-footer-logo) {
+  justify-self: end;
+}
+
+.gd-footer-copy {
+  grid-column: 1 / -1;
+  padding-top: 13px;
+  border-top: 1px solid var(--gd-line);
+}
+
+/* TABLET */
+
+@media (max-width: 1050px) {
+  .gd-hero {
+    min-height: auto;
+  }
+
+  .gd-hero-layout {
+    grid-template-columns: .72fr 1.28fr;
+    min-height: 620px;
+  }
+
+  .gd-poster-exhibition {
+    height: 520px;
+  }
+
+  .gd-poster-arc {
+    height: 430px;
+  }
+
+  .gd-arc-poster {
+    width: 105px;
+    height: 155px;
+  }
+
+  .gd-arc-poster-2 {
+    bottom: 42px;
+  }
+
+  .gd-arc-poster-3 {
+    bottom: 105px;
+  }
+
+  .gd-arc-poster-4 {
+    bottom: 170px;
+  }
+
+  .gd-arc-poster-5 {
+    bottom: 230px;
+  }
+
+  .gd-arc-poster-6 {
+    bottom: 280px;
+  }
+
+  .gd-arc-poster-7 {
+    bottom: 320px;
+  }
+
+  .gd-process-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: 45px;
+  }
+}
+
+/* MOBILE / SMALL TABLET */
+
+@media (max-width: 700px) {
+  .gd-nav {
+    height: 68px;
+    padding: 0 6%;
+  }
+
+  .gd-nav-label {
+    display: none;
+  }
+
+  .gd-hero {
+    padding: 22px 6% 25px;
+  }
+
+  .gd-hero-topline,
+  .gd-hero-bottomline {
+    font-size: 8px;
+    letter-spacing: .8px;
+  }
+
+  .gd-hero-layout {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 30px;
+    padding: 65px 0 30px;
+  }
+
+  .gd-hero-copy h1 {
+    font-size: clamp(65px, 16vw, 100px);
+  }
+
+  .gd-hero-description {
+    margin-top: 24px;
+    max-width: 440px;
+  }
+
+  .gd-poster-exhibition {
+    height: 430px;
+    margin-top: 10px;
+  }
+
+  .gd-poster-arc {
+    height: 350px;
+  }
+
+  .gd-arc-poster {
+    width: 82px;
+    height: 122px;
+    padding: 7px;
+  }
+
+  .gd-poster-artwork strong {
+    font-size: 16px;
+    letter-spacing: -1px;
+  }
+
+  .gd-poster-top,
+  .gd-poster-bottom {
+    font-size: 5px;
+  }
+
+  .gd-arc-poster-1 {
+    left: 0;
+    bottom: 0;
+  }
+
+  .gd-arc-poster-2 {
+    left: 12%;
+    bottom: 38px;
+  }
+
+  .gd-arc-poster-3 {
+    left: 25%;
+    bottom: 82px;
+  }
+
+  .gd-arc-poster-4 {
+    left: 38%;
+    bottom: 130px;
+  }
+
+  .gd-arc-poster-5 {
+    left: 51%;
+    bottom: 180px;
+  }
+
+  .gd-arc-poster-6 {
+    left: 64%;
+    bottom: 220px;
+  }
+
+  .gd-arc-poster-7 {
+    left: 76%;
+    bottom: 250px;
+  }
+
+  .gd-exhibition-heading,
+  .gd-exhibition-footer {
+    font-size: 8px;
+  }
+
+  .gd-section {
+    padding: 78px 6%;
+  }
+
+  .gd-section-label {
+    font-size: 8px;
+    letter-spacing: .8px;
+  }
+
+  .gd-intro-content {
+    grid-template-columns: 1fr;
+    gap: 30px;
+    padding: 55px 0 40px;
+  }
+
+  .gd-intro-content h2 {
+    font-size: clamp(42px, 10vw, 65px);
+  }
+
+  .gd-intro-stats {
+    gap: 12px;
+  }
+
+  .gd-intro-stats strong {
+    font-size: 25px;
+  }
+
+  .gd-intro-stats span {
+    font-size: 7px;
+    line-height: 1.5;
+  }
+
+  .gd-services-heading,
+  .gd-work-heading {
+    flex-direction: column;
+    align-items: flex-start;
+    margin: 55px 0 40px;
+  }
+
+  .gd-services-heading h2,
+  .gd-work-heading h2,
+  .gd-process-heading h2 {
+    font-size: clamp(43px, 11vw, 68px);
+  }
+
+  .gd-service {
+    grid-template-columns: 35px 1fr 25px;
+    gap: 12px;
+    padding: 24px 0;
+  }
+
+  .gd-service-tag {
+    display: none;
+  }
+
+  .gd-service-main h3 {
+    font-size: 22px;
+  }
+
+  .gd-service-main p {
+    font-size: 11px;
+  }
+
+  .gd-project-grid {
+    grid-template-columns: 1fr;
+    row-gap: 35px;
+  }
+
+  .gd-project:nth-child(even) {
+    margin-top: 0;
+  }
+
+  .gd-project-art {
+    min-height: 380px;
+  }
+
+  .gd-project-art > strong {
+    font-size: clamp(65px, 15vw, 95px);
+  }
+
+  .gd-statement {
+    padding: 85px 6%;
+  }
+
+  .gd-statement h2 {
+    font-size: clamp(48px, 11vw, 80px);
+  }
+
+  .gd-statement-symbol {
+    right: -20%;
+    bottom: -50px;
+  }
+
+  .gd-process-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 35px 18px;
+  }
+
+  .gd-process-card h3 {
+    font-size: 23px;
+    margin-top: 23px;
+  }
+
+  .gd-process-card p {
+    font-size: 11px;
+  }
+
+  .gd-cta {
+    min-height: 0;
+    padding: 85px 6%;
+  }
+
+  .gd-cta h2 {
+    font-size: clamp(52px, 12vw, 82px);
+  }
+
+  .gd-cta-decoration {
+    position: absolute;
+    right: 0;
+    bottom: 20px;
+    opacity: .5;
+  }
+
+  .gd-footer {
+    grid-template-columns: 1fr auto;
+    padding: 25px 6%;
+  }
+
+  .gd-footer > span:first-of-type {
+    display: none;
+  }
+
+  .gd-footer > a:not(.gd-footer-logo) {
+    justify-self: end;
+  }
+
+  .gd-footer-copy {
+    grid-column: 1 / -1;
+  }
+}
+
+/* SMALL MOBILE */
+
+@media (max-width: 390px) {
+  .gd-hero-topline span:last-child,
+  .gd-hero-bottomline span:last-child {
+    display: none;
+  }
+
+  .gd-poster-exhibition {
+    height: 365px;
+  }
+
+  .gd-poster-arc {
+    height: 295px;
+  }
+
+  .gd-arc-poster {
+    width: 70px;
+    height: 105px;
+  }
+
+  .gd-arc-poster-2 {
+    bottom: 30px;
+  }
+
+  .gd-arc-poster-3 {
+    bottom: 68px;
+  }
+
+  .gd-arc-poster-4 {
+    bottom: 105px;
+  }
+
+  .gd-arc-poster-5 {
+    bottom: 145px;
+  }
+
+  .gd-arc-poster-6 {
+    bottom: 180px;
+  }
+
+  .gd-arc-poster-7 {
+    bottom: 210px;
+  }
+
+  .gd-process-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .gd-process-card p {
+    max-width: 300px;
+  }
+}
+
+/* ACCESSIBILITY */
+
+@media (prefers-reduced-motion: reduce) {
+  .gd-page *,
+  .gd-page *::before,
+  .gd-page *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .gd-reveal {
+    opacity: 1;
+    transform: none;
+  }
 }

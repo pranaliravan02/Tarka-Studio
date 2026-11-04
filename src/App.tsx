@@ -37,6 +37,11 @@ function App() {
           element={<DomainPage domainId="video-generation" />}
         />
 
+        <Route
+          path="/photography"
+          element={<DomainPage domainId="photography" />}
+        />
+
         <Route path="/quote" element={<QuotePage />} />
       </Routes>
     </BrowserRouter>

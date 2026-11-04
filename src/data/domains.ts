@@ -75,4 +75,17 @@ export const domains: Domain[] = [
       "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=1600&q=80&auto=format&fit=crop",
     alt: "A cinematic production setup with a camera and studio lighting",
   },
+    {
+    id: "photography",
+    number: "06",
+    title: "Photography",
+    category: "VISUALS",
+    description:
+      "We capture stories through thoughtful imagery — from product and brand photography to portraits, campaigns and editorial visuals.",
+    imageTeaser:
+      "https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=700&q=80&auto=format&fit=crop",
+    imageLarge:
+      "https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=1600&q=80&auto=format&fit=crop",
+    alt: "Professional camera and photography equipment in a creative studio",
+  },
 ];

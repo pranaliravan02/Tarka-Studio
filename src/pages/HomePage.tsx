@@ -8,6 +8,12 @@ import HomeCTA from "../components/HomeCTA";
 import { domains } from "../data/domains";
 import { useReducedMotion } from "../hooks/useReducedMotion";
 
+// The existing home film animation is designed for five domains.
+// Photography is available through its own page and domain navigation.
+const homeDomains = domains.filter(
+  (domain) => domain.id !== "photography"
+);
+
 function HomePage() {
   const reducedMotion = useReducedMotion();
   const navigate = useNavigate();
@@ -22,7 +28,7 @@ function HomePage() {
         "video-generation": "/video",
       };
 
-      const domain = domains[index];
+      const domain = homeDomains[index];
 
       if (domain) {
         navigate(routes[domain.id]);
@@ -34,13 +40,13 @@ function HomePage() {
   return (
     <main>
       <Hero
-        domains={domains}
+        domains={homeDomains}
         reducedMotion={reducedMotion}
         onSelectDomain={navigateToDomain}
       />
 
       <DomainSection
-        domains={domains}
+        domains={homeDomains}
         reducedMotion={reducedMotion}
         onSelectDomain={navigateToDomain}
       />

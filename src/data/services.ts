@@ -190,6 +190,49 @@ export const serviceCategories: ServiceCategory[] = [
       },
     ],
   },
+    {
+    id: "photography",
+    name: "Photography",
+    shortName: "Photography",
+    services: [
+      {
+        id: "photo-product",
+        name: "Product Photography",
+        unit: "per project",
+        price: 25000,
+        description:
+          "Professional product images with carefully planned lighting, composition and styling for brands and e-commerce.",
+        domainId: "photography",
+      },
+      {
+        id: "photo-brand",
+        name: "Brand & Lifestyle Photography",
+        unit: "per shoot",
+        price: 35000,
+        description:
+          "Visual storytelling that captures a brand's personality, people, products and everyday experiences.",
+        domainId: "photography",
+      },
+      {
+        id: "photo-campaign",
+        name: "Campaign & Editorial Photography",
+        unit: "per project",
+        price: 45000,
+        description:
+          "Creative campaign and editorial imagery developed around a visual concept and communication goal.",
+        domainId: "photography",
+      },
+      {
+        id: "photo-portrait",
+        name: "Portrait Photography",
+        unit: "per session",
+        price: 12000,
+        description:
+          "Professional portraits for teams, founders, creatives and personal brand communication.",
+        domainId: "photography",
+      },
+    ],
+  },
 ];
 
 export const quoteTerms = [

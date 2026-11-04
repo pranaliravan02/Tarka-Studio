@@ -11,6 +11,7 @@ import DomainHero from "../components/domain/DomainHero";
 import VideoGenerationHero from "../components/domain/VideoGenerationHero";
 import DigitalHero from "../components/domain/DigitalHero";
 import GraphicDesignPage from "../components/domain/GraphicDesignPage";
+import MarketingAttentionTunnel from "../components/domain/MarketingAttentionTunnel";
 import DomainIntro from "../components/domain/DomainIntro";
 import DomainCapabilities from "../components/domain/DomainCapabilities";
 import DomainWork from "../components/domain/DomainWork";
@@ -23,13 +24,24 @@ interface DomainPageProps {
   domainId: string;
 }
 
+const domainRoutes: Record<string, string> = {
+  "product-design": "/product",
+  "graphic-design": "/identity",
+  "uiux-web": "/digital",
+  marketing: "/reach",
+  "video-generation": "/video",
+  photography: "/photography",
+};
+
 function DomainPage({ domainId }: DomainPageProps) {
   const reducedMotion = useReducedMotion();
 
+  // Find the current domain configuration.
   const domain = domains.find(
     (item) => item.id === domainId
   );
 
+  // Scroll to the top whenever the domain changes.
   useEffect(() => {
     window.scrollTo({
       top: 0,
@@ -37,6 +49,7 @@ function DomainPage({ domainId }: DomainPageProps) {
     });
   }, [domainId]);
 
+  // Handle invalid domain routes.
   if (!domain) {
     return (
       <main className="domain-not-found">
@@ -49,7 +62,10 @@ function DomainPage({ domainId }: DomainPageProps) {
             The page you're looking for doesn't exist.
           </p>
 
-          <Link to="/" className="domain-not-found__link">
+          <Link
+            to="/"
+            className="domain-not-found__link"
+          >
             <span>Return to Tarka</span>
             <span aria-hidden="true">↗</span>
           </Link>
@@ -58,19 +74,19 @@ function DomainPage({ domainId }: DomainPageProps) {
     );
   }
 
-  // Graphic Design has its own independent visual experience.
+  // Graphic Design has its own complete standalone page.
   if (domain.id === "graphic-design") {
     return <GraphicDesignPage />;
   }
 
+  // Find previous and next domains.
   const currentIndex = domains.findIndex(
     (item) => item.id === domain.id
   );
 
   const previousDomain =
     domains[
-      (currentIndex - 1 + domains.length) %
-        domains.length
+      (currentIndex - 1 + domains.length) % domains.length
     ];
 
   const nextDomain =
@@ -78,20 +94,42 @@ function DomainPage({ domainId }: DomainPageProps) {
       (currentIndex + 1) % domains.length
     ];
 
-  const getRoute = (id: string) => {
-    const routes: Record<string, string> = {
-      "product-design": "/product",
-      "graphic-design": "/identity",
-      "uiux-web": "/digital",
-      marketing: "/reach",
-      "video-generation": "/video",
-    };
+  // ==========================================
+  // DOMAIN-SPECIFIC HERO
+  // ==========================================
 
-    return routes[id] ?? "/";
+  const renderHero = () => {
+    switch (domain.id) {
+      case "uiux-web":
+        return <DigitalHero domain={domain} />;
+
+      case "video-generation":
+        return (
+          <VideoGenerationHero
+            title={domain.title}
+            description={domain.description}
+          />
+        );
+
+      case "marketing":
+        return <MarketingAttentionTunnel />;
+
+      default:
+        return <DomainHero domain={domain} />;
+    }
   };
 
-  const isVideoGeneration =
-    domain.id === "video-generation";
+  // ==========================================
+  // DOMAIN-SPECIFIC SELECTED WORK
+  // ==========================================
+
+  const renderWork = () => {
+    return <DomainWork domainId={domain.id} />;
+  };
+
+  // ==========================================
+  // SHARED DOMAIN PAGE LAYOUT
+  // ==========================================
 
   return (
     <main
@@ -101,6 +139,10 @@ function DomainPage({ domainId }: DomainPageProps) {
           : ""
       }`}
     >
+      {/* ======================================
+          01. SHARED NAVIGATION
+      ====================================== */}
+
       <header className="domain-page__nav">
         <Link
           to="/"
@@ -116,7 +158,9 @@ function DomainPage({ domainId }: DomainPageProps) {
             {String(domains.length).padStart(2, "0")}
           </span>
 
-          <span>{domain.category}</span>
+          <span>
+            {domain.category}
+          </span>
         </div>
 
         <Link
@@ -124,40 +168,67 @@ function DomainPage({ domainId }: DomainPageProps) {
           className="domain-page__quote-link"
         >
           <span>Get a Quote</span>
-          <span aria-hidden="true">↗</span>
+
+          <span aria-hidden="true">
+            ↗
+          </span>
         </Link>
       </header>
 
-      {isVideoGeneration ? (
-        <VideoGenerationHero
-          title={domain.title}
-          description={domain.description}
-        />
-      ) : domain.id === "uiux-web" ? (
-        <DigitalHero domain={domain} />
-      ) : (
-        <DomainHero domain={domain} />
+      {/* ======================================
+          02. DOMAIN-SPECIFIC HERO
+      ====================================== */}
+
+      {renderHero()}
+
+      {/* ======================================
+          03. SHARED INTRODUCTION
+          Marketing uses its cinematic hero as its introduction.
+      ====================================== */}
+
+      {domain.id !== "marketing" && (
+        <DomainIntro domain={domain} />
       )}
 
-      <DomainIntro domain={domain} />
+      {/* ======================================
+          04. DOMAIN CAPABILITIES
+      ====================================== */}
 
       <DomainCapabilities
         domainId={domain.id}
       />
 
-      <DomainWork
-        domainId={domain.id}
-      />
+      {/* ======================================
+          06. DOMAIN-SPECIFIC SELECTED WORK
+      ====================================== */}
+
+      {renderWork()}
+
+      {/* ======================================
+          07. SHARED PROCESS
+      ====================================== */}
 
       <DomainProcess />
 
+      {/* ======================================
+          08. SHARED CALL TO ACTION
+      ====================================== */}
+
       <DomainCTA domain={domain} />
+
+      {/* ======================================
+          09. SHARED DOMAIN NAVIGATION
+      ====================================== */}
 
       <DomainNavigation
         previousDomain={previousDomain}
         nextDomain={nextDomain}
-        getRoute={getRoute}
+        getRoute={(id) => domainRoutes[id] ?? "/"}
       />
+
+      {/* ======================================
+          10. SHARED FOOTER
+      ====================================== */}
 
       <DomainFooter />
     </main>

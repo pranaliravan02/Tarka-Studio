@@ -947,3 +947,131 @@ main {
     scroll-behavior: auto !important;
   }
 }
+/* =========================================================
+   TARKA GLOBAL VISUAL IDENTITY — TECHNICAL GRID
+   Shared background system for the entire website
+========================================================= */
+
+:root {
+  --tarka-grid-size: 62px;
+
+  /* Light grid */
+  --tarka-grid-light:
+    linear-gradient(
+      to right,
+      rgba(0, 127, 143, 0.105) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      rgba(0, 127, 143, 0.105) 1px,
+      transparent 1px
+    );
+
+  /* Dark grid */
+  --tarka-grid-dark:
+    linear-gradient(
+      to right,
+      rgba(220, 250, 252, 0.065) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      rgba(220, 250, 252, 0.065) 1px,
+      transparent 1px
+    );
+}
+
+/* Light technical background */
+
+.tarka-grid-light {
+  background-image:
+    var(--tarka-grid-light),
+    radial-gradient(
+      circle at 75% 45%,
+      rgba(0, 127, 143, 0.10),
+      transparent 38%
+    );
+
+  background-size:
+    var(--tarka-grid-size) var(--tarka-grid-size),
+    100% 100%;
+
+  background-position: center;
+}
+
+/* Dark technical background */
+
+.tarka-grid-dark {
+  background-image:
+    var(--tarka-grid-dark),
+    radial-gradient(
+      circle at 75% 45%,
+      rgba(0, 127, 143, 0.17),
+      transparent 40%
+    );
+
+  background-size:
+    var(--tarka-grid-size) var(--tarka-grid-size),
+    100% 100%;
+
+  background-position: center;
+}
+
+/* Reusable subtle grid overlay */
+
+.tarka-grid-overlay {
+  position: relative;
+  isolation: isolate;
+}
+
+.tarka-grid-overlay::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: var(--tarka-grid-light);
+  background-size:
+    var(--tarka-grid-size) var(--tarka-grid-size);
+}
+
+/* Mobile grid spacing */
+
+@media (max-width: 640px) {
+  :root {
+    --tarka-grid-size: 42px;
+  }
+}
+
+/* =========================================================
+   TARKA SITE-WIDE TECHNICAL GRID
+   Fixed overlay keeps the signature grid visible across routes
+   without requiring every page component to implement it.
+========================================================= */
+
+body {
+  position: relative;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  pointer-events: none;
+  opacity: 0.13;
+  background-image:
+    linear-gradient(to right, rgba(19, 185, 199, 0.22) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(19, 185, 199, 0.22) 1px, transparent 1px);
+  background-size: 72px 72px;
+  background-position: center top;
+  mix-blend-mode: screen;
+}
+
+@media (max-width: 640px) {
+  body::after {
+    background-size: 44px 44px;
+    opacity: 0.11;
+  }
+}

@@ -1,727 +1,555 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap');
-
-.gd-page {
-  --gd-blue: #007f8f;
-  --gd-black: #080b0c;
-  --gd-white: #f7f9f9;
-
-  background: var(--gd-black);
-  color: var(--gd-white);
-  font-family: 'Space Grotesk', sans-serif;
-  overflow: hidden;
-}
-
-.gd-page *,
-.gd-page *::before,
-.gd-page *::after {
-  box-sizing: border-box;
-}
-
-.gd-page a {
-  color: inherit;
-  text-decoration: none;
-}
-
-/* NAVIGATION */
-
-.gd-nav {
-  height: 82px;
-  padding: 0 6%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid rgba(255,255,255,0.15);
-  position: relative;
-  z-index: 5;
-}
-
-.gd-logo {
-  font-size: 27px;
-  font-weight: 700;
-  letter-spacing: -2px;
-}
-
-.gd-logo span {
-  font-size: 11px;
-  vertical-align: top;
-  margin-left: 3px;
-}
-
-.gd-nav-label,
-.gd-nav-cta {
-  font-size: 11px;
-  letter-spacing: 1.5px;
-}
-
-.gd-nav-cta {
-  border: 1px solid rgba(255,255,255,0.5);
-  padding: 12px 18px;
-  transition: 0.3s ease;
-}
-
-.gd-nav-cta:hover {
-  background: var(--gd-blue);
-  border-color: var(--gd-blue);
-}
-
-/* HERO */
-
-.gd-hero {
-  min-height: 760px;
-  padding: 35px 6% 70px;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.gd-hero-top,
-.gd-hero-bottom {
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
-}
-
-.gd-hero-top,
-.gd-eyebrow,
-.gd-hero-bottom,
-.gd-scroll {
-  font-size: 11px;
-  letter-spacing: 1.5px;
-}
-
-.gd-hero-content {
-  position: relative;
-  z-index: 2;
-  margin: 80px 0;
-}
-
-.gd-eyebrow {
-  color: var(--gd-blue);
-  margin-bottom: 25px;
-}
-
-.gd-hero-title {
-  font-size: clamp(65px, 11vw, 155px);
-  line-height: 0.82;
-  letter-spacing: -0.09em;
-  font-weight: 700;
-  margin: 0;
-}
-
-.gd-hero-title > span:not(.gd-outline) {
-  color: var(--gd-blue);
-}
-
-.gd-outline {
-  color: transparent;
-  -webkit-text-stroke: 1.5px var(--gd-white);
-}
-
-.gd-hero-bottom {
-  margin-top: 55px;
-  align-items: flex-end;
-}
-
-.gd-hero-bottom p {
-  max-width: 330px;
-  font-size: 14px;
-  line-height: 1.8;
-  letter-spacing: 0;
-  color: rgba(255,255,255,0.7);
-}
-
-.gd-scroll {
-  padding-bottom: 10px;
-}
-
-.gd-scroll span {
-  color: var(--gd-blue);
-  margin-left: 12px;
-}
-
-.gd-hero-decoration {
-  position: absolute;
-  width: 260px;
-  height: 260px;
-  right: 8%;
-  top: 25%;
-  opacity: 0.5;
-  pointer-events: none;
-}
-
-.gd-orbit {
-  position: absolute;
-  border: 1px solid var(--gd-blue);
-  border-radius: 50%;
-  inset: 0;
-  animation: gd-rotate 18s linear infinite;
-}
-
-.gd-orbit-one {
-  transform: scaleY(0.35) rotate(35deg);
-}
-
-.gd-orbit-two {
-  transform: scaleY(0.35) rotate(-35deg);
-  animation-direction: reverse;
-}
-
-.gd-orbit-center {
-  position: absolute;
-  inset: 40%;
-  background: var(--gd-blue);
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  font-size: 22px;
-  font-weight: 700;
-  animation: gd-pulse 3s ease-in-out infinite;
-}
-
-/* COMMON SECTION */
-
-.gd-section {
-  padding: 110px 8%;
-}
-
-.gd-section-label {
-  display: flex;
-  justify-content: space-between;
-  padding-bottom: 22px;
-  border-bottom: 1px solid rgba(255,255,255,0.2);
-  font-size: 11px;
-  letter-spacing: 1.5px;
-}
-
-.gd-reveal {
-  opacity: 0;
-  transform: translateY(35px);
-  transition: opacity 0.8s ease, transform 0.8s ease;
-}
-
-.gd-reveal.gd-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* INTRO */
-
-.gd-intro {
-  background: var(--gd-white);
-  color: var(--gd-black);
-}
-
-.gd-intro .gd-section-label {
-  border-color: rgba(0,0,0,0.2);
-}
-
-.gd-intro-content {
-  display: grid;
-  grid-template-columns: 1.4fr 0.6fr;
-  gap: 70px;
-  align-items: end;
-  padding-top: 85px;
-}
-
-.gd-intro-content h2 {
-  font-size: clamp(42px, 6.5vw, 90px);
-  line-height: 0.95;
-  letter-spacing: -0.07em;
-  margin: 0;
-}
-
-.gd-intro-content h2 span {
-  color: var(--gd-blue);
-}
-
-.gd-intro-description {
-  max-width: 350px;
-}
-
-.gd-plus {
-  font-size: 38px;
-  color: var(--gd-blue);
-}
-
-.gd-intro-description p {
-  font-size: 14px;
-  line-height: 1.9;
-  color: #50595a;
-}
-
-/* SERVICES */
-
-.gd-section-heading {
-  font-size: clamp(45px, 7vw, 95px);
-  line-height: 0.95;
-  letter-spacing: -0.07em;
-  margin: 80px 0 65px;
-}
-
-.gd-section-heading span {
-  color: var(--gd-blue);
-}
-
-.gd-service {
-  display: grid;
-  grid-template-columns: 0.3fr 1.5fr 0.7fr 40px;
-  align-items: center;
-  gap: 25px;
-  padding: 35px 0;
-  border-top: 1px solid rgba(255,255,255,0.2);
-  transition: padding 0.35s ease;
-}
-
-.gd-service:last-child {
-  border-bottom: 1px solid rgba(255,255,255,0.2);
-}
-
-.gd-service:hover {
-  padding-left: 18px;
-}
-
-.gd-service-number,
-.gd-service-tag {
-  font-size: 11px;
-  letter-spacing: 1.5px;
-  color: var(--gd-blue);
-}
-
-.gd-service-main h3 {
-  font-size: clamp(23px, 3vw, 38px);
-  margin: 0 0 10px;
-}
-
-.gd-service-main p {
-  font-size: 13px;
-  color: rgba(255,255,255,0.6);
-  max-width: 450px;
-  line-height: 1.7;
-  margin: 0;
-}
-
-.gd-service-arrow {
-  font-size: 25px;
-  transition: transform 0.3s ease;
-}
-
-.gd-service:hover .gd-service-arrow {
-  transform: translate(5px, -5px);
-  color: var(--gd-blue);
-}
-
-/* WORK */
-
-.gd-work {
-  background: var(--gd-white);
-  color: var(--gd-black);
-}
-
-.gd-work .gd-section-label {
-  border-color: rgba(0,0,0,0.2);
-}
-
-.gd-work-heading {
-  display: flex;
-  justify-content: space-between;
-  align-items: end;
-  gap: 30px;
-  margin: 70px 0;
-}
-
-.gd-work-heading h2 {
-  font-size: clamp(45px, 7vw, 95px);
-  line-height: 0.9;
-  letter-spacing: -0.07em;
-  margin: 0;
-}
-
-.gd-work-heading h2 span {
-  color: var(--gd-blue);
-}
-
-.gd-work-heading p {
-  max-width: 250px;
-  font-size: 13px;
-  line-height: 1.7;
-  color: #555;
-}
-
-.gd-project-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-}
-
-.gd-project {
-  min-width: 0;
-}
-
-.gd-project-top {
-  display: flex;
-  justify-content: space-between;
-  padding: 15px 0;
-  font-size: 10px;
-  letter-spacing: 1px;
-}
-
-.gd-project-art {
-  min-height: 350px;
-  position: relative;
-  display: grid;
-  place-items: center;
-  overflow: hidden;
-}
-
-.gd-project-blue .gd-project-art {
-  background: var(--gd-blue);
-  color: white;
-}
-
-.gd-project-white .gd-project-art {
-  background: #e2e9e9;
-  color: var(--gd-black);
-}
-
-.gd-project-dark .gd-project-art {
-  background: var(--gd-black);
-  color: white;
-}
-
-.gd-project-symbol {
-  position: relative;
-  z-index: 2;
-  font-size: clamp(75px, 10vw, 140px);
-  font-weight: 700;
-  letter-spacing: -12px;
-  transition: transform 0.5s ease;
-}
-
-.gd-project:hover .gd-project-symbol {
-  transform: scale(1.2) rotate(-8deg);
-}
-
-.gd-project-shape {
-  position: absolute;
-  width: 190px;
-  height: 190px;
-  border: 1px solid currentColor;
-  border-radius: 50%;
-  transition: transform 0.7s ease;
-}
-
-.gd-project:hover .gd-project-shape {
-  transform: scale(1.7) rotate(45deg);
-}
-
-.gd-project-info {
-  padding: 20px 0;
-}
-
-.gd-project-info h3 {
-  font-size: 21px;
-  margin: 0 0 8px;
-}
-
-.gd-project-info span {
-  font-size: 11px;
-  color: #666;
-}
-
-/* STATEMENT */
-
-.gd-statement {
-  padding: 120px 8%;
-  background: var(--gd-blue);
-  position: relative;
-  overflow: hidden;
-}
-
-.gd-statement-inner {
-  position: relative;
-  z-index: 1;
-}
-
-.gd-statement-inner > span {
-  font-size: 11px;
-  letter-spacing: 2px;
-}
-
-.gd-statement h2 {
-  font-size: clamp(55px, 10vw, 135px);
-  line-height: 0.9;
-  letter-spacing: -0.08em;
-  margin: 55px 0 0;
-}
-
-.gd-statement h2 span {
-  color: var(--gd-black);
-}
-
-.gd-statement-mark {
-  position: absolute;
-  right: 5%;
-  bottom: 0;
-  font-size: 180px;
-  opacity: 0.18;
-  animation: gd-rotate 25s linear infinite;
-}
-
-/* PROCESS */
-
-.gd-process-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
-}
-
-.gd-process-card {
-  border-top: 1px solid rgba(255,255,255,0.4);
-  padding-top: 22px;
-  position: relative;
-}
-
-.gd-process-card > span {
-  font-size: 12px;
-  color: var(--gd-blue);
-}
-
-.gd-process-card h3 {
-  font-size: 27px;
-  margin: 55px 0 15px;
-}
-
-.gd-process-card p {
-  font-size: 13px;
-  line-height: 1.8;
-  color: rgba(255,255,255,0.6);
-}
-
-.gd-process-line {
-  width: 0;
-  height: 2px;
-  background: var(--gd-blue);
-  transition: width 0.5s ease;
-}
-
-.gd-process-card:hover .gd-process-line {
-  width: 100%;
-}
-
-/* CTA */
-
-.gd-cta {
-  padding: 120px 8%;
-  background: var(--gd-white);
-  color: var(--gd-black);
-}
-
-.gd-cta > span {
-  font-size: 11px;
-  letter-spacing: 2px;
-  color: var(--gd-blue);
-}
-
-.gd-cta h2 {
-  font-size: clamp(55px, 10vw, 135px);
-  line-height: 0.9;
-  letter-spacing: -0.08em;
-  margin: 45px 0;
-}
-
-.gd-cta h2 span {
-  color: var(--gd-blue);
-}
-
-.gd-cta > a {
-  display: inline-flex;
-  gap: 40px;
-  align-items: center;
-  background: var(--gd-blue);
-  color: white;
-  padding: 18px 25px;
-  font-size: 12px;
-  letter-spacing: 1px;
-  transition: 0.3s ease;
-}
-
-.gd-cta > a:hover {
-  background: var(--gd-black);
-}
-
-/* FOOTER */
-
-.gd-footer {
-  min-height: 100px;
-  padding: 25px 6%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 20px;
-}
-
-.gd-footer > span,
-.gd-footer > a:last-child {
-  font-size: 10px;
-  letter-spacing: 1px;
-}
-
-/* ANIMATIONS */
-
-@keyframes gd-rotate {
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes gd-pulse {
-  0%, 100% {
-    transform: scale(1);
-  }
-
-  50% {
-    transform: scale(1.2);
-  }
-}
-
-/* RESPONSIVE */
-
-@media (max-width: 900px) {
-  .gd-hero-decoration {
-    width: 180px;
-    height: 180px;
-    right: 5%;
-    top: 30%;
-  }
-
-  .gd-intro-content {
-    grid-template-columns: 1fr;
-    gap: 35px;
-  }
-
-  .gd-project-grid {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .gd-process-grid {
-    grid-template-columns: 1fr 1fr;
-    row-gap: 45px;
-  }
-}
-
-@media (max-width: 600px) {
-  .gd-nav {
-    height: 70px;
-    padding: 0 5%;
-  }
-
-  .gd-nav-label {
-    display: none;
-  }
-
-  .gd-hero {
-    min-height: 650px;
-    padding: 25px 6%;
-  }
-
-  .gd-hero-top {
-    font-size: 9px;
-  }
-
-  .gd-hero-decoration {
-    width: 130px;
-    height: 130px;
-    top: 32%;
-    right: 5%;
-  }
-
-  .gd-hero-title {
-    font-size: clamp(55px, 14vw, 85px);
-  }
-
-  .gd-hero-bottom {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .gd-section {
-    padding: 75px 6%;
-  }
-
-  .gd-section-label {
-    font-size: 9px;
-  }
-
-  .gd-intro-content {
-    padding-top: 55px;
-  }
-
-  .gd-service {
-    grid-template-columns: 35px 1fr 25px;
-    gap: 12px;
-  }
-
-  .gd-service-tag {
-    display: none;
-  }
-
-  .gd-work-heading {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .gd-project-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .gd-project-art {
-    min-height: 300px;
-  }
-
-  .gd-statement {
-    padding: 85px 6%;
-  }
-
-  .gd-process-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .gd-process-card h3 {
-    margin-top: 25px;
-  }
-
-  .gd-cta {
-    padding: 85px 6%;
-  }
-
-  .gd-footer {
-    flex-wrap: wrap;
-    padding: 25px 6%;
-  }
-
-  .gd-footer > span {
-    display: none;
-  }
-}
-
-/* REDUCED MOTION */
-
-@media (prefers-reduced-motion: reduce) {
-  .gd-page *,
-  .gd-page *::before,
-  .gd-page *::after {
-    animation-duration: 0.01ms !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-
-  .gd-reveal {
-    opacity: 1;
-    transform: none;
-  }
-}
+import { useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
+import "./GraphicDesignPage.css";
+
+type Poster = {
+  id: string;
+  name: string;
+  category: string;
+  style: string;
+  artwork: string;
+  subtitle: string;
+};
+
+const posters: Poster[] = [
+  {
+    id: "01",
+    name: "Colour Theory",
+    category: "Poster Design",
+    style: "poster-red",
+    artwork: "COLOUR\nIS ENERGY",
+    subtitle: "AN EXPERIMENT IN COLOUR",
+  },
+  {
+    id: "02",
+    name: "The New Wave",
+    category: "Visual Campaign",
+    style: "poster-blue",
+    artwork: "NEW\nWAVE",
+    subtitle: "A DIFFERENT PERSPECTIVE",
+  },
+  {
+    id: "03",
+    name: "Typographic Form",
+    category: "Typography",
+    style: "poster-yellow",
+    artwork: "TYPE\nMATTERS.",
+    subtitle: "FORM FOLLOWS FEELING",
+  },
+  {
+    id: "04",
+    name: "Beyond Ordinary",
+    category: "Creative Poster",
+    style: "poster-pink",
+    artwork: "BEYOND\nORDINARY",
+    subtitle: "BREAK THE EXPECTED",
+  },
+  {
+    id: "05",
+    name: "Visual Rhythm",
+    category: "Art Direction",
+    style: "poster-green",
+    artwork: "VISUAL\nRHYTHM",
+    subtitle: "DESIGN IN MOTION",
+  },
+  {
+    id: "06",
+    name: "The Good Edit",
+    category: "Editorial Design",
+    style: "poster-orange",
+    artwork: "THE\nGOOD EDIT",
+    subtitle: "A STUDY OF COMPOSITION",
+  },
+  {
+    id: "07",
+    name: "Shape of Ideas",
+    category: "Graphic Exploration",
+    style: "poster-purple",
+    artwork: "SHAPE\nOF IDEAS",
+    subtitle: "THINK BEYOND THE FRAME",
+  },
+];
+
+const services = [
+  {
+    number: "01",
+    title: "Brand Identity",
+    description:
+      "Distinctive visual identities that give brands a recognisable voice and personality.",
+    tag: "IDENTITY",
+  },
+  {
+    number: "02",
+    title: "Poster & Print Design",
+    description:
+      "Expressive posters, print layouts and compositions that capture attention.",
+    tag: "PRINT",
+  },
+  {
+    number: "03",
+    title: "Packaging Design",
+    description:
+      "Thoughtful packaging that brings together function, creativity and brand character.",
+    tag: "PACKAGING",
+  },
+  {
+    number: "04",
+    title: "Typography & Layout",
+    description:
+      "Strong typography and carefully structured layouts that make communication clearer.",
+    tag: "TYPOGRAPHY",
+  },
+  {
+    number: "05",
+    title: "Campaign Graphics",
+    description:
+      "Consistent visual systems for campaigns, promotions and digital communication.",
+    tag: "CAMPAIGNS",
+  },
+];
+
+const process = [
+  {
+    number: "01",
+    title: "Discover",
+    description:
+      "We understand your brand, audience, objectives and creative direction.",
+  },
+  {
+    number: "02",
+    title: "Explore",
+    description:
+      "We research, experiment with concepts and develop visual possibilities.",
+  },
+  {
+    number: "03",
+    title: "Create",
+    description:
+      "We turn the selected direction into a thoughtful and distinctive design.",
+  },
+  {
+    number: "04",
+    title: "Deliver",
+    description:
+      "We refine the details and prepare the final designs for use.",
+  },
+];
+
+function GraphicDesignPage() {
+  const pageRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const root = pageRef.current;
+    if (!root) return;
+
+    const elements = root.querySelectorAll<HTMLElement>(".gd-reveal");
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      elements.forEach((element) => {
+        element.classList.add("gd-visible");
+      });
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("gd-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.12,
+        rootMargin: "0px 0px -40px 0px",
+      }
+    );
+
+    elements.forEach((element) => observer.observe(element));
+
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <main className="gd-page" ref={pageRef}>
+      {/* NAVIGATION */}
+      <header className="gd-nav">
+        <Link to="/" className="gd-logo" aria-label="Tarka home">
+          TARKA<span>®</span>
+        </Link>
+
+        <span className="gd-nav-label">
+          GRAPHIC DESIGN STUDIO
+        </span>
+
+        <Link
+          to="/quote?domain=graphic-design"
+          className="gd-nav-cta"
+        >
+          LET'S TALK <span>↗</span>
+        </Link>
+      </header>
+
+      {/* PROJECTS-FIRST HERO */}
+      <section className="gd-hero" id="gd-home">
+        <div className="gd-hero-topline">
+          <span>02 / 06 — CREATIVE DISCIPLINES</span>
+          <span>INDEPENDENT VISUAL THINKING</span>
+        </div>
+
+        <div className="gd-hero-layout">
+          <div className="gd-hero-copy">
+            <p className="gd-eyebrow">
+              TARKA® / GRAPHIC DESIGN
+            </p>
+
+            <h1>
+              Graphic
+              <br />
+              <span>Design.</span>
+            </h1>
+
+            <p className="gd-hero-description">
+              Ideas made visible. We create expressive visual
+              identities, thoughtful compositions and designs
+              that make people stop and look.
+            </p>
+
+            <a href="#gd-selected-work" className="gd-explore-link">
+              EXPLORE SELECTED WORK <span>↘</span>
+            </a>
+          </div>
+
+          <div className="gd-poster-exhibition">
+            <div className="gd-exhibition-heading">
+              <span>SELECTED POSTERS</span>
+              <span>2024 — 2026</span>
+            </div>
+
+            <div className="gd-poster-arc">
+              <svg
+                className="gd-arc-guide"
+                viewBox="0 0 700 570"
+                fill="none"
+                aria-hidden="true"
+              >
+                <path
+                  d="M35 530 C80 350 185 250 340 175 C480 108 565 65 670 12"
+                  stroke="currentColor"
+                  strokeWidth="1"
+                  strokeDasharray="3 8"
+                  opacity=".2"
+                />
+              </svg>
+
+              {posters.map((poster, index) => (
+                <article
+                  className={`gd-arc-poster gd-arc-poster-${index + 1} ${poster.style}`}
+                  key={poster.id}
+                  aria-label={`${poster.name}, ${poster.category}`}
+                >
+                  <div className="gd-poster-grain" />
+
+                  <div className="gd-poster-top">
+                    <span>TARKA®</span>
+                    <span>{poster.id}</span>
+                  </div>
+
+                  <div className="gd-poster-artwork">
+                    {index === 0 && (
+                      <div className="gd-art-shape gd-art-shape-one" />
+                    )}
+                    {index === 1 && (
+                      <div className="gd-art-shape gd-art-shape-two" />
+                    )}
+                    {index === 2 && (
+                      <div className="gd-art-shape gd-art-shape-three" />
+                    )}
+                    {index === 3 && (
+                      <div className="gd-art-shape gd-art-shape-four" />
+                    )}
+                    {index === 4 && (
+                      <div className="gd-art-shape gd-art-shape-five" />
+                    )}
+                    {index === 5 && (
+                      <div className="gd-art-shape gd-art-shape-six" />
+                    )}
+                    {index === 6 && (
+                      <div className="gd-art-shape gd-art-shape-seven" />
+                    )}
+
+                    <strong>
+                      {poster.artwork.split("\n").map((line) => (
+                        <span key={line}>{line}</span>
+                      ))}
+                    </strong>
+                  </div>
+
+                  <div className="gd-poster-bottom">
+                    <span>{poster.subtitle}</span>
+                    <span>GD / {poster.id}</span>
+                  </div>
+                </article>
+              ))}
+            </div>
+
+            <div className="gd-exhibition-footer">
+              <span>AN EXPLORATION OF VISUAL LANGUAGE</span>
+              <span>SCROLL TO DISCOVER ↓</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="gd-hero-bottomline">
+          <span>VISUAL STORIES. DISTINCTIVE IDEAS.</span>
+          <span>SHAPED WITH PURPOSE.</span>
+        </div>
+      </section>
+
+      {/* INTRODUCTION */}
+      <section className="gd-intro gd-section" id="gd-intro">
+        <div className="gd-section-label gd-reveal">
+          <span>01 / OUR APPROACH</span>
+          <span>DESIGN WITH INTENTION</span>
+        </div>
+
+        <div className="gd-intro-content">
+          <h2 className="gd-reveal">
+            Good design gets noticed.
+            <span> Great design gets remembered.</span>
+          </h2>
+
+          <div className="gd-intro-description gd-reveal">
+            <span className="gd-plus">✳</span>
+            <p>
+              We believe graphic design is more than making things
+              look attractive. It is about communicating ideas,
+              building recognition and creating meaningful
+              connections through visual language.
+            </p>
+            <p>
+              From the smallest detail to the complete visual
+              identity, every element has a purpose.
+            </p>
+          </div>
+        </div>
+
+        <div className="gd-intro-stats gd-reveal">
+          <div>
+            <strong>01</strong>
+            <span>THINK STRATEGICALLY</span>
+          </div>
+          <div>
+            <strong>02</strong>
+            <span>DESIGN EXPRESSIVELY</span>
+          </div>
+          <div>
+            <strong>03</strong>
+            <span>COMMUNICATE CLEARLY</span>
+          </div>
+        </div>
+      </section>
+
+      {/* CAPABILITIES */}
+      <section className="gd-services gd-section" id="gd-services">
+        <div className="gd-section-label gd-reveal">
+          <span>02 / WHAT WE DO</span>
+          <span>OUR CAPABILITIES</span>
+        </div>
+
+        <div className="gd-services-heading gd-reveal">
+          <h2>
+            Visual thinking.
+            <br />
+            <span>Creative execution.</span>
+          </h2>
+          <p>
+            From brand foundations to the final printed detail,
+            we bring ideas to life through considered design.
+          </p>
+        </div>
+
+        <div className="gd-service-list">
+          {services.map((service) => (
+            <article className="gd-service gd-reveal" key={service.number}>
+              <span className="gd-service-number">
+                {service.number}
+              </span>
+
+              <div className="gd-service-main">
+                <h3>{service.title}</h3>
+                <p>{service.description}</p>
+              </div>
+
+              <span className="gd-service-tag">
+                {service.tag}
+              </span>
+
+              <span className="gd-service-arrow">↗</span>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      {/* SELECTED WORK */}
+      <section
+        className="gd-work gd-section"
+        id="gd-selected-work"
+      >
+        <div className="gd-section-label gd-reveal">
+          <span>03 / SELECTED WORK</span>
+          <span>A CLOSER LOOK</span>
+        </div>
+
+        <div className="gd-work-heading gd-reveal">
+          <h2>
+            Made to be
+            <br />
+            <span>seen differently.</span>
+          </h2>
+          <p>
+            A selection of visual explorations across identity,
+            typography, print and creative direction.
+          </p>
+        </div>
+
+        <div className="gd-project-grid">
+          {posters.slice(0, 6).map((poster, index) => (
+            <article
+              className={`gd-project gd-project-${index + 1} gd-reveal`}
+              key={poster.id}
+            >
+              <div className={`gd-project-art ${poster.style}`}>
+                <span className="gd-project-index">
+                  {poster.id} / SELECTED WORK
+                </span>
+
+                <div className="gd-project-art-shape">
+                  {index % 2 === 0 ? "✳" : "✦"}
+                </div>
+
+                <strong>
+                  {poster.artwork.split("\n").map((line) => (
+                    <span key={line}>{line}</span>
+                  ))}
+                </strong>
+
+                <span className="gd-project-art-caption">
+                  {poster.subtitle}
+                </span>
+              </div>
+
+              <div className="gd-project-info">
+                <div>
+                  <h3>{poster.name}</h3>
+                  <p>{poster.category}</p>
+                </div>
+                <span>↗</span>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      {/* DESIGN STATEMENT */}
+      <section className="gd-statement">
+        <div className="gd-statement-inner gd-reveal">
+          <span>OUR DESIGN PHILOSOPHY / 04</span>
+
+          <h2>
+            DON'T JUST
+            <br />
+            <span>MAKE IT LOOK.</span>
+            <br />
+            MAKE IT MEAN.
+          </h2>
+
+          <p>
+            Every colour, shape and letter has a story to tell.
+          </p>
+        </div>
+
+        <div className="gd-statement-symbol" aria-hidden="true">
+          ✳
+        </div>
+      </section>
+
+      {/* PROCESS */}
+      <section className="gd-process gd-section" id="gd-process">
+        <div className="gd-section-label gd-reveal">
+          <span>05 / HOW WE WORK</span>
+          <span>OUR PROCESS</span>
+        </div>
+
+        <div className="gd-process-heading gd-reveal">
+          <h2>
+            From first thought
+            <br />
+            <span>to final form.</span>
+          </h2>
+        </div>
+
+        <div className="gd-process-grid">
+          {process.map((step) => (
+            <article className="gd-process-card gd-reveal" key={step.number}>
+              <div className="gd-process-card-top">
+                <span>{step.number}</span>
+                <span>↗</span>
+              </div>
+
+              <div className="gd-process-line" />
+
+              <h3>{step.title}</h3>
+              <p>{step.description}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="gd-cta">
+        <div className="gd-cta-content gd-reveal">
+          <span>06 / HAVE AN IDEA?</span>
+
+          <h2>
+            Let's make
+            <br />
+            <span>something matter.</span>
+          </h2>
+
+          <p>
+            Have a brand, a concept or an idea waiting to take shape?
+            Let's give it a visual identity.
+          </p>
+
+          <Link to="/quote?domain=graphic-design">
+            START A PROJECT <span>↗</span>
+          </Link>
+        </div>
+
+        <div className="gd-cta-decoration" aria-hidden="true">
+          <span>G</span>
+          <span>D</span>
+        </div>
+      </section>
+
+      {/* FOOTER */}
+      <footer className="gd-footer">
+        <Link to="/" className="gd-footer-logo">
+          TARKA®
+        </Link>
+
+        <span>GRAPHIC DESIGN / VISUAL COMMUNICATION</span>
+
+        <a href="#gd-home">BACK TO TOP ↑</a>
+
+        <span className="gd-footer-copy">
+          © 2026 TARKA. ALL RIGHTS RESERVED.
+        </span>
+      </footer>
+    </main>
+  );
+}
+
+export default GraphicDesignPage;

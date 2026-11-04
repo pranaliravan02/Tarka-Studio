@@ -18,7 +18,12 @@
   width: 100%;
   overflow: hidden;
 
-  background: var(--domain-white);
+  /* Shared technical grid: one background for all standard domain sections. */
+  background-color: var(--domain-white);
+  background-image:
+    linear-gradient(rgba(0, 127, 143, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 127, 143, 0.055) 1px, transparent 1px);
+  background-size: 48px 48px;
   color: var(--domain-black);
 
   font-family:
@@ -136,7 +141,7 @@
   display: flex;
   flex-direction: column;
 
-  background: var(--domain-white);
+  background: transparent;
 }
 
 .domain-hero__top {
@@ -365,7 +370,7 @@
   grid-template-columns: 22% minmax(0, 1fr);
   gap: 7vw;
 
-  background: var(--domain-white);
+  background: transparent;
 }
 
 .domain-intro__label,
@@ -447,7 +452,7 @@
 .domain-capabilities {
   padding: 105px 5vw;
 
-  background: var(--domain-white);
+  background: transparent;
 }
 
 .domain-capabilities__header,
@@ -619,7 +624,7 @@
 .domain-work {
   padding: 105px 5vw;
 
-  background: var(--domain-white);
+  background: transparent;
 }
 
 .domain-work__grid {
@@ -804,7 +809,7 @@
 .domain-process {
   padding: 110px 5vw;
 
-  background: var(--domain-white);
+  background: transparent;
 }
 
 .domain-process__timeline {
@@ -1038,7 +1043,7 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
 
-  background: var(--domain-white);
+  background: transparent;
 }
 
 .domain-navigation__item {
@@ -1119,7 +1124,7 @@
 .domain-footer {
   padding: 55px 5vw 28px;
 
-  background: var(--domain-white);
+  background: transparent;
   color: var(--domain-black);
 
   border-top: 1px solid var(--domain-line);
@@ -2386,4 +2391,47 @@
   .domain-page--uiux-web .domain-intro__blueprint {
     transform: none !important;
   }
+}
+
+/* ============================================================
+   MARKETING — CINEMATIC SCROLL & FOOTER FIX
+   Scoped exclusively to the Marketing domain.
+   Preserves the shared footer and following page sections.
+   ============================================================ */
+
+.domain-page.domain-page--marketing {
+  overflow: visible !important;
+  isolation: auto;
+}
+
+/* Cinematic tunnel */
+.domain-page--marketing .marketing-tunnel {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+}
+
+/* Pinned animation stage */
+.domain-page--marketing .marketing-tunnel__stage {
+  width: 100%;
+}
+
+/* Keep all sections after the tunnel in normal document flow */
+.domain-page--marketing > .domain-capabilities,
+.domain-page--marketing > .domain-work,
+.domain-page--marketing > .domain-process,
+.domain-page--marketing > .domain-cta,
+.domain-page--marketing > .domain-navigation,
+.domain-page--marketing > .domain-footer {
+  position: relative;
+  z-index: 2;
+}
+
+/* Ensure the footer remains visible and accessible */
+.domain-page--marketing > .domain-footer {
+  display: block;
+  width: 100%;
+  min-height: 180px;
+  visibility: visible;
+  opacity: 1;
 }
