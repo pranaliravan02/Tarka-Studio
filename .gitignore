@@ -22,3 +22,12 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Next.js Admin Backend
+admin/.next/
+admin/coverage/
+admin/.env
+admin/.env.*
+!admin/.env.example
+
+*.tsbuildinfo
