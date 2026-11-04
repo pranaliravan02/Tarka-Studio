@@ -5,6 +5,7 @@ import { MorphSVGPlugin } from "gsap/MorphSVGPlugin";
 
 import type { Domain } from "../data/domains";
 import { LOGO_PARTS, LOGO_ARC_D } from "../data/tarkaLogo";
+
 import {
   PHASES,
   STATE_ORDER,
@@ -29,6 +30,10 @@ import {
 
 gsap.registerPlugin(ScrollTrigger, MorphSVGPlugin);
 
+/* ------------------------------------------------------------------ */
+/* Domain images                                                       */
+/* ------------------------------------------------------------------ */
+
 const IMAGE_DOMAIN_BY_STATE: Record<
   StateKey,
   Record<FrameId, number | null>
@@ -38,6 +43,11 @@ const IMAGE_DOMAIN_BY_STATE: Record<
   digital: { a: 2, b: null, c: null, d: null },
   marketing: { a: 3, b: 3, c: 3, d: 3 },
   video: { a: 4, b: 4, c: 4, d: 4 },
+
+  // Photography uses all four image frames.
+  photography: { a: 5, b: 5, c: 5, d: 5 },
+
+  // No domain images remain during the final logo state.
   tarka: { a: null, b: null, c: null, d: null },
 };
 
@@ -46,6 +56,10 @@ const FRAME_WASH_COLOR = "#0f2e33";
 export interface DomainFilmHandle {
   revert: () => void;
 }
+
+/* ------------------------------------------------------------------ */
+/* Logo helpers                                                        */
+/* ------------------------------------------------------------------ */
 
 function logoPart(id: string) {
   const part = LOGO_PARTS.find((p) => p.id === id);
@@ -56,6 +70,10 @@ function logoPart(id: string) {
 
   return part;
 }
+
+/* ------------------------------------------------------------------ */
+/* Phase resolution                                                    */
+/* ------------------------------------------------------------------ */
 
 function resolvePhaseState(percent: number): {
   phase: Phase;
@@ -83,6 +101,10 @@ function resolvePhaseState(percent: number): {
   };
 }
 
+/* ------------------------------------------------------------------ */
+/* Main timeline                                                       */
+/* ------------------------------------------------------------------ */
+
 export function buildDomainFilmTimeline(
   section: HTMLElement,
   stage: HTMLElement,
@@ -93,8 +115,7 @@ export function buildDomainFilmTimeline(
   const ctx = gsap.context(() => {
     const q = gsap.utils.selector(stage);
 
-    // Resolve SVG elements using explicit casts because GSAP's
-    // selector helper returns a broad collection of DOM elements.
+    // Resolve SVG frame elements.
     const frameEls = {} as Record<FrameId, SVGRectElement>;
     const frameImageEls = {} as Record<FrameId, SVGImageElement>;
 
@@ -113,6 +134,7 @@ export function buildDomainFilmTimeline(
       frameImageEls[id] = image;
     }
 
+    // Resolve construction guides.
     const guideEls: Record<string, SVGLineElement> = {};
 
     for (const id of GUIDE_IDS) {
@@ -156,6 +178,10 @@ export function buildDomainFilmTimeline(
 
     if (!reticleEl || !productEl) return;
 
+    /* -------------------------------------------------------------- */
+    /* Initial SVG setup                                               */
+    /* -------------------------------------------------------------- */
+
     gsap.set([...Object.values(frameEls), reticleEl], {
       transformOrigin: "50% 50%",
     });
@@ -167,6 +193,10 @@ export function buildDomainFilmTimeline(
     gsap.set(frameEls.d, {
       attr: { "fill-rule": "evenodd" },
     });
+
+    /* -------------------------------------------------------------- */
+    /* Apply state snapshots                                           */
+    /* -------------------------------------------------------------- */
 
     const applyFrameSnapshot = (state: StateKey) => {
       for (const id of FRAME_IDS) {
@@ -242,6 +272,10 @@ export function buildDomainFilmTimeline(
       });
     };
 
+    /* -------------------------------------------------------------- */
+    /* Initial Product Design state                                    */
+    /* -------------------------------------------------------------- */
+
     applyFrameSnapshot("product");
     applyGuideSnapshot("product");
     applyReticleSnapshot("product");
@@ -259,7 +293,10 @@ export function buildDomainFilmTimeline(
       wireframePath.setAttribute("d", PRODUCT_WIREFRAME_D);
     }
 
-    // One master timeline owns the scroll-driven geometry.
+    /* -------------------------------------------------------------- */
+    /* Master scroll timeline                                          */
+    /* -------------------------------------------------------------- */
+
     const tl = gsap.timeline({
       paused: true,
       defaults: { ease: "none" },
@@ -284,18 +321,25 @@ export function buildDomainFilmTimeline(
       }
     };
 
+    /* -------------------------------------------------------------- */
+    /* Build transitions between all seven states                     */
+    /* -------------------------------------------------------------- */
+
     for (const phase of PHASES) {
       if (phase.kind !== "transition") continue;
 
       const { from, to, start } = phase;
       const fullDuration = phase.end - phase.start;
-      const isFinal = phase.id === "video-tarka";
+
+      // The logo morph now happens after Photography.
+      const isFinal = phase.id === "photography-tarka";
 
       const geometryDuration = isFinal
         ? fullDuration * LOGO_SWAP_WINDOW[0]
         : fullDuration;
 
-      // Frame geometry
+      /* Frame geometry */
+
       for (const id of FRAME_IDS) {
         const fromState = FRAME_LAYOUTS[from][id];
         const toState = FRAME_LAYOUTS[to][id];
@@ -327,7 +371,8 @@ export function buildDomainFilmTimeline(
         );
       }
 
-      // Construction guides
+      /* Construction guides */
+
       for (const id of GUIDE_IDS) {
         const fromG = GUIDE_LAYOUTS[from][id];
         const toG = GUIDE_LAYOUTS[to][id];
@@ -357,7 +402,8 @@ export function buildDomainFilmTimeline(
         );
       }
 
-      // Reticle geometry
+      /* Reticle geometry */
+
       const fromR = RETICLE_LAYOUTS[from];
       const toR = RETICLE_LAYOUTS[to];
 
@@ -383,7 +429,8 @@ export function buildDomainFilmTimeline(
         geometryDuration
       );
 
-      // Product wireframe transform
+      /* Product wireframe transform */
+
       const fromP = PRODUCT_TRANSFORM_BY_STATE[from];
       const toP = PRODUCT_TRANSFORM_BY_STATE[to];
 
@@ -409,7 +456,8 @@ export function buildDomainFilmTimeline(
         fullDuration
       );
 
-      // Background grid
+      /* Background grid */
+
       if (gridEl) {
         place(
           gridEl,
@@ -420,11 +468,15 @@ export function buildDomainFilmTimeline(
         );
       }
 
-      // Final Video Generation → Tarka logo convergence
+      /* ------------------------------------------------------------ */
+      /* Photography → TARKA final logo convergence                    */
+      /* ------------------------------------------------------------ */
+
       if (isFinal) {
         const fadeEnd =
           start + fullDuration * VIDEO_FOOTAGE_FADE_END;
 
+        // Fade all photography images before the logo morph.
         for (const id of FRAME_IDS) {
           place(
             frameImageEls[id],
@@ -443,6 +495,7 @@ export function buildDomainFilmTimeline(
 
         const swapDuration = swapEnd - swapStart;
 
+        // Morph four frames into the four original traced logo parts.
         for (const id of FRAME_IDS) {
           const part = logoPart(FRAME_TO_LOGO_PART[id]);
 
@@ -473,6 +526,7 @@ export function buildDomainFilmTimeline(
           }
         }
 
+        // Morph the reticle into the original TARKA upper arc.
         const arcPart = logoPart("arc");
 
         if (reducedMotion) {
@@ -501,10 +555,13 @@ export function buildDomainFilmTimeline(
       }
     }
 
-    // Keep the timeline and phase calculations synchronized.
+    // Keep the timeline duration aligned with the phase model.
     tl.set({}, {}, TOTAL_TIMELINE_DURATION);
 
-    // Discrete content changes are updated from scroll progress.
+    /* -------------------------------------------------------------- */
+    /* Scroll-driven labels and active domain                         */
+    /* -------------------------------------------------------------- */
+
     let lastState: StateKey | null = null;
 
     const applyDiscreteState = (state: StateKey) => {
@@ -514,10 +571,19 @@ export function buildDomainFilmTimeline(
 
       const labels = LABELS_BY_STATE[state];
 
-      if (labelUnitEl) labelUnitEl.textContent = labels.unit;
-      if (labelCoordEl) labelCoordEl.textContent = labels.coord;
-      if (labelKickerEl) labelKickerEl.textContent = labels.kicker;
+      if (labelUnitEl) {
+        labelUnitEl.textContent = labels.unit;
+      }
 
+      if (labelCoordEl) {
+        labelCoordEl.textContent = labels.coord;
+      }
+
+      if (labelKickerEl) {
+        labelKickerEl.textContent = labels.kicker;
+      }
+
+      // Update images when the active state changes.
       for (const id of FRAME_IDS) {
         const domainIndex = IMAGE_DOMAIN_BY_STATE[state][id];
 
@@ -540,9 +606,11 @@ export function buildDomainFilmTimeline(
 
     const update = (self: ScrollTrigger) => {
       const percent = self.progress * TOTAL_TIMELINE_DURATION;
+
       const { phase, state } = resolvePhaseState(percent);
 
       applyDiscreteState(state);
+
       stage.dataset.activePhase = phase.id;
 
       if (progressFillEl) {
@@ -550,6 +618,10 @@ export function buildDomainFilmTimeline(
           `scaleX(${self.progress})`;
       }
     };
+
+    /* -------------------------------------------------------------- */
+    /* ScrollTrigger                                                   */
+    /* -------------------------------------------------------------- */
 
     const trigger = ScrollTrigger.create({
       trigger: section,
@@ -561,11 +633,13 @@ export function buildDomainFilmTimeline(
       onRefresh: update,
     });
 
-    // Initialize labels and active-domain state immediately.
+    // Initialize the first visible state.
     update(trigger);
 
-    // Ambient motion changes SVG attributes only, not the transforms
-    // controlled by the master scroll timeline.
+    /* -------------------------------------------------------------- */
+    /* Ambient motion                                                  */
+    /* -------------------------------------------------------------- */
+
     if (!reducedMotion) {
       gsap.to(reticleEl, {
         attr: { "stroke-dasharray": "3 7" },
@@ -586,9 +660,9 @@ export function buildDomainFilmTimeline(
       }
     }
 
-    // Keep the state order import explicit for the authored state model.
+    // Preserve the declared order of the visual states.
     STATE_ORDER.forEach(() => {
-      // The order is defined in domainFilm.ts.
+      // State order is defined in domainFilm.ts.
     });
   }, section);
 

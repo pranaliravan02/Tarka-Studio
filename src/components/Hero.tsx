@@ -61,11 +61,7 @@ function Hero({ domains, reducedMotion, onSelectDomain }: HeroProps) {
         return;
       }
 
-      /*
-       * ============================================================
-       * INITIAL STATE
-       * ============================================================
-       */
+      // INITIAL STATE
 
       gsap.set(navRef.current, {
         opacity: 0,
@@ -94,23 +90,18 @@ function Hero({ domains, reducedMotion, onSelectDomain }: HeroProps) {
         scale: 0,
       });
 
-      /*
-       * Five-domain entrance positions.
-       *
-       * The fifth card gets a slightly different entrance so
-       * Video Generation feels like a new visual layer rather
-       * than simply another repeated card.
-       */
+      // SIX-DOMAIN ENTRANCE
+
       cards.forEach((card, index) => {
         if (!card) return;
 
-        const rotations = [-7, 6, 5, -6, 2];
+        const rotations = [-7, 6, 5, -6, 2, -3];
 
         gsap.set(card, {
           opacity: 0,
-          scale: index === 4 ? 0.62 : 0.72,
+          scale: index >= 4 ? 0.62 : 0.72,
           y:
-            index === 4
+            index >= 4
               ? 85
               : index % 2 === 0
                 ? -55
@@ -120,11 +111,7 @@ function Hero({ domains, reducedMotion, onSelectDomain }: HeroProps) {
         });
       });
 
-      /*
-       * ============================================================
-       * INTRO ANIMATION
-       * ============================================================
-       */
+      // INTRO ANIMATION
 
       const intro = gsap.timeline({
         defaults: {
@@ -189,11 +176,7 @@ function Hero({ domains, reducedMotion, onSelectDomain }: HeroProps) {
           "-=0.55"
         );
 
-      /*
-       * ============================================================
-       * CARD FLOATING MOTION
-       * ============================================================
-       */
+      // CARD FLOATING MOTION
 
       cards.forEach((card, index) => {
         if (!card) return;
@@ -214,11 +197,7 @@ function Hero({ domains, reducedMotion, onSelectDomain }: HeroProps) {
         });
       });
 
-      /*
-       * ============================================================
-       * CENTRAL NODE PULSE
-       * ============================================================
-       */
+      // CENTRAL NODE PULSE
 
       gsap.to(nodeRef.current, {
         scale: 1.18,
@@ -230,27 +209,21 @@ function Hero({ domains, reducedMotion, onSelectDomain }: HeroProps) {
         delay: 1.8,
       });
 
-      /*
-       * ============================================================
-       * SCROLL-DRIVEN CARD SEPARATION
-       * ============================================================
-       */
+      // SCROLL-DRIVEN CARD SEPARATION
 
       const directions = [
         { x: -75, y: -55 },
         { x: 75, y: -45 },
         { x: -65, y: 60 },
         { x: 70, y: 55 },
-
-        // Video Generation
         { x: 20, y: 95 },
+        { x: 95, y: 15 },
       ];
 
       cards.forEach((card, index) => {
         if (!card) return;
 
-        const direction =
-          directions[index] ?? { x: 0, y: 0 };
+        const direction = directions[index] ?? { x: 0, y: 0 };
 
         gsap.to(card, {
           x: direction.x,
@@ -258,8 +231,7 @@ function Hero({ domains, reducedMotion, onSelectDomain }: HeroProps) {
           rotation:
             index === 4
               ? -1
-              : (index % 2 === 0 ? -1 : 1) *
-                (8 + index),
+              : (index % 2 === 0 ? -1 : 1) * (8 + index),
           ease: "none",
           scrollTrigger: {
             trigger: section,
@@ -270,24 +242,18 @@ function Hero({ domains, reducedMotion, onSelectDomain }: HeroProps) {
         });
       });
 
-      /*
-       * ============================================================
-       * MOUSE PARALLAX
-       * ============================================================
-       */
+      // MOUSE PARALLAX
 
       if (!window.matchMedia("(pointer: coarse)").matches) {
         const handleMouseMove = (event: MouseEvent) => {
           const rect = section.getBoundingClientRect();
 
           const x =
-            (event.clientX -
-              (rect.left + rect.width / 2)) /
+            (event.clientX - (rect.left + rect.width / 2)) /
             rect.width;
 
           const y =
-            (event.clientY -
-              (rect.top + rect.height / 2)) /
+            (event.clientY - (rect.top + rect.height / 2)) /
             rect.height;
 
           gsap.to(titleRef.current, {
@@ -301,8 +267,7 @@ function Hero({ domains, reducedMotion, onSelectDomain }: HeroProps) {
           cards.forEach((card, index) => {
             if (!card) return;
 
-            const depth =
-              1 + index * 0.25;
+            const depth = 1 + index * 0.25;
 
             gsap.to(card, {
               x: x * 28 * depth,
@@ -322,16 +287,10 @@ function Hero({ domains, reducedMotion, onSelectDomain }: HeroProps) {
           });
         };
 
-        section.addEventListener(
-          "mousemove",
-          handleMouseMove
-        );
+        section.addEventListener("mousemove", handleMouseMove);
 
         return () => {
-          section.removeEventListener(
-            "mousemove",
-            handleMouseMove
-          );
+          section.removeEventListener("mousemove", handleMouseMove);
         };
       }
     }, section);
@@ -347,7 +306,7 @@ function Hero({ domains, reducedMotion, onSelectDomain }: HeroProps) {
     if (!card) return;
 
     gsap.to(card, {
-      scale: index === 4 ? 1.1 : 1.08,
+      scale: index >= 4 ? 1.1 : 1.08,
       zIndex: 20,
       duration: 0.45,
       ease: "power3.out",
@@ -398,50 +357,50 @@ function Hero({ domains, reducedMotion, onSelectDomain }: HeroProps) {
     }
   };
 
-  /*
-   * Five-card composition.
-   *
-   * The first four preserve the existing visual arrangement.
-   * Video Generation becomes the fifth card in the central-right
-   * layer, visually connecting the upper and lower card groups.
-   */
+  // SIX-CARD COMPOSITION
+
   const positions = [
     {
       left: "66%",
-      top: "23%",
+      top: "20%",
       rotation: -7,
-      width: "clamp(175px, 17vw, 235px)",
-      height: "clamp(225px, 23vw, 305px)",
+      width: "clamp(145px, 15vw, 205px)",
+      height: "clamp(185px, 19vw, 250px)",
     },
     {
-      left: "86%",
-      top: "32%",
+      left: "87%",
+      top: "20%",
       rotation: 6,
-      width: "clamp(175px, 17vw, 235px)",
-      height: "clamp(225px, 23vw, 305px)",
+      width: "clamp(145px, 15vw, 205px)",
+      height: "clamp(185px, 19vw, 250px)",
     },
     {
-      left: "65%",
-      top: "73%",
-      rotation: 6,
-      width: "clamp(175px, 17vw, 235px)",
-      height: "clamp(225px, 23vw, 305px)",
+      left: "66%",
+      top: "49%",
+      rotation: 5,
+      width: "clamp(145px, 15vw, 205px)",
+      height: "clamp(185px, 19vw, 250px)",
     },
     {
-      left: "85%",
-      top: "69%",
-      rotation: -7,
-      width: "clamp(175px, 17vw, 235px)",
-      height: "clamp(225px, 23vw, 305px)",
+      left: "87%",
+      top: "49%",
+      rotation: -6,
+      width: "clamp(145px, 15vw, 205px)",
+      height: "clamp(185px, 19vw, 250px)",
     },
-
-    // 05 / VIDEO GENERATION
     {
-      left: "76%",
-      top: "51%",
+      left: "66%",
+      top: "78%",
       rotation: 2,
-      width: "clamp(155px, 15vw, 210px)",
-      height: "clamp(205px, 21vw, 275px)",
+      width: "clamp(145px, 15vw, 205px)",
+      height: "clamp(185px, 19vw, 250px)",
+    },
+    {
+      left: "87%",
+      top: "78%",
+      rotation: -3,
+      width: "clamp(145px, 15vw, 205px)",
+      height: "clamp(185px, 19vw, 250px)",
     },
   ];
 
@@ -459,9 +418,7 @@ function Hero({ domains, reducedMotion, onSelectDomain }: HeroProps) {
         isolation: "isolate",
       }}
     >
-      {/* ============================================================
-          TECHNICAL GRID
-          ============================================================ */}
+      {/* TECHNICAL GRID */}
 
       <div
         aria-hidden="true"
@@ -483,16 +440,13 @@ function Hero({ domains, reducedMotion, onSelectDomain }: HeroProps) {
             )
           `,
           backgroundSize: "72px 72px",
-          maskImage:
-            "linear-gradient(to bottom, black 0%, transparent 92%)",
+          maskImage: "linear-gradient(to bottom, black 0%, transparent 92%)",
           WebkitMaskImage:
             "linear-gradient(to bottom, black 0%, transparent 92%)",
         }}
       />
 
-      {/* ============================================================
-          DIAGONAL NETWORK LINES
-          ============================================================ */}
+      {/* DIAGONAL NETWORK LINES */}
 
       <svg
         aria-hidden="true"
@@ -594,9 +548,7 @@ function Hero({ domains, reducedMotion, onSelectDomain }: HeroProps) {
         />
       </svg>
 
-      {/* ============================================================
-          TOP NAVIGATION
-          ============================================================ */}
+      {/* TOP NAVIGATION */}
 
       <div
         ref={navRef}
@@ -638,13 +590,7 @@ function Hero({ domains, reducedMotion, onSelectDomain }: HeroProps) {
             gap: "clamp(16px, 3vw, 42px)",
           }}
         >
-          {[
-            "HOME",
-            "WORK",
-            "DOMAINS",
-            "ABOUT",
-            "CONTACT",
-          ].map((label) => (
+          {["HOME", "WORK", "DOMAINS", "ABOUT", "CONTACT"].map((label) => (
             <button
               key={label}
               type="button"
@@ -687,11 +633,10 @@ function Hero({ domains, reducedMotion, onSelectDomain }: HeroProps) {
         </button>
       </div>
 
-      {/* ============================================================
-          MAIN TITLE
-          ============================================================ */}
+      {/* MAIN TITLE */}
 
       <div
+        className="tarka-hero__title-wrap"
         style={{
           position: "absolute",
           left: 0,
@@ -704,8 +649,7 @@ function Hero({ domains, reducedMotion, onSelectDomain }: HeroProps) {
           alignItems: "flex-start",
           justifyContent: "center",
           pointerEvents: "none",
-          padding:
-            "90px 0 110px clamp(32px, 7vw, 110px)",
+          padding: "90px 0 110px clamp(32px, 7vw, 110px)",
         }}
       >
         <p
@@ -739,16 +683,12 @@ function Hero({ domains, reducedMotion, onSelectDomain }: HeroProps) {
           }}
         >
           D
-          <span style={{ color: "var(--duck-blue)" }}>
-            O
-          </span>
+          <span style={{ color: "var(--duck-blue)" }}>O</span>
           MAINS
         </h1>
       </div>
 
-      {/* ============================================================
-          CENTRAL NODE
-          ============================================================ */}
+      {/* CENTRAL NODE */}
 
       <div
         ref={nodeRef}
@@ -769,26 +709,21 @@ function Hero({ domains, reducedMotion, onSelectDomain }: HeroProps) {
         }}
       />
 
-      {/* ============================================================
-          FIVE DOMAIN CARDS
-          ============================================================ */}
+      {/* SIX DOMAIN CARDS */}
 
-      {domains.slice(0, 5).map((domain, index) => {
-        const position =
-          positions[index] ?? positions[0];
+      {domains.slice(0, 6).map((domain, index) => {
+        const position = positions[index] ?? positions[0];
 
         return (
           <button
             key={domain.id}
+            className="tarka-hero__domain-card"
+            data-card-index={index}
             ref={setCardRef(index)}
             type="button"
             onClick={() => handleCardClick(index)}
-            onMouseEnter={() =>
-              handleCardEnter(index)
-            }
-            onMouseLeave={() =>
-              handleCardLeave(index)
-            }
+            onMouseEnter={() => handleCardEnter(index)}
+            onMouseLeave={() => handleCardLeave(index)}
             aria-label={`Explore ${domain.title}`}
             style={{
               position: "absolute",
@@ -818,8 +753,7 @@ function Hero({ domains, reducedMotion, onSelectDomain }: HeroProps) {
                 height: "100%",
                 objectFit: "cover",
                 objectPosition: "center",
-                filter:
-                  "grayscale(12%) contrast(1.06)",
+                filter: "grayscale(12%) contrast(1.06)",
               }}
             />
 
@@ -838,8 +772,7 @@ function Hero({ domains, reducedMotion, onSelectDomain }: HeroProps) {
                 top: "12px",
                 left: "12px",
                 padding: "5px 8px",
-                borderLeft:
-                  "2px solid var(--duck-blue)",
+                borderLeft: "2px solid var(--duck-blue)",
                 background:
                   "color-mix(in srgb, var(--black) 82%, transparent)",
                 color: "var(--white)",
@@ -867,8 +800,7 @@ function Hero({ domains, reducedMotion, onSelectDomain }: HeroProps) {
               <span
                 style={{
                   maxWidth: "78%",
-                  fontSize:
-                    "clamp(0.82rem, 1.15vw, 1rem)",
+                  fontSize: "clamp(0.82rem, 1.15vw, 1rem)",
                   fontWeight: 700,
                   lineHeight: 1.05,
                   letterSpacing: "-0.02em",
@@ -892,9 +824,7 @@ function Hero({ domains, reducedMotion, onSelectDomain }: HeroProps) {
         );
       })}
 
-      {/* ============================================================
-          FOOTER STRIP
-          ============================================================ */}
+      {/* FOOTER STRIP */}
 
       <div
         ref={footerRef}
@@ -909,8 +839,7 @@ function Hero({ domains, reducedMotion, onSelectDomain }: HeroProps) {
           alignItems: "center",
           justifyContent: "space-between",
           gap: "20px",
-          padding:
-            "18px clamp(24px, 5vw, 72px)",
+          padding: "18px clamp(24px, 5vw, 72px)",
           borderTop:
             "1px solid color-mix(in srgb, var(--white) 14%, transparent)",
           color: "var(--white-soft)",
@@ -937,15 +866,13 @@ function Hero({ domains, reducedMotion, onSelectDomain }: HeroProps) {
             }}
           />
 
-          05 DOMAINS
+          06 DOMAINS
         </span>
 
         <span>SCROLL TO EXPLORE ↓</span>
       </div>
 
-      {/* ============================================================
-          RESPONSIVE CSS
-          ============================================================ */}
+      {/* RESPONSIVE CSS */}
 
       <style>
         {`
@@ -953,28 +880,34 @@ function Hero({ domains, reducedMotion, onSelectDomain }: HeroProps) {
             color: var(--duck-blue);
           }
 
-          @media (max-width: 900px) {
+          @media (max-width: 1100px) {
+            .tarka-hero__title-wrap {
+              width: 48% !important;
+              padding-left: 32px !important;
+            }
+
+            .tarka-hero h1 {
+              font-size: clamp(4rem, 10vw, 8rem) !important;
+            }
+
+            .tarka-hero__domain-card {
+              width: clamp(130px, 15vw, 175px) !important;
+              height: clamp(170px, 19vw, 220px) !important;
+            }
+          }
+
+          @media (max-width: 760px) {
+            .tarka-hero {
+              min-height: 1280px !important;
+            }
+
             .tarka-hero__nav {
               grid-template-columns: auto auto !important;
+              padding: 20px !important;
             }
 
             .tarka-hero__nav nav {
               display: none !important;
-            }
-
-            .tarka-hero h1 {
-              font-size: clamp(4rem, 17vw, 8rem) !important;
-            }
-
-            .tarka-hero > div[style*="width: 52%"] {
-              width: 55% !important;
-              padding-left: 24px !important;
-            }
-          }
-
-          @media (max-width: 640px) {
-            .tarka-hero__nav {
-              padding: 20px !important;
             }
 
             .tarka-hero__nav > button:last-child {
@@ -982,13 +915,49 @@ function Hero({ domains, reducedMotion, onSelectDomain }: HeroProps) {
               font-size: 0.58rem !important;
             }
 
-            .tarka-hero h1 {
-              font-size: clamp(3.2rem, 19vw, 6rem) !important;
+            .tarka-hero__title-wrap {
+              top: 115px !important;
+              bottom: auto !important;
+              width: 100% !important;
+              height: 210px !important;
+              padding: 0 20px !important;
+              justify-content: center !important;
             }
 
-            .tarka-hero button[aria-label^="Explore"] {
-              width: 145px !important;
+            .tarka-hero h1 {
+              font-size: clamp(3.4rem, 18vw, 7rem) !important;
+            }
+
+            .tarka-hero__domain-card {
+              width: 41vw !important;
               height: 190px !important;
+            }
+
+            .tarka-hero__domain-card[data-card-index="0"],
+            .tarka-hero__domain-card[data-card-index="1"] {
+              top: 48% !important;
+            }
+
+            .tarka-hero__domain-card[data-card-index="2"],
+            .tarka-hero__domain-card[data-card-index="3"] {
+              top: 66% !important;
+            }
+
+            .tarka-hero__domain-card[data-card-index="4"],
+            .tarka-hero__domain-card[data-card-index="5"] {
+              top: 84% !important;
+            }
+
+            .tarka-hero__domain-card[data-card-index="0"],
+            .tarka-hero__domain-card[data-card-index="2"],
+            .tarka-hero__domain-card[data-card-index="4"] {
+              left: 27% !important;
+            }
+
+            .tarka-hero__domain-card[data-card-index="1"],
+            .tarka-hero__domain-card[data-card-index="3"],
+            .tarka-hero__domain-card[data-card-index="5"] {
+              left: 73% !important;
             }
 
             .tarka-hero__footer {
@@ -998,6 +967,12 @@ function Hero({ domains, reducedMotion, onSelectDomain }: HeroProps) {
 
             .tarka-hero__footer span:first-child {
               display: none;
+            }
+          }
+
+          @media (max-width: 380px) {
+            .tarka-hero__domain-card {
+              height: 165px !important;
             }
           }
 

@@ -1,6 +1,14 @@
-﻿import { forwardRef, useCallback, useLayoutEffect, useRef, useState } from "react";
+﻿
+import {
+  forwardRef,
+  useCallback,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 
 import type { Domain } from "../data/domains";
+
 import {
   STAGE_VIEWBOX,
   FRAME_IDS,
@@ -10,6 +18,7 @@ import {
   RETICLE_LAYOUTS,
   PRODUCT_WIREFRAME_D,
 } from "../data/domainFilm";
+
 import { buildDomainFilmTimeline } from "./domainFilmTimeline";
 import "./DomainSection.css";
 
@@ -19,10 +28,10 @@ interface DomainSectionProps {
   onSelectDomain: (index: number) => void;
 }
 
-/** Static "home" placement for each domain's atmospheric background photo.
- * These never animate — only their opacity is driven by the timeline —
- * so photographic content stays a quiet, duotoned supporting layer while
- * the foreground SVG geometry carries the primary transformation. */
+/* ------------------------------------------------------------------ */
+/* Atmospheric background image positions                             */
+/* ------------------------------------------------------------------ */
+
 const FRAME_IMAGE_HOME: Record<
   string,
   { x: number; y: number; width: number; height: number }
@@ -33,12 +42,39 @@ const FRAME_IMAGE_HOME: Record<
   d: { x: -380, y: 280, width: 420, height: 340 },
 };
 
+/* ------------------------------------------------------------------ */
+/* Component                                                           */
+/* ------------------------------------------------------------------ */
+
 const DomainSection = forwardRef<HTMLElement, DomainSectionProps>(
   ({ domains, reducedMotion, onSelectDomain }, forwardedRef) => {
     const sectionRef = useRef<HTMLElement | null>(null);
     const stageRef = useRef<HTMLDivElement | null>(null);
+
     const activeDomainRef = useRef<number | null>(0);
+
     const [activeDomain, setActiveDomain] = useState<number | null>(0);
+
+    /* -------------------------------------------------------------- */
+    /* Forward section ref                                             */
+    /* -------------------------------------------------------------- */
+
+    const setSectionRef = useCallback(
+      (element: HTMLElement | null) => {
+        sectionRef.current = element;
+
+        if (typeof forwardedRef === "function") {
+          forwardedRef(element);
+        } else if (forwardedRef) {
+          forwardedRef.current = element;
+        }
+      },
+      [forwardedRef]
+    );
+
+    /* -------------------------------------------------------------- */
+    /* Initialize scroll-controlled animation                         */
+    /* -------------------------------------------------------------- */
 
     useLayoutEffect(() => {
       const section = sectionRef.current;
@@ -59,30 +95,53 @@ const DomainSection = forwardRef<HTMLElement, DomainSectionProps>(
         }
       );
 
-      return () => handle.revert();
+      return () => {
+        handle.revert();
+      };
     }, [domains, reducedMotion]);
 
+    /* -------------------------------------------------------------- */
+    /* Domain navigation                                               */
+    /* -------------------------------------------------------------- */
+
     const handleVisualActivate = useCallback(() => {
-      if (activeDomainRef.current !== null) {
-        onSelectDomain(activeDomainRef.current);
+      const index = activeDomainRef.current;
+
+      if (index !== null && domains[index]) {
+        onSelectDomain(index);
       }
-    }, [onSelectDomain]);
+    }, [domains, onSelectDomain]);
+
+    const handleDomainNavigation = useCallback(
+      (index: number) => {
+        if (domains[index]) {
+          onSelectDomain(index);
+        }
+      },
+      [domains, onSelectDomain]
+    );
+
+    /* -------------------------------------------------------------- */
+    /* Render                                                           */
+    /* -------------------------------------------------------------- */
 
     return (
       <section
-        ref={(element) => {
-          sectionRef.current = element;
-
-          if (typeof forwardedRef === "function") {
-            forwardedRef(element);
-          } else if (forwardedRef) {
-            forwardedRef.current = element;
-          }
-        }}
+        ref={setSectionRef}
         className="dfilm"
         aria-label="Tarka creative domains"
+        data-domain-count={domains.length}
       >
-        <div className="dfilm-stage" ref={stageRef}>
+        <div
+          className="dfilm-stage"
+          ref={stageRef}
+          data-active-domain="0"
+          data-active-phase="product"
+        >
+          {/* ------------------------------------------------------ */}
+          {/* SVG CINEMATIC COMPOSITION                               */}
+          {/* ------------------------------------------------------ */}
+
           <svg
             className="dfilm-svg"
             viewBox={STAGE_VIEWBOX}
@@ -91,6 +150,8 @@ const DomainSection = forwardRef<HTMLElement, DomainSectionProps>(
             focusable="false"
           >
             <defs>
+              {/* Technical background grid */}
+
               <pattern
                 id="dfilm-grid-pattern"
                 width="72"
@@ -104,7 +165,30 @@ const DomainSection = forwardRef<HTMLElement, DomainSectionProps>(
                   strokeWidth="1"
                 />
               </pattern>
+
+              {/* Subtle blue photographic overlay */}
+
+              <linearGradient
+                id="dfilm-blue-overlay"
+                x1="0"
+                y1="0"
+                x2="1"
+                y2="1"
+              >
+                <stop
+                  offset="0%"
+                  stopColor="#007f8f"
+                  stopOpacity="0.12"
+                />
+                <stop
+                  offset="100%"
+                  stopColor="#007f8f"
+                  stopOpacity="0"
+                />
+              </linearGradient>
             </defs>
+
+            {/* Background grid */}
 
             <rect
               data-grid=""
@@ -115,11 +199,15 @@ const DomainSection = forwardRef<HTMLElement, DomainSectionProps>(
               fill="url(#dfilm-grid-pattern)"
             />
 
+            {/* -------------------------------------------------- */}
+            {/* DOMAIN PHOTOGRAPHIC IMAGES                          */}
+            {/* -------------------------------------------------- */}
+
             {FRAME_IDS.map((id) => (
               <image
                 key={`image-${id}`}
                 data-frame-image={id}
-                href={domains[0]?.imageLarge}
+                href={domains[0]?.imageLarge ?? ""}
                 x={FRAME_IMAGE_HOME[id].x}
                 y={FRAME_IMAGE_HOME[id].y}
                 width={FRAME_IMAGE_HOME[id].width}
@@ -130,43 +218,68 @@ const DomainSection = forwardRef<HTMLElement, DomainSectionProps>(
               />
             ))}
 
+            {/* -------------------------------------------------- */}
+            {/* PRODUCT DESIGN WIREFRAME                            */}
+            {/* -------------------------------------------------- */}
+
             <g data-product="">
-              <path d={PRODUCT_WIREFRAME_D} className="dfilm-product-path" />
+              <path
+                d={PRODUCT_WIREFRAME_D}
+                className="dfilm-product-path"
+              />
             </g>
 
+            {/* -------------------------------------------------- */}
+            {/* CONSTRUCTION GUIDES                                 */}
+            {/* -------------------------------------------------- */}
+
             {GUIDE_IDS.map((id) => {
-              const g = GUIDE_LAYOUTS.product[id];
+              const guide = GUIDE_LAYOUTS.product[id];
+
               return (
                 <line
                   key={id}
                   data-guide={id}
                   className="dfilm-guide"
-                  x1={g.x1}
-                  y1={g.y1}
-                  x2={g.x2}
-                  y2={g.y2}
-                  opacity={g.opacity}
+                  x1={guide.x1}
+                  y1={guide.y1}
+                  x2={guide.x2}
+                  y2={guide.y2}
+                  opacity={guide.opacity}
                 />
               );
             })}
 
-            <g className="dfilm-frames" onClick={handleVisualActivate}>
+            {/* -------------------------------------------------- */}
+            {/* ANIMATED FRAMES                                     */}
+            {/* -------------------------------------------------- */}
+
+            <g
+              className="dfilm-frames"
+              onClick={handleVisualActivate}
+              style={{ cursor: "pointer" }}
+            >
               {FRAME_IDS.map((id) => {
-                const f = FRAME_LAYOUTS.product[id];
+                const frame = FRAME_LAYOUTS.product[id];
+
                 return (
                   <rect
                     key={id}
                     data-frame={id}
                     className="dfilm-frame"
-                    x={f.x}
-                    y={f.y}
-                    width={f.width}
-                    height={f.height}
-                    opacity={f.opacity}
+                    x={frame.x}
+                    y={frame.y}
+                    width={frame.width}
+                    height={frame.height}
+                    opacity={frame.opacity}
                   />
                 );
               })}
             </g>
+
+            {/* -------------------------------------------------- */}
+            {/* CENTRAL RETICLE                                     */}
+            {/* -------------------------------------------------- */}
 
             <circle
               data-reticle=""
@@ -177,43 +290,107 @@ const DomainSection = forwardRef<HTMLElement, DomainSectionProps>(
             />
           </svg>
 
+          {/* ------------------------------------------------------ */}
+          {/* OVERLAY CONTENT                                        */}
+          {/* ------------------------------------------------------ */}
+
           <div className="dfilm-copy">
-            <span className="dfilm-kicker" data-label-kicker="" />
+            {/* Top technical label */}
 
-            <div className="dfilm-domain-list">
-              {domains.map((domain, index) => (
-                <button
-                  key={domain.id}
-                  type="button"
-                  className="dfilm-domain-title"
-                  data-domain-index={index}
-                  aria-current={activeDomain === index}
-                  onClick={() => onSelectDomain(index)}
-                >
-                  <span className="dfilm-domain-number">{domain.number}</span>
-                  <span className="dfilm-domain-name">{domain.title}</span>
-                  <span className="dfilm-domain-category">
-                    {domain.category}
-                  </span>
-                </button>
-              ))}
-            </div>
+            <span
+              className="dfilm-kicker"
+              data-label-kicker=""
+              aria-live="polite"
+            >
+              CONSTRUCTION
+            </span>
 
-            <div className="dfilm-annotation">
-              <span data-label-coord="" className="dfilm-annotation-coord" />
-              <span data-label-unit="" className="dfilm-annotation-unit" />
+            {/* -------------------------------------------------- */}
+            {/* LEFT DOMAIN NAVIGATION                              */}
+            {/* -------------------------------------------------- */}
+
+            <nav
+              className="dfilm-domain-list"
+              aria-label="Explore creative domains"
+            >
+              {domains.map((domain, index) => {
+                const isActive = activeDomain === index;
+
+                return (
+                  <button
+                    key={domain.id}
+                    type="button"
+                    className="dfilm-domain-title"
+                    data-domain-index={index}
+                    aria-current={isActive ? "true" : undefined}
+                    aria-label={`Explore ${domain.title}`}
+                    onClick={() => handleDomainNavigation(index)}
+                  >
+                    <span className="dfilm-domain-number">
+                      {domain.number}
+                    </span>
+
+                    <span className="dfilm-domain-name">
+                      {domain.title}
+                    </span>
+
+                    <span className="dfilm-domain-category">
+                      {domain.category}
+                    </span>
+                  </button>
+                );
+              })}
+            </nav>
+
+            {/* -------------------------------------------------- */}
+            {/* RIGHT/BOTTOM TECHNICAL METADATA                     */}
+            {/* -------------------------------------------------- */}
+
+            <div className="dfilm-annotation" aria-live="polite">
+              <span
+                data-label-coord=""
+                className="dfilm-annotation-coord"
+              >
+                W190 · D100 · H90
+              </span>
+
+              <span
+                data-label-unit=""
+                className="dfilm-annotation-unit"
+              >
+                mm
+              </span>
             </div>
           </div>
 
-          <div className="dfilm-progress" aria-hidden="true">
+          {/* ------------------------------------------------------ */}
+          {/* SCROLL PROGRESS                                        */}
+          {/* ------------------------------------------------------ */}
+
+          <div
+            className="dfilm-progress"
+            role="progressbar"
+            aria-label="Domain showcase progress"
+            aria-valuemin={0}
+            aria-valuemax={100}
+            aria-valuenow={0}
+          >
             <div className="dfilm-progress-track">
-              <div data-progress-fill="" className="dfilm-progress-fill" />
+              <div
+                data-progress-fill=""
+                className="dfilm-progress-fill"
+              />
             </div>
           </div>
+
+          {/* ------------------------------------------------------ */}
+          {/* FOOTER                                                 */}
+          {/* ------------------------------------------------------ */}
 
           <div className="dfilm-footer">
             <span>SCROLL TO EXPLORE</span>
-            <span>
+
+            <span aria-live="polite">
               {activeDomain !== null
                 ? String(activeDomain + 1).padStart(2, "0")
                 : "••"}{" "}
