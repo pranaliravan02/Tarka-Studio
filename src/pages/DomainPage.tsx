@@ -19,7 +19,7 @@ import DomainProcess from "../components/domain/DomainProcess";
 import DomainCTA from "../components/domain/DomainCTA";
 import DomainNavigation from "../components/domain/DomainNavigation";
 import DomainFooter from "../components/domain/DomainFooter";
-
+import PhotographyPage from "../components/domain/PhotographyPage";
 interface DomainPageProps {
   domainId: string;
 }
@@ -78,6 +78,9 @@ function DomainPage({ domainId }: DomainPageProps) {
   if (domain.id === "graphic-design") {
     return <GraphicDesignPage />;
   }
+  if (domain.id === "photography") {
+  return <PhotographyPage />;
+}
 
   // Find previous and next domains.
   const currentIndex = domains.findIndex(
