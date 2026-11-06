@@ -3,6 +3,8 @@ import type { NextConfig } from "next";
 // API-only app: no pages are rendered. Security headers apply to every API response.
 const config: NextConfig = {
   poweredByHeader: false,
+  // The repo root has its own lockfile (the Vite site); pin Next to this app.
+  turbopack: { root: process.cwd() },
   async headers() {
     return [
       {

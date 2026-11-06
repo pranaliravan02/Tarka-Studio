@@ -5,7 +5,7 @@ import { connectDb } from "./db";
 import { env } from "./env";
 import { getToken } from "next-auth/jwt";
 import { sessionCookieName } from "./authConfig";
-import { User } from "../models/User";
+import { loadAuthUser, type AuthUser } from "./users";
 import { can, PermissionInputError, type Action, type Scope } from "./permissions";
 
 export class HttpError extends Error {
@@ -18,14 +18,7 @@ export class HttpError extends Error {
   }
 }
 
-export interface AuthUser {
-  id: string;
-  name: string;
-  email: string;
-  role: "owner" | "manager";
-  active: boolean;
-  permissions: { scope: string; actions: string[] }[];
-}
+export type { AuthUser };
 
 const MUTATING = new Set(["POST", "PUT", "PATCH", "DELETE"]);
 
@@ -33,9 +26,16 @@ const MUTATING = new Set(["POST", "PUT", "PATCH", "DELETE"]);
 function assertAllowedOrigin(req: NextRequest) {
   if (!MUTATING.has(req.method)) return;
   const origin = req.headers.get("origin");
-  if (origin && !env().allowedOrigins.includes(origin)) {
-    throw new HttpError(403, "Origin not allowed", "BAD_ORIGIN");
+  if (!origin) return;
+  if (env().allowedOrigins.includes(origin)) return;
+  // The dashboard itself calls these APIs from the same origin.
+  const host = req.headers.get("x-forwarded-host") ?? req.headers.get("host");
+  try {
+    if (host && new URL(origin).host === host) return;
+  } catch {
+    /* malformed Origin falls through to rejection */
   }
+  throw new HttpError(403, "Origin not allowed", "BAD_ORIGIN");
 }
 
 export async function currentUser(req: NextRequest): Promise<AuthUser | null> {
@@ -47,19 +47,7 @@ export async function currentUser(req: NextRequest): Promise<AuthUser | null> {
     salt: cookieName,
     secureCookie: env().NODE_ENV === "production",
   });
-  const id = token?.sub;
-  if (!id || !mongoose.isValidObjectId(id)) return null;
-  await connectDb();
-  const doc = await User.findById(id).lean();
-  if (!doc || !doc.active) return null; // deactivation takes effect immediately
-  return {
-    id: String(doc._id),
-    name: doc.name,
-    email: doc.email,
-    role: doc.role,
-    active: doc.active,
-    permissions: (doc.permissions ?? []).map((p) => ({ scope: p.scope, actions: [...p.actions] })),
-  };
+  return token?.sub ? loadAuthUser(token.sub) : null; // deactivation takes effect immediately
 }
 
 export function requirePermission(user: AuthUser, scope: Scope, action: Action) {

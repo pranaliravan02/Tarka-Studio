@@ -23,11 +23,11 @@ dist-ssr
 *.sln
 *.sw?
 
-# Next.js Admin Backend
-admin/.next/
-admin/coverage/
-admin/.env
-admin/.env.*
-!admin/.env.example
-
-*.tsbuildinfo
+# Admin app
+.env
+.env.*
+!.env.example
+admin/.next
+admin/node_modules
+admin/tsconfig.tsbuildinfo
+admin/next-env.d.ts

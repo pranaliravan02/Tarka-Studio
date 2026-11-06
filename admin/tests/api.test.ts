@@ -98,6 +98,15 @@ describe("authentication (Auth.js)", () => {
     expect((await me(makeReq("GET", "/api/auth/me", { cookie: await mintToken(ownerId) }))).status).toBe(200);
   });
 
+  it("accepts mutating requests from the dashboard's own origin (Host match)", async () => {
+    const req = new NextRequest("http://localhost:3001/api/users", {
+      method: "POST",
+      headers: { "content-type": "application/json", origin: "http://localhost:3001", host: "localhost:3001", cookie: `${COOKIE}=${ownerCookie}` },
+      body: JSON.stringify({ name: "Same Origin", email: "same@tarka.test", password: MGR_PW }),
+    });
+    expect((await usersRoute.POST(req)).status).toBe(201);
+  });
+
   it("rejects mutating API requests from a disallowed Origin", async () => {
     const res = await usersRoute.POST(makeReq("POST", "/api/users", { cookie: ownerCookie, origin: "https://evil.example", body: { name: "x", email: "e@tarka.test", password: MGR_PW } }));
     expect(res.status).toBe(403);

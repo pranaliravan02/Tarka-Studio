@@ -121,3 +121,17 @@ export function diffPermissions(before: readonly PermissionGrant[], after: reado
 
 export const permissionCatalog = () =>
   SCOPE_IDS.map((id) => ({ id, label: SCOPES[id].label, group: SCOPES[id].group, actions: SCOPES[id].actions }));
+
+/** Public-facing domains (the six on the website). One domain can span several permission scopes. */
+export const DOMAINS = [
+  { id: "product-design", label: "Product Design", scopes: ["product-design"] },
+  { id: "graphic-design", label: "Graphic Design", scopes: ["graphic-design"] },
+  { id: "uiux-web", label: "UI/UX & Web", scopes: ["ui-ux", "web-development"] },
+  { id: "marketing", label: "Marketing", scopes: ["marketing"] },
+  {
+    id: "video-generation",
+    label: "Video Generation",
+    scopes: ["video-ai", "video-stop-motion", "video-marketing", "video-saas", "video-motion-graphics"],
+  },
+  { id: "photography", label: "Photography", scopes: ["photography"] },
+] as const satisfies readonly { id: string; label: string; scopes: readonly Scope[] }[];
